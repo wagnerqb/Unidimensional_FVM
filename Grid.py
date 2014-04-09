@@ -28,13 +28,19 @@ class Grid():
         return self.model.RightDerivative(cell.T, cellRight.T, cell.deltax,
                                           cellRight.deltax)
 
+    def leftdT_dx(self, index):
+        cell = self.grid[index]
+        leftcell = self.grid[index-1]
+        return self.model.RightDerivative(leftcell.T, cell.T, leftcell.deltax,
+                                          cell.deltax)                 
 
 if __name__ == '__main__':
 
     gridteste = Grid(Model())
 
     gridteste.addcell(1, 2, 3, 4)
-    gridteste.addcell(5, 6, 7, 8)
+    gridteste.addcell(5, 6, 7, 15)
+    gridteste.addcell(9,10,11,12)
 
     print gridteste.grid[0].T
     print gridteste.grid[1].T
@@ -43,3 +49,13 @@ if __name__ == '__main__':
     print gridteste.grid[1].deltax
 
     print gridteste.rightdT_dx(0)
+    
+    print gridteste.grid[1].T
+    print gridteste.grid[2].T
+
+    print gridteste.grid[1].deltax
+    print gridteste.grid[2].deltax
+    
+    print gridteste.rightdT_dx(1)
+    print gridteste.leftdT_dx(2)
+    

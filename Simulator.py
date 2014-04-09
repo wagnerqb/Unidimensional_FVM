@@ -8,7 +8,6 @@
 
 from __future__ import division
 import numpy as np
-
 from Grid import *
 
 def run():
@@ -16,18 +15,17 @@ def run():
     A = 1
     kappa = 2
     T = 3
-    deltax = 4
+    deltax = 0.1
 #    ncells = input("Digite o número de Células")
     ncells = 5
     
-    grid = []
+    grid = Grid(Model())
     
     for i in range(ncells) :
         grid.addcell(A, kappa, T, deltax)
         
-#    for g in grid :    
-#        print g.A, g.kappa, g.T, g.deltax
-#        print g.kappa
+    for g in grid.grid :    
+        print g.A, g.kappa, g.T, g.deltax
 
             
         

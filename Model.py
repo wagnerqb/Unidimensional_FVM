@@ -14,11 +14,12 @@ class Model():
     
     #Funções de Derivada
     def RightDerivative(self, leftprop, rightprop, leftx, rightx):
-        return (rightprop - leftprop)/(rightx/2 - leftx/2)
+        return (rightprop - leftprop)/(rightx/2 + leftx/2)
         
     #Funções de Interpolação
     def CenterScheme(self, leftprop, rightprop) :
         #Classe interpola utilizando diferencas centrais
         return (rightprop - leftprop)/2
-    
-    
+        
+#    def ExplicitIteration(self, grid):
+#        for g
