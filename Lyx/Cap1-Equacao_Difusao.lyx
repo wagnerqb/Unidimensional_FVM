@@ -94,7 +94,7 @@
 \begin_body
 
 \begin_layout Chapter
-Introdução
+Equação da Difusão de Energia
 \begin_inset Index idx
 status open
 
@@ -107,7 +107,7 @@ Introdução
 
 \begin_inset CommandInset label
 LatexCommand label
-name "cha:Introdução"
+name "cha:Eq_Difusão"
 
 \end_inset
 
@@ -139,7 +139,8 @@ pagenumbering{arabic}
 \end_layout
 
 \begin_layout Standard
-De acordo com 
+Será aplicado o método dos volumes finitos na equação da difusão como descrito
+ em 
 \begin_inset ERT
 status open
 
@@ -147,32 +148,191 @@ status open
 
 
 \backslash
-citeonline{Nascimento2013}
+citeonline{Versteeg(2007)} 
 \end_layout
 
 \end_inset
 
-, a presença de escoamento multifásico em tubulações é bastante frequente
- em atividades industriais.
- Na indústria do petróleo o escoamento multifásico ocorre em praticamente
- toda trajetória dos fluidos desde as atividades de 
-\emph on
-upstream
-\emph default
- até as atividades de 
-\emph on
-downstream
-\emph default
 .
- Para garantir o escoamento dos fluidos é necessário dimensionar as tubulações
- e equipamentos de maneira que a as características operacionais adequadas
- sejam mantidas e a produção seja otimizada.
- Assim, recursos computacionais para a simulação de escoamentos multifásicos
- constituem ferramentas fundamentais de otimização do dimensionamento de
- estruturas de produção, aumentando a lucratividade da produção e a vida
- produtiva da reserva, além de reduzir riscos operacionais e ambientais
- por meio da previsão de comportamento do escoamento.
  
+\end_layout
+
+\begin_layout Section
+Volume de Controle
+\end_layout
+
+\begin_layout Standard
+O volume de controle utilizado está mostrado na Figura ##??.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+COPIAR TEXTO DO RELATÓRIO.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Equação da Difusão
+\end_layout
+
+\begin_layout Standard
+A equação da difusão de energia é dada por:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\nabla\cdot\left(\kappa\nabla T\right)+S_{\phi}=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+onde 
+\begin_inset Formula $\kappa$
+\end_inset
+
+ é a condutividade térmica do fluido, 
+\begin_inset Formula $T$
+\end_inset
+
+ é a temperatura e 
+\begin_inset Formula $S_{\phi}$
+\end_inset
+
+ é o termo fonte de energia.
+ Integrando no volume de controle:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\iiintop_{V.C}\nabla\cdot\left(\kappa\nabla T\right)dV+\iiintop_{V.C}S_{\phi}dV=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Aplicando o teorema de Gauss:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\iiintop_{S.C}\left(\kappa\nabla T\right)\cdot\vec{n}dS+\iiintop_{V.C}S_{\phi}dV=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Utilizando o volume de controle unidimensional:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left(A\kappa\frac{\partial T}{\partial x}\right)_{k+\frac{1}{2}}-\left(A\kappa\frac{\partial T}{\partial x}\right)_{k-\frac{1}{2}}+\left(AS_{\phi}\Delta x\right)_{k}=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+O termo de derivada será calculado utilizando uma aproximação por diferenças
+ simples, assim:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left(A\kappa\right)_{k+\frac{1}{2}}\frac{T_{k+1}-T_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{T_{k}-T_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Organizando a equação:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left(A\kappa\right)_{k+\frac{1}{2}}\frac{T_{k+1}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k+\frac{1}{2}}\frac{T_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{T_{k}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(A\kappa\right)_{k-\frac{1}{2}}\frac{T_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+2\left(A\kappa\right)_{k+\frac{1}{2}}\frac{T_{k+1}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}-2\left(A\kappa\right)_{k+\frac{1}{2}}\frac{T_{k}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}-2\left(A\kappa\right)_{k-\frac{1}{2}}\frac{T_{k}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}+2\left(A\kappa\right)_{k-\frac{1}{2}}\frac{T_{k-1}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}T_{k+1}+\left(-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\right)T_{k}+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}T_{k-1}+\left(AS_{\phi}\Delta x\right)_{k}=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+O termo 
+\begin_inset Formula $\left(A\kappa\right)_{i\pm\frac{1}{2}}$
+\end_inset
+
+ será calculado segundo uma interpolação do tipo média simples
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+CONFIRMAR ESSE NOME
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \end_body

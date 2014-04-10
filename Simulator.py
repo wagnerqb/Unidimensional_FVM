@@ -12,26 +12,26 @@ from Grid import *
 
 def run():
         
-    A = 1
-    kappa = 2
-    T = 3
-    deltax = 0.1
+    temp_A = 10e-3
+    temp_kappa = 1000
+    temp_T = 100
+    temp_deltax = 0.1
 #    ncells = input("Digite o número de Células")
     ncells = 5
     
     grid = Grid(Model())
+    model = Model()
     
     for i in range(ncells) :
-        grid.addcell(A, kappa, T, deltax)
-        
-    for g in grid.grid :    
-        print g.A, g.kappa, g.T, g.deltax
-
-            
-        
-            
-        
+        grid.Addcell(temp_A, temp_kappa, temp_T, temp_deltax)
+ 
+    A = model.BuildMatrix(grid)    
+    print A
+    
+    
 if __name__ == '__main__':
     
     run()
+    
+        
     

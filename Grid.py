@@ -19,28 +19,48 @@ class Grid():
         self.model = model
 
     #Métodos
-    def addcell(self, A, kappa, T, deltax):
+    def Addcell(self, A, kappa, T, deltax):
         self.grid.append(Cell(A, kappa, T, deltax))
 
-    def rightdT_dx(self, index):
-        cell = self.grid[index]
-        cellRight = self.grid[index+1]
-        return self.model.RightDerivative(cell.T, cellRight.T, cell.deltax,
-                                          cellRight.deltax)
-
-    def leftdT_dx(self, index):
+    def LeftdT_dx(self, index):
         cell = self.grid[index]
         leftcell = self.grid[index-1]
         return self.model.RightDerivative(leftcell.T, cell.T, leftcell.deltax,
-                                          cell.deltax)                 
+                                          cell.deltax)
+                
+    def RightdT_dx(self, index):
+        cell = self.grid[index]
+        rightcell = self.grid[index+1]
+        return self.model.RightDerivative(cell.T, rightcell.T, cell.deltax,
+                                          rightcell.deltax)
+    
+    def LeftKappa(self, index):
+        cell = self.grid[index]
+        leftcell = self.grid[index-1]
+        return self.model.CenterScheme(leftcell.kappa, cell.kappa)
+        
+    def RightKappa(self, index):
+        cell = self.grid[index]
+        rightcell = self.grid[index+1]
+        return self.model.CenterScheme(cell.kappa, rightcell.kappa)
+        
+    def LeftArea(self, index):
+        cell = self.grid[index]
+        leftcell = self.grid[index-1]
+        return self.model.CenterScheme(leftcell.A, cell.A)
+        
+    def RightArea(self, index):
+        cell = self.grid[index]
+        rightcell = self.grid[index+1]
+        return self.model.CenterScheme(cell.A, rightcell.A)
 
 if __name__ == '__main__':
 
     gridteste = Grid(Model())
 
-    gridteste.addcell(1, 2, 3, 4)
-    gridteste.addcell(5, 6, 7, 15)
-    gridteste.addcell(9,10,11,12)
+    gridteste.Addcell(1, 2, 3, 4)
+    gridteste.Addcell(5, 6, 7, 15)
+    gridteste.Addcell(9,10,11,12)
 
     print gridteste.grid[0].T
     print gridteste.grid[1].T
@@ -48,7 +68,7 @@ if __name__ == '__main__':
     print gridteste.grid[0].deltax
     print gridteste.grid[1].deltax
 
-    print gridteste.rightdT_dx(0)
+    print gridteste.RightdT_dx(0)
     
     print gridteste.grid[1].T
     print gridteste.grid[2].T
@@ -56,6 +76,6 @@ if __name__ == '__main__':
     print gridteste.grid[1].deltax
     print gridteste.grid[2].deltax
     
-    print gridteste.rightdT_dx(1)
-    print gridteste.leftdT_dx(2)
+    print gridteste.RightdT_dx(1)
+    print gridteste.LeftdT_dx(2)
     
