@@ -40,9 +40,9 @@ def run():
 
     #Atribuindo os resultados
     for i in range(ncells):
-        grid.set_T(i, x[i])
+        grid.set_phi(i, x[i])
 
-    grid.print_T()
+    grid.print_phi()
 
     print A
     print b

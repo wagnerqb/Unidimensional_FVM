@@ -94,7 +94,7 @@
 \begin_body
 
 \begin_layout Chapter
-Equação da Convectivas e Difusivas
+Equação Convectiva e Difusiva
 \begin_inset Index idx
 status open
 
@@ -168,7 +168,7 @@ A equação da convecção e difusão é dada por:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\nabla\cdot\left(\kappa\nabla T\right)+S_{\phi}=0
+\nabla\cdot\left(\rho\vec{v}\phi\right)=\nabla\cdot\left(\kappa\nabla\phi\right)+S_{\phi}
 \end{equation}
 
 \end_inset
@@ -177,10 +177,6 @@ A equação da convecção e difusão é dada por:
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
 \begin_inset ERT
 status open
 
@@ -197,11 +193,15 @@ onde
 \begin_inset Formula $\kappa$
 \end_inset
 
- é a condutividade térmica do fluido, 
-\begin_inset Formula $T$
+ é o coeficiente de difusão, 
+\begin_inset Formula $\phi$
 \end_inset
 
- é a temperatura e 
+ é a propriedade transportada, 
+\begin_inset Formula $\vec{v}$
+\end_inset
+
+ é a velocidade do escoamento e 
 \begin_inset Formula $S_{\phi}$
 \end_inset
 
@@ -209,10 +209,10 @@ onde
  Integrando no volume de controle:
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\iiintop_{V.C}\nabla\cdot\left(\kappa\nabla T\right)dV+\iiintop_{V.C}S_{\phi}dV=0
+\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\rho\vec{v}\phi\right)dV=\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\kappa\nabla\phi\right)dV+\underset{\textrm{V.C}.}{\iiint}S_{\phi}dV
 \end{equation}
 
 \end_inset
@@ -220,14 +220,14 @@ onde
 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
 Aplicando o teorema de Gauss:
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\iiintop_{S.C}\left(\kappa\nabla T\right)\cdot\vec{n}dS+\iiintop_{V.C}S_{\phi}dV=0
+\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\phi\right)\cdot\vec{n}dS=\underset{\textrm{S.C}.}{\iiint}\left(\kappa\nabla\phi\right)\cdot\vec{n}dS+\underset{\textrm{V.C}.}{\iiint}S_{\phi}dV
 \end{equation}
 
 \end_inset
@@ -235,14 +235,14 @@ Aplicando o teorema de Gauss:
 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
 Utilizando o volume de controle unidimensional:
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\left(A\kappa\frac{\partial T}{\partial x}\right)_{k+\frac{1}{2}}-\left(A\kappa\frac{\partial T}{\partial x}\right)_{k-\frac{1}{2}}+\left(AS_{\phi}\Delta x\right)_{k}=0
+\left(A\rho\vec{v}\phi\right)_{k+\frac{1}{2}}-\left(A\rho\vec{v}\phi\right)_{k-\frac{1}{2}}=\left(A\kappa\frac{\partial\phi}{\partial x}\right)_{k+\frac{1}{2}}-\left(A\kappa\frac{\partial\phi}{\partial x}\right)_{k-\frac{1}{2}}+\left(AS_{\phi}\Delta x\right)_{k}
 \end{equation}
 
 \end_inset
@@ -250,10 +250,25 @@ Utilizando o volume de controle unidimensional:
 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
 O termo de derivada será calculado utilizando uma aproximação por diferenças
  simples, assim:
 \end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left(A\rho\vec{v}\phi\right)_{k+\frac{1}{2}}-\left(A\rho\vec{v}\phi\right)_{k-\frac{1}{2}}=\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Formula 
