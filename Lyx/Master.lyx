@@ -272,6 +272,13 @@ filename "Cap1-Equacao_Difusao.lyx"
 \end_inset
 
 
+\begin_inset CommandInset include
+LatexCommand include
+filename "Cap2-Equacao_Conveccao_Difusao.lyx"
+
+\end_inset
+
+
 \begin_inset Note Note
 status collapsed
 

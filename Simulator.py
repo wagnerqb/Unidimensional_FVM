@@ -9,29 +9,48 @@
 from __future__ import division
 import numpy as np
 from Grid import *
+from Interpolation import *
+from Model import *
+
+
 
 def run():
-        
-    temp_A = 10e-3
-    temp_kappa = 1000
-    temp_T = 100
-    temp_deltax = 0.1
-#    ncells = input("Digite o número de Células")
+
+    temp_A = 1
+    temp_kappa = 0.5
+    temp_T = 0
+    temp_deltax = 0.004
+
+    temp_LBC = 100
+    temp_RBC = 200
+    
     ncells = 5
-    
-    grid = Grid(Model())
+    temp_source = 1000000
+
+    grid = Grid(Interpolation(), temp_LBC, temp_RBC, temp_source)
     model = Model()
-    
-    for i in range(ncells) :
-        grid.Addcell(temp_A, temp_kappa, temp_T, temp_deltax)
- 
-    A = model.BuildMatrix(grid)    
+
+    for i in range(ncells):
+        grid.add_cell(temp_A, temp_kappa, temp_T, temp_deltax)
+
+    #Resolvendo o Sistema
+    A = np.matrix(model.build_matrix(grid))
+    b = np.matrix(model.build_coef_vector(grid))
+    x = (A.I*b.T).A1
+
+    #Atribuindo os resultados
+    for i in range(ncells):
+        grid.set_T(i, x[i])
+
+    grid.print_T()
+
     print A
-    
-    
+    print b
+#    print grid.get_all_x()
+#    print grid.get_all_T()
+    grid.plot_T()
+
+
 if __name__ == '__main__':
-    
+
     run()
-    
-        
-    

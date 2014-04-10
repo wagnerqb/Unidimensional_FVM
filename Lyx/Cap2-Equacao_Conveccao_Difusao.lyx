@@ -94,7 +94,7 @@
 \begin_body
 
 \begin_layout Chapter
-Equação da Difusão de Energia
+Equação da Convectivas e Difusivas
 \begin_inset Index idx
 status open
 
@@ -107,7 +107,7 @@ Introdução
 
 \begin_inset CommandInset label
 LatexCommand label
-name "cha:Eq_Difusão"
+name "cha:Eq_Difusão_Convecção"
 
 \end_inset
 
@@ -139,8 +139,8 @@ pagenumbering{arabic}
 \end_layout
 
 \begin_layout Standard
-Será aplicado o método dos volumes finitos na equação da difusão como descrito
- no capítulo 4 de 
+Será aplicado o método dos volumes finitos em equações de difusão e convecção
+ como descrito no capítulo 5 de 
 \begin_inset ERT
 status open
 
@@ -158,151 +158,11 @@ citeonline{Versteeg(2007)}
 \end_layout
 
 \begin_layout Section
-Volume de Controle
+Equação da Difusão e Convecção
 \end_layout
 
 \begin_layout Standard
-A Fig.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:VC-1D"
-
-\end_inset
-
-, ilustra o volume de controle que será adotado para a discretização das
- equações médias de transporte.
- O subíndice 
-\begin_inset Formula $k$
-\end_inset
-
- representa o elemento discreto de uma tubulação na direção 
-\begin_inset Formula $z$
-\end_inset
-
-.
- As variáveis 
-\begin_inset Formula $A_{k}$
-\end_inset
-
-, 
-\begin_inset Formula $S_{k}$
-\end_inset
-
- e 
-\begin_inset Formula $r_{k}$
-\end_inset
-
- representam, respectimvamente, a área transversal ao escomanto, a superfície
- lateral e o raio do elemento discreto.
- O termo 
-\begin_inset Formula $q_{m_{c,p}}$
-\end_inset
-
- representa a vazão mássica do componente 
-\begin_inset Formula $c$
-\end_inset
-
- na fase 
-\begin_inset Formula $p$
-\end_inset
-
- por unidade de volume.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename figuras/VC_cilindrico_1D.png
-	scale 80
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Volume de Controle Unidimensional.
- 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:VC-1D"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-De acordo com a Fig.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:VC-1D"
-
-\end_inset
-
-, é possível definir os seguintes termos:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-dV_{k}=\pi r_{k}^{2}\Delta z_{k}\label{eq:def_dV}
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-A_{k}=\pi r_{k}^{2}\label{eq:def_Ak}
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-dS_{k}=2\pi r_{k}\Delta z_{k}\label{eq:def_Sk}
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section
-Equação da Difusão
-\end_layout
-
-\begin_layout Standard
-A equação da difusão de energia é dada por:
+A equação da convecção e difusão é dada por:
 \end_layout
 
 \begin_layout Standard
@@ -317,6 +177,10 @@ A equação da difusão de energia é dada por:
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset ERT
 status open
 
@@ -345,10 +209,10 @@ onde
  Integrando no volume de controle:
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
 \begin{equation}
-\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\kappa\nabla T\right)dV+\underset{\textrm{V.C}.}{\iiint}S_{\phi}dV=0
+\iiintop_{V.C}\nabla\cdot\left(\kappa\nabla T\right)dV+\iiintop_{V.C}S_{\phi}dV=0
 \end{equation}
 
 \end_inset
@@ -356,14 +220,14 @@ onde
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Aplicando o teorema de Gauss:
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
 \begin{equation}
-\underset{\textrm{S.C}.}{\iiint}\left(\kappa\nabla T\right)\cdot\vec{n}dS+\underset{\textrm{V.C}.}{\iiint}S_{\phi}dV=0
+\iiintop_{S.C}\left(\kappa\nabla T\right)\cdot\vec{n}dS+\iiintop_{V.C}S_{\phi}dV=0
 \end{equation}
 
 \end_inset
@@ -371,11 +235,11 @@ Aplicando o teorema de Gauss:
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Utilizando o volume de controle unidimensional:
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
 \begin{equation}
 \left(A\kappa\frac{\partial T}{\partial x}\right)_{k+\frac{1}{2}}-\left(A\kappa\frac{\partial T}{\partial x}\right)_{k-\frac{1}{2}}+\left(AS_{\phi}\Delta x\right)_{k}=0
@@ -386,12 +250,12 @@ Utilizando o volume de controle unidimensional:
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 O termo de derivada será calculado utilizando uma aproximação por diferenças
  simples, assim:
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
 \begin{equation}
 \left(A\kappa\right)_{k+\frac{1}{2}}\frac{T_{k+1}-T_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{T_{k}-T_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}=0
@@ -402,52 +266,54 @@ O termo de derivada será calculado utilizando uma aproximação por diferenças
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Organizando a equação:
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
-\begin{multline}
-\left(A\kappa\right)_{k+\frac{1}{2}}\frac{T_{k+1}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k+\frac{1}{2}}\frac{T_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\\
--\left(A\kappa\right)_{k-\frac{1}{2}}\frac{T_{k}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(A\kappa\right)_{k-\frac{1}{2}}\frac{T_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}=0
-\end{multline}
+\begin{equation}
+\left(A\kappa\right)_{k+\frac{1}{2}}\frac{T_{k+1}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k+\frac{1}{2}}\frac{T_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{T_{k}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(A\kappa\right)_{k-\frac{1}{2}}\frac{T_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}=0
+\end{equation}
 
 \end_inset
 
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
-\begin{multline}
-2\left(A\kappa\right)_{k+\frac{1}{2}}\frac{T_{k+1}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}-2\left(A\kappa\right)_{k+\frac{1}{2}}\frac{T_{k}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\\
--2\left(A\kappa\right)_{k-\frac{1}{2}}\frac{T_{k}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}+2\left(A\kappa\right)_{k-\frac{1}{2}}\frac{T_{k-1}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}=0
-\end{multline}
+\begin{equation}
+2\left(A\kappa\right)_{k+\frac{1}{2}}\frac{T_{k+1}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}-2\left(A\kappa\right)_{k+\frac{1}{2}}\frac{T_{k}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}-2\left(A\kappa\right)_{k-\frac{1}{2}}\frac{T_{k}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}+2\left(A\kappa\right)_{k-\frac{1}{2}}\frac{T_{k-1}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}=0
+\end{equation}
 
 \end_inset
 
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
-\begin{multline}
-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}T_{k+1}+\left(-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\right)T_{k}\\
-+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}T_{k-1}+\left(AS_{\phi}\Delta x\right)_{k}=0
-\end{multline}
+\begin{equation}
+\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}T_{k+1}+\left(-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\right)T_{k}+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}T_{k-1}+\left(AS_{\phi}\Delta x\right)_{k}=0
+\end{equation}
 
 \end_inset
 
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 O termo 
 \begin_inset Formula $\left(A\kappa\right)_{i\pm\frac{1}{2}}$
 \end_inset
 
  será calculado segundo uma interpolação do tipo esquema centrado.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_body
