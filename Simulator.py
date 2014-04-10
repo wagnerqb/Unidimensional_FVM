@@ -9,7 +9,6 @@
 from __future__ import division
 import numpy as np
 from Grid import *
-from Interpolation import *
 from Model import *
 
 
@@ -27,7 +26,7 @@ def run():
     ncells = 5
     temp_source = 1000000
 
-    grid = Grid(Interpolation(), temp_LBC, temp_RBC, temp_source)
+    grid = Grid(temp_LBC, temp_RBC, temp_source)
     model = Model()
 
     for i in range(ncells):

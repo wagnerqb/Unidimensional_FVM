@@ -20,13 +20,13 @@ class Model():
         A = np.zeros((cpoints, cpoints))
 
         for i in range(cpoints):
-#            k_lh = center_scheme()
-        CONTINUAR DAQUI
-            AK_left = grid.k_lh(i)*grid.A_lh(i)
-            l_k = 2*AK_left/(grid.dx(i) + grid.dx(i-1))
-
-            AK_right = grid.k_rh(i) * grid.A_rh(i)
-            r_k = 2*AK_right/(grid.dx(i+1) + grid.dx(i))
+            k_lh = self.center_scheme(grid.k(i-1), grid.k(i))
+            k_rh = self.center_scheme(grid.k(i), grid.k(i+1))
+            A_lh = self.center_scheme(grid.A(i-1), grid.A(i))
+            A_rh = self.center_scheme(grid.A(i), grid.A(i+1))
+       
+            l_k = 2*k_lh*A_lh/(grid.dx(i) + grid.dx(i-1))
+            r_k = 2*k_rh*A_rh/(grid.dx(i+1) + grid.dx(i))
 
             if i == 0:
                 A[i][i] = - l_k - r_k
@@ -51,13 +51,17 @@ class Model():
             B[i] = - grid.dx(i)*grid.A(i)*grid.Source(i)
 
         #Condição de Contorno Esquerda
-        AK_left = grid.k_lh(0)*grid.A_lh(0)
-        l_k = 2*AK_left/(grid.dx(0) + grid.dx(-1))
+        k_lh_lbc = self.center_scheme(grid.k(-1), grid.k(0))
+        A_lh_lbc = self.center_scheme(grid.A(-1), grid.A(0))
+        
+        l_k = 2*k_lh_lbc*A_lh_lbc/(grid.dx(0) + grid.dx(-1))
         B[0] = B[0] - l_k*grid.get_phi(-1)
 
         #Condição de Contorno Direita
-        AK_right = grid.k_rh(cpoints - 1) * grid.A_rh(cpoints - 1)
-        r_k = 2*AK_right/(grid.dx(cpoints) + grid.dx(cpoints - 1))
+        k_rh_rbc = self.center_scheme(grid.k(cpoints - 1), grid.k(cpoints))
+        A_rh_rbc = self.center_scheme(grid.A(cpoints - 1), grid.A(cpoints))
+
+        r_k = 2*k_rh_rbc*A_rh_rbc/(grid.dx(cpoints) + grid.dx(cpoints - 1))
         B[cpoints - 1] = B[cpoints - 1] - r_k*grid.get_phi(cpoints)
 
         return B
@@ -95,7 +99,7 @@ if __name__ == '__main__':
 
     from Interpolation import *
     modelteste = Model()
-    gridteste = Grid(Interpolation(), 100, 500, 0)
+    gridteste = Grid(100, 500, 0)
 
     for i in range(5):
         gridteste.add_cell(10e-3, 1000, 100, 0.1)

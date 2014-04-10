@@ -5,6 +5,7 @@
 @email:  wagnerqb@gmail.com
 @brief:  Grid class, used to store cell data
 """
+
 from __future__ import division
 import numpy as np
 #from Interpolation import *
@@ -18,7 +19,6 @@ class Grid():
     def __init__(self, lbc, rbc, Source):
         #Atributos
         self.cells = []
-        self.interpolator = interpolator
         self.lbc = lbc
         self.rbc = rbc
         self.source = Source
@@ -34,6 +34,12 @@ class Grid():
 
     def A(self, index):
         "Area no Centro da célula"
+        if (index < 0):
+            return self[0].A
+
+        if (index > (len(self.cells)-1)):
+            return self[(len(self.cells)-1)].A
+            
         return self[index].A
 
     def k(self, index):
