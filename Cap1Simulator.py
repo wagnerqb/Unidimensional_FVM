@@ -8,9 +8,8 @@
 
 from __future__ import division
 import numpy as np
-from Grid import *
-from Model import *
-
+from GridD import *
+from Model_D_CDS import *
 
 
 def run():
@@ -22,15 +21,15 @@ def run():
 
     temp_LBC = 100
     temp_RBC = 200
-    
+
     ncells = 5
     temp_source = 1000000
 
-    grid = Grid(temp_LBC, temp_RBC, temp_source)
-    model = Model()
+    grid = GridD(temp_LBC, temp_RBC, temp_source)
+    model = Model_D_CDS()
 
     for i in range(ncells):
-        grid.add_cell(temp_A, temp_kappa, temp_T, temp_deltax)
+        grid.add_cell(temp_A, temp_kappa, temp_deltax, temp_T)
 
     #Resolvendo o Sistema
     A = np.matrix(model.build_matrix(grid))

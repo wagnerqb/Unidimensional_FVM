@@ -7,12 +7,13 @@
 """
 
 from __future__ import division
-from Grid import *
+from GridD import *
 import numpy as np
 
 
-class Model():
-    "Classe de Modelo."
+class Model_D_CDS():
+    """Classe de Modelo para Equações Difusivas, utilizando o esquema
+    CDS Central Discretization Scheme ."""
 
     def build_matrix(self, grid):
         "Classe que constrói a matrz que será resolvida pelo solver"
@@ -24,7 +25,7 @@ class Model():
             k_rh = self.center_scheme(grid.k(i), grid.k(i+1))
             A_lh = self.center_scheme(grid.A(i-1), grid.A(i))
             A_rh = self.center_scheme(grid.A(i), grid.A(i+1))
-       
+
             l_k = 2*k_lh*A_lh/(grid.dx(i) + grid.dx(i-1))
             r_k = 2*k_rh*A_rh/(grid.dx(i+1) + grid.dx(i))
 
@@ -53,28 +54,28 @@ class Model():
         #Condição de Contorno Esquerda
         k_lh_lbc = self.center_scheme(grid.k(-1), grid.k(0))
         A_lh_lbc = self.center_scheme(grid.A(-1), grid.A(0))
-        
+
         l_k = 2*k_lh_lbc*A_lh_lbc/(grid.dx(0) + grid.dx(-1))
-        B[0] = B[0] - l_k*grid.get_phi(-1)
+        B[0] = B[0] - l_k*grid.phi(-1)
 
         #Condição de Contorno Direita
         k_rh_rbc = self.center_scheme(grid.k(cpoints - 1), grid.k(cpoints))
         A_rh_rbc = self.center_scheme(grid.A(cpoints - 1), grid.A(cpoints))
 
         r_k = 2*k_rh_rbc*A_rh_rbc/(grid.dx(cpoints) + grid.dx(cpoints - 1))
-        B[cpoints - 1] = B[cpoints - 1] - r_k*grid.get_phi(cpoints)
+        B[cpoints - 1] = B[cpoints - 1] - r_k*grid.phi(cpoints)
 
         return B
-        
+
     #Funções de Interpolação
     def center_scheme(self, leftprop, rightprop):
-        "Classe interpola utilizando diferencas centrais." 
+        "Classe interpola utilizando diferencas centrais."
         return (rightprop + leftprop)/2
 
     #Funções para Calcular Derivadas
     def right_derivative(self, leftprop, rightprop, leftx, rightx):
         return (rightprop - leftprop)/(rightx/2 + leftx/2)
-        
+
     def dphi_dx_lh(self, index, grid):
         "dphi/dx left half"
         if index == 0:
@@ -82,8 +83,7 @@ class Model():
         cell = grid[index]
         l_cell = grid[index-1]
         return self.right_derivative(l_cell.phi, cell.phi, l_cell.dx,
-                                                  cell.dx)
-                                                  
+                                     cell.dx)
 
     def dphi_dx_rh(self, index, grid):
         "dT/dx right half"
@@ -92,14 +92,13 @@ class Model():
         cell = grid[index]
         rightcell = grid[index+1]
         return self.right_derivative(cell.phi, rightcell.phi,
-                                                  cell.dx, rightcell.dx)
+                                     cell.dx, rightcell.dx)
 
 
 if __name__ == '__main__':
 
-    from Interpolation import *
-    modelteste = Model()
-    gridteste = Grid(100, 500, 0)
+    modelteste = Model_D_CDS()
+    gridteste = GridD(100, 500, 0)
 
     for i in range(5):
         gridteste.add_cell(10e-3, 1000, 100, 0.1)

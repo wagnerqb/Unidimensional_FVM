@@ -3,7 +3,7 @@
 @author: Wagner Queiroz Barros
 @date:   Wed Apr 09 14:53:01 2014
 @email:  wagnerqb@gmail.com
-@brief:  Grid class, used to store cell data
+@brief:  GridD class, used to store cell data in Difusive Problems
 """
 
 from __future__ import division
@@ -12,8 +12,8 @@ from Cell import *
 import matplotlib.pyplot as plt
 
 
-class Grid():
-    "Classe Grid."
+class GridD():
+    "Classe Grid Difusivo."
 
     def __init__(self, lbc, rbc, Source):
         #Atributos
@@ -27,9 +27,9 @@ class Grid():
         return self.cells[index]
 
     #Métodos
-    def add_cell(self, A, k, phi, dx):
+    def add_cell(self, A, k, dx, phi):
         "Adiciona uma celula no grid."
-        self.cells.append(Cell(A, k, phi, dx))
+        self.cells.append(CellD(A, k, dx, phi))
 
     def A(self, index):
         "Area no Centro da célula"
@@ -38,7 +38,7 @@ class Grid():
 
         if (index > (len(self.cells)-1)):
             return self[(len(self.cells)-1)].A
-            
+
         return self[index].A
 
     def k(self, index):
@@ -58,7 +58,7 @@ class Grid():
 
         return self[index].dx
 
-    def get_phi(self, index):
+    def phi(self, index):
         "Pega a temperatura da celula index."
         if index == -1:
             return self.lbc
@@ -130,15 +130,15 @@ class Grid():
 
 if __name__ == '__main__':
 
-    from Model import *
+    from Model_D_CDS import *
 
     ncells = 5
 
-    grid = Grid(100, 500, 0)
-    model = Model()
+    grid = GridD(100, 500, 0)
+    model = Model_D_CDS()
 
     for i in range(ncells):
-        grid.add_cell(10e-3, 1000, 100, 0.1)
+        grid.add_cell(10e-3, 1000, 0.1, 100)
 
     #Resolvendo o Sistema
     A = np.matrix(model.build_matrix(grid))
