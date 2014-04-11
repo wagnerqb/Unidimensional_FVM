@@ -308,7 +308,7 @@ A equação da difusão de energia é dada por:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\nabla\cdot\left(\kappa\nabla\phi\right)+S_{\phi}=0
+\nabla\cdot\left(\kappa\nabla\phi\right)+S_{\phi}=
 \end{equation}
 
 \end_inset

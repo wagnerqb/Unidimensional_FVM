@@ -9,8 +9,8 @@
 
 from __future__ import division
 import numpy as np
-from GridD import *
-from Model_D_CDS import *
+from GridCD import *
+from Model_CD_CDS import *
 
 
 def run():
@@ -29,11 +29,11 @@ def run():
     ncells = 5              # Number of cells in domain
     source = 1000000        # Source term per volume unity
 
-    grid = GridD(LBC, RBC, source)
-    model = Model_D_CDS()
+    grid = GridCD(LBC, RBC, source)
+    model = Model_CD_CDS()
 
     for i in range(ncells):
-        grid.add_cell(A, k, dx, T)
+        grid.add_cell(A, k, dx, phi, rho, v)
 
     #Resolvendo o Sistema
     A = np.matrix(model.build_matrix(grid))
