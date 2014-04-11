@@ -258,12 +258,48 @@ O termo de derivada será calculado utilizando uma aproximação por diferenças
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\left(A\rho\vec{v}\phi\right)_{k+\frac{1}{2}}-\left(A\rho\vec{v}\phi\right)_{k-\frac{1}{2}}=\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}
+\left(A\rho\vec{v}\phi\right)_{k+\frac{1}{2}}-\left(A\rho\vec{v}\phi\right)_{k-\frac{1}{2}}=\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}\label{eq:Eq. Dif-Conv Discretizada sem Interpolacao}
 \end{equation}
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Para se calcular a Equação 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Eq. Dif-Conv Discretizada sem Interpolacao"
+
+\end_inset
+
+ deverá se utilizar um metodo adequado de interpolação.
+ Para a escolha do método deverá se analizar o número de Peclet, dado por:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+P_{e}=\frac{C_{conv.}}{C_{dif}}=\frac{A\rho u}{\frac{A\kappa}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Para baixos números de Peclet o esquema de diferenças centrais é apropriado.
+ Para altos números de Peclet o esquema Upwind é o mais apropriado.
+ Ver Capítulo 5 de 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Versteeg(2007)"
+
+\end_inset
+
+ para maiores informações.
 \end_layout
 
 \begin_layout Section
@@ -279,7 +315,8 @@ Método CDS para
 \end_layout
 
 \begin_layout Standard
-Utilizando a interpolação por diferenças simples (CDS) para 
+O método CDS é recomendado para escoamentos com baixo números de Peclet.
+ Utilizando a interpolação por diferenças simples (CDS) para 
 \begin_inset Formula $\vec{v}$
 \end_inset
 
@@ -478,6 +515,353 @@ Método CDS para
 
  e UDS para 
 \begin_inset Formula $\phi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+O método UDS é recomendado para escoamentos com altos valores do número
+ de Peclet.
+ Utilizando a interpolação pos diferenças centradas para 
+\begin_inset Formula $\vec{v}$
+\end_inset
+
+ e a interpolação pelo esquema Upwind de primeira ordem 
+\begin_inset Formula $UDS$
+\end_inset
+
+ para 
+\begin_inset Formula $\phi$
+\end_inset
+
+, o termo 
+\begin_inset Formula $\phi_{k+\frac{1}{2}}$
+\end_inset
+
+ pode ser expresso como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\phi_{k+\frac{1}{2}}=\phi_{k},\:\:\: v_{k}\geq0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\phi_{k+\frac{1}{2}}=\phi_{k+1},\:\:\: v_{k}<0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Já o termo 
+\begin_inset Formula $\phi_{k-\frac{1}{2}}$
+\end_inset
+
+ pode ser expresso como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\phi_{k-\frac{1}{2}}=\phi_{k-1},\:\:\: v_{k}\geq0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\phi_{k-\frac{1}{2}}=\phi_{k},\:\:\: v_{k}<0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Velocidades Positivas (
+\begin_inset Formula $\vec{v_{k}}\geq0$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+Para velocidades positivas a Equação 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Eq. Dif-Conv Discretizada sem Interpolacao"
+
+\end_inset
+
+ pode ser escrita como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\left(\phi\right)_{k+\frac{1}{2}}-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\left(\phi\right)_{k-\frac{1}{2}}=\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\\
+-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\phi_{k}-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\phi_{k-1}=\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\\
+-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rearranjando os termos da equação:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\phi_{k}-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\phi_{k-1}=\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\phi_{k+1}-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\phi_{k}\\
+-\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\phi_{k}+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\phi_{k-1}+\left(AS_{\phi}\Delta x\right)_{k}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left[-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}-\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\right]\phi_{k-1}\\
++\left[\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}+\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\right]\phi_{k}\\
++\left[-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right]\phi_{k+1}\\
+=\left(AS_{\phi}\Delta x\right)_{k}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ou seja:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+L_{k}\phi_{k-1}+C_{k}\phi+R_{k}\phi_{k+1}=\left(AS_{\phi}\Delta x\right)_{k}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+onde:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+L_{k}=-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}-\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+R_{k}=-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+C_{k}=\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}+\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Velocidades Negativas (
+\begin_inset Formula $\vec{v_{k}}<0$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+Para velocidades negativas a Equação 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Eq. Dif-Conv Discretizada sem Interpolacao"
+
+\end_inset
+
+ pode ser escrita como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\left(\phi\right)_{k+\frac{1}{2}}-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\left(\phi\right)_{k-\frac{1}{2}}=\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\\
+-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\phi_{k+1}-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\phi_{k}=\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\\
+-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rearranjando os termos da equação:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\phi_{k+1}-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\phi_{k}=\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\phi_{k+1}-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\phi_{k}\\
+-\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\phi_{k}+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\phi_{k-1}+\left(AS_{\phi}\Delta x\right)_{k}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left[-\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\right]\phi_{k-1}\\
++\left[-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}+\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\right]\phi_{k}\\
++\left[\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right]\phi_{k+1}=\left(AS_{\phi}\Delta x\right)_{k}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ou seja:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+L_{k}\phi_{k-1}+C_{k}\phi+R_{k}\phi_{k+1}=\left(AS_{\phi}\Delta x\right)_{k}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+onde:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+L_{k}=-\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+R_{k}=\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+C_{k}=-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}+\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}
+\]
+
 \end_inset
 
 

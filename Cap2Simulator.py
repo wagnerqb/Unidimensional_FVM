@@ -11,6 +11,7 @@ from __future__ import division
 import numpy as np
 from GridCD import *
 from Model_CD_CDS import *
+from Model_CD_UDS import *
 
 
 def run():
@@ -18,19 +19,26 @@ def run():
     A = 1                   # Pipe Area
     k = 0.1                 # Conductive factor kappa
     phi = 0                 # Inicial Condition for phi property
-    dx = 0.05                # Discretization lenght delta_x
+    dx = 0.2                # Discretization lenght delta_x
     rho = 1                 # Fluid Density
     v = 2.5                 # Flow velocity
     
 
-    LBC = 1               # Left Boundary Condition
-    RBC = 0               # Right Boundary Condition
+    LBC = 1                 # Left Boundary Condition
+    RBC = 0                 # Right Boundary Condition
 
-    ncells = 20              # Number of cells in domain
-    source = 0        # Source term per volume unity
+    ncells = 5              # Number of cells in domain
+    source = 0              # Source term per volume unity
+    
+    dmd = "UDS"             # Discretization Model (CDS or UDS)
 
     grid = GridCD(LBC, RBC, source)
-    model = Model_CD_CDS()
+    
+    if (dmd == "CDS"):
+        model = Model_CD_CDS()
+        
+    if (dmd == "UDS"):
+        model = Model_CD_UDS()
 
     for i in range(ncells):
         grid.add_cell(A, k, dx, phi, rho, v)
