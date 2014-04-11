@@ -30,14 +30,14 @@ class Model_CD_CDS(Model_D_CDS):
             rho_rh = self.center_scheme(grid.rho(i), grid.rho(i+1))
             
             lc_k = - 0.5*A_lh*rho_lh*v_lh
-            ld_k = 2*k_lh*A_lh/(grid.dx(i) + grid.dx(i-1))
+            ld_k = - 2*k_lh*A_lh/(grid.dx(i) + grid.dx(i-1))
             L_k = lc_k + ld_k
             
             rc_k = 0.5*A_rh*rho_rh*v_rh
-            rd_k = 2*k_rh*A_rh/(grid.dx(i+1) + grid.dx(i))
+            rd_k = - 2*k_rh*A_rh/(grid.dx(i+1) + grid.dx(i))
             R_k = rc_k + rd_k
             
-            C_k = rc_k + lc_k - rd_k - ld_k
+            C_k = rc_k - lc_k + rd_k + ld_k
             
 
             if i == 0:
@@ -60,7 +60,7 @@ class Model_CD_CDS(Model_D_CDS):
 
         for i in range(cpoints):
             #Termos Fonte
-            B[i] = - grid.dx(i)*grid.A(i)*grid.Source(i)
+            B[i] = grid.dx(i)*grid.A(i)*grid.Source(i)
 
         #Condição de Contorno Esquerda
         k_lh_lbc = self.center_scheme(grid.k(-1), grid.k(0))
@@ -69,7 +69,7 @@ class Model_CD_CDS(Model_D_CDS):
         v_lh_lbc = self.center_scheme(grid.v(-1), grid.v(0))
 
         lc_k = - 0.5*A_lh_lbc*rho_lh_lbc*v_lh_lbc
-        ld_k = 2*k_lh_lbc*A_lh_lbc/(grid.dx(0) + grid.dx(-1))
+        ld_k = - 2*k_lh_lbc*A_lh_lbc/(grid.dx(0) + grid.dx(-1))
         L_k = lc_k + ld_k   
 
         B[0] = B[0] - L_k*grid.phi(-1)
@@ -81,7 +81,7 @@ class Model_CD_CDS(Model_D_CDS):
         v_rh_rbc = self.center_scheme(grid.v(cpoints - 1), grid.v(cpoints))
 
         rc_k = 0.5*A_rh_rbc*rho_rh_rbc*v_rh_rbc
-        rd_k = 2*k_rh_rbc*A_rh_rbc/(grid.dx(cpoints) + grid.dx(cpoints - 1))
+        rd_k = - 2*k_rh_rbc*A_rh_rbc/(grid.dx(cpoints) + grid.dx(cpoints - 1))
         R_k = rc_k + rd_k
 
         B[cpoints - 1] = B[cpoints - 1] - R_k*grid.phi(cpoints)
@@ -95,7 +95,7 @@ if __name__  == '__main__':
 
     gridteste = GridCD(100, 500, 0)
     for i in range(5):
-        gridteste.add_cell(10e-3, 1000, 0.1, 100, 1000, 0)
+        gridteste.add_cell(10e-3, 1000, 0.1, 100, 1, 0)
 
 
     modelCD = Model_CD_CDS()

@@ -308,7 +308,7 @@ A equação da difusão de energia é dada por:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\nabla\cdot\left(\kappa\nabla\phi\right)+S_{\phi}=
+-\nabla\cdot\left(\kappa\nabla\phi\right)=S_{\phi}
 \end{equation}
 
 \end_inset
@@ -348,7 +348,7 @@ onde
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\kappa\nabla\phi\right)dV+\underset{\textrm{V.C}.}{\iiint}S_{\phi}dV=0
+-\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\kappa\nabla\phi\right)dV=\underset{\textrm{V.C}.}{\iiint}S_{\phi}dV
 \end{equation}
 
 \end_inset
@@ -378,7 +378,7 @@ Utilizando o volume de controle unidimensional:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\left(A\kappa\frac{\partial\phi}{\partial x}\right)_{k+\frac{1}{2}}-\left(A\kappa\frac{\partial\phi}{\partial x}\right)_{k-\frac{1}{2}}+\left(AS_{\phi}\Delta x\right)_{k}=0
+-\left[\left(A\kappa\frac{\partial\phi}{\partial x}\right)_{k+\frac{1}{2}}-\left(A\kappa\frac{\partial\phi}{\partial x}\right)_{k-\frac{1}{2}}\right]=\left(AS_{\phi}\Delta x\right)_{k}
 \end{equation}
 
 \end_inset
@@ -394,7 +394,7 @@ O termo de derivada será calculado utilizando uma aproximação por diferenças
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}=0
+-\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}=\left(AS_{\phi}\Delta x\right)_{k}
 \end{equation}
 
 \end_inset
@@ -409,8 +409,8 @@ Organizando a equação:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\\
--\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}=0
+-\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\\
++\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}=\left(AS_{\phi}\Delta x\right)_{k}
 \end{multline}
 
 \end_inset
@@ -421,8 +421,8 @@ Organizando a equação:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-2\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}-2\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\\
--2\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}+2\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k-1}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}=0
+-2\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}+2\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\\
++2\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}-2\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k-1}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}=\left(AS_{\phi}\Delta x\right)_{k}
 \end{multline}
 
 \end_inset
@@ -433,8 +433,8 @@ Organizando a equação:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\phi_{k+1}+\left(-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\right)\phi_{k}\\
-+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\phi_{k-1}+\left(AS_{\phi}\Delta x\right)_{k}=0
+-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\phi_{k+1}+\left(\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\right)\phi_{k}\\
+-\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\phi_{k-1}=\left(AS_{\phi}\Delta x\right)_{k}
 \end{multline}
 
 \end_inset

@@ -16,18 +16,18 @@ from Model_CD_CDS import *
 def run():
 
     A = 1                   # Pipe Area
-    k = 0.5                 # Conductive factor kappa
+    k = 0.1                 # Conductive factor kappa
     phi = 0                 # Inicial Condition for phi property
-    dx = 0.004              # Discretization lenght delta_x
-    rho = 1000              # Fluid Density
-    v = 0                   # Flow velocity
+    dx = 0.05                # Discretization lenght delta_x
+    rho = 1                 # Fluid Density
+    v = 2.5                 # Flow velocity
     
 
-    LBC = 100               # Left Boundary Condition
-    RBC = 200               # Right Boundary Condition
+    LBC = 1               # Left Boundary Condition
+    RBC = 0               # Right Boundary Condition
 
-    ncells = 5              # Number of cells in domain
-    source = 1000000        # Source term per volume unity
+    ncells = 20              # Number of cells in domain
+    source = 0        # Source term per volume unity
 
     grid = GridCD(LBC, RBC, source)
     model = Model_CD_CDS()
@@ -46,7 +46,9 @@ def run():
 
     grid.print_phi()
 
+    print
     print A
+    print
     print b
 #    print grid.get_all_x()
 #    print grid.get_all_T()

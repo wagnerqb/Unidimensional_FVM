@@ -26,8 +26,8 @@ class Model_D_CDS():
             A_lh = self.center_scheme(grid.A(i-1), grid.A(i))
             A_rh = self.center_scheme(grid.A(i), grid.A(i+1))
 
-            l_k = 2*k_lh*A_lh/(grid.dx(i) + grid.dx(i-1))
-            r_k = 2*k_rh*A_rh/(grid.dx(i+1) + grid.dx(i))
+            l_k = - 2*k_lh*A_lh/(grid.dx(i) + grid.dx(i-1))
+            r_k = - 2*k_rh*A_rh/(grid.dx(i+1) + grid.dx(i))
 
             if i == 0:
                 A[i][i] = - l_k - r_k
@@ -49,20 +49,20 @@ class Model_D_CDS():
 
         for i in range(cpoints):
             #Termos Fonte
-            B[i] = - grid.dx(i)*grid.A(i)*grid.Source(i)
+            B[i] = grid.dx(i)*grid.A(i)*grid.Source(i)
 
         #Condição de Contorno Esquerda
         k_lh_lbc = self.center_scheme(grid.k(-1), grid.k(0))
         A_lh_lbc = self.center_scheme(grid.A(-1), grid.A(0))
 
-        l_k = 2*k_lh_lbc*A_lh_lbc/(grid.dx(0) + grid.dx(-1))
+        l_k = - 2*k_lh_lbc*A_lh_lbc/(grid.dx(0) + grid.dx(-1))
         B[0] = B[0] - l_k*grid.phi(-1)
 
         #Condição de Contorno Direita
         k_rh_rbc = self.center_scheme(grid.k(cpoints - 1), grid.k(cpoints))
         A_rh_rbc = self.center_scheme(grid.A(cpoints - 1), grid.A(cpoints))
 
-        r_k = 2*k_rh_rbc*A_rh_rbc/(grid.dx(cpoints) + grid.dx(cpoints - 1))
+        r_k = - 2*k_rh_rbc*A_rh_rbc/(grid.dx(cpoints) + grid.dx(cpoints - 1))
         B[cpoints - 1] = B[cpoints - 1] - r_k*grid.phi(cpoints)
 
         return B

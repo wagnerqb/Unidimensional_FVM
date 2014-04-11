@@ -168,7 +168,7 @@ A equação da convecção e difusão é dada por:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\nabla\cdot\left(\rho\vec{v}\phi\right)+\nabla\cdot\left(\kappa\nabla\phi\right)+S_{\phi}=0
+\nabla\cdot\left(\rho\vec{v}\phi\right)=\nabla\cdot\left(\kappa\nabla\phi\right)+S_{\phi}
 \end{equation}
 
 \end_inset
@@ -212,7 +212,7 @@ onde
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\rho\vec{v}\phi\right)dV+\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\kappa\nabla\phi\right)dV+\underset{\textrm{V.C}.}{\iiint}S_{\phi}dV=0
+\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\rho\vec{v}\phi\right)dV=\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\kappa\nabla\phi\right)dV+\underset{\textrm{V.C}.}{\iiint}S_{\phi}dV
 \end{equation}
 
 \end_inset
@@ -227,7 +227,7 @@ Aplicando o teorema de Gauss:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\phi\right)\cdot\vec{n}dS+\underset{\textrm{S.C}.}{\iiint}\left(\kappa\nabla\phi\right)\cdot\vec{n}dS+\underset{\textrm{V.C}.}{\iiint}S_{\phi}dV=0
+\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\phi\right)\cdot\vec{n}dS=\underset{\textrm{S.C}.}{\iiint}\left(\kappa\nabla\phi\right)\cdot\vec{n}dS+\underset{\textrm{V.C}.}{\iiint}S_{\phi}dV
 \end{equation}
 
 \end_inset
@@ -242,7 +242,7 @@ Utilizando o volume de controle unidimensional:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\left(A\rho\vec{v}\phi\right)_{k+\frac{1}{2}}-\left(A\rho\vec{v}\phi\right)_{k-\frac{1}{2}}+\left(A\kappa\frac{\partial\phi}{\partial x}\right)_{k+\frac{1}{2}}-\left(A\kappa\frac{\partial\phi}{\partial x}\right)_{k-\frac{1}{2}}+\left(AS_{\phi}\Delta x\right)_{k}=0
+\left(A\rho\vec{v}\phi\right)_{k+\frac{1}{2}}-\left(A\rho\vec{v}\phi\right)_{k-\frac{1}{2}}=\left(A\kappa\frac{\partial\phi}{\partial x}\right)_{k+\frac{1}{2}}-\left(A\kappa\frac{\partial\phi}{\partial x}\right)_{k-\frac{1}{2}}+\left(AS_{\phi}\Delta x\right)_{k}
 \end{equation}
 
 \end_inset
@@ -258,7 +258,7 @@ O termo de derivada será calculado utilizando uma aproximação por diferenças
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\left(A\rho\vec{v}\phi\right)_{k+\frac{1}{2}}-\left(A\rho\vec{v}\phi\right)_{k-\frac{1}{2}}+\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}=0
+\left(A\rho\vec{v}\phi\right)_{k+\frac{1}{2}}-\left(A\rho\vec{v}\phi\right)_{k-\frac{1}{2}}=\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}
 \end{equation}
 
 \end_inset
@@ -293,7 +293,7 @@ Utilizando a interpolação por diferenças simples (CDS) para
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\left(\phi\right)_{k+\frac{1}{2}}-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\left(\phi\right)_{k-\frac{1}{2}}+\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}=0
+\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\left(\phi\right)_{k+\frac{1}{2}}-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\left(\phi\right)_{k-\frac{1}{2}}=\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}
 \end{equation}
 
 \end_inset
@@ -304,7 +304,7 @@ Utilizando a interpolação por diferenças simples (CDS) para
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}+\phi_{k}}{2}-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\frac{\phi_{k}+\phi_{k-1}}{2}+\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}=0
+\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}+\phi_{k}}{2}-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\frac{\phi_{k}+\phi_{k-1}}{2}=\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}
 \end{equation}
 
 \end_inset
@@ -320,8 +320,8 @@ Rearranjando os termos da equação:
 \begin_inset Formula 
 \begin{multline}
 \frac{1}{2}\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\phi_{k+1}+\frac{1}{2}\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\phi_{k}-\frac{1}{2}\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\phi_{k}-\frac{1}{2}\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\phi_{k-1}\\
-+\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\\
--\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}=0
+=\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\\
+-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}
 \end{multline}
 
 \end_inset
@@ -332,9 +332,9 @@ Rearranjando os termos da equação:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-\left[-\frac{1}{2}\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\right]\phi_{k-1}\\
-+\left[\frac{1}{2}\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}-\frac{1}{2}\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\right]\phi_{k}\\
-+\left[\frac{1}{2}\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}+\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right]\phi_{k+1}=\left(AS_{\phi}\Delta x\right)_{k}
+\left[-\frac{1}{2}\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}-\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\right]\phi_{k-1}\\
++\left[\frac{1}{2}\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}-\frac{1}{2}\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}+\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\right]\phi_{k}\\
++\left[\frac{1}{2}\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right]\phi_{k+1}=\left(AS_{\phi}\Delta x\right)_{k}
 \end{multline}
 
 \end_inset
@@ -376,7 +376,7 @@ onde:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-L_{k}=-\frac{1}{2}\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}
+L_{k}=-\frac{1}{2}\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}-\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}
 \end{equation}
 
 \end_inset
@@ -387,7 +387,7 @@ L_{k}=-\frac{1}{2}\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}+\frac{2\left(A\kappa
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-R_{k}=\frac{1}{2}\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}+\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}
+R_{k}=\frac{1}{2}\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}
 \end{equation}
 
 \end_inset
@@ -398,7 +398,7 @@ R_{k}=\frac{1}{2}\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}+\frac{2\left(A\kappa\
 \begin_layout Standard
 \begin_inset Formula 
 \[
-C_{k}=\frac{1}{2}\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}-\frac{1}{2}\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}
+C_{k}=\frac{1}{2}\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}-\frac{1}{2}\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}+\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}
 \]
 
 \end_inset
@@ -466,6 +466,18 @@ O termo
  será calculado segundo uma interpolação do tipo esquema centrado.
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Método CDS para 
+\begin_inset Formula $\vec{v}$
+\end_inset
+
+ e UDS para 
+\begin_inset Formula $\phi$
 \end_inset
 
 
