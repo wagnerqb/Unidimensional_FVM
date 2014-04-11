@@ -266,6 +266,135 @@ O termo de derivada será calculado utilizando uma aproximação por diferenças
 
 \end_layout
 
+\begin_layout Section
+Método CDS para 
+\begin_inset Formula $\vec{v}$
+\end_inset
+
+ e 
+\begin_inset Formula $\phi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Utilizando a interpolação por diferenças simples (CDS) para 
+\begin_inset Formula $\vec{v}$
+\end_inset
+
+ e 
+\begin_inset Formula $\phi$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\left(\phi\right)_{k+\frac{1}{2}}-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\left(\phi\right)_{k-\frac{1}{2}}=\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}+\phi_{k}}{2}-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\frac{\phi_{k}+\phi_{k-1}}{2}=\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rearranjando os termos da equação:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\frac{1}{2}\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\phi_{k+1}+\frac{1}{2}\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\phi_{k}-\frac{1}{2}\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\phi_{k}-\frac{1}{2}\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\phi_{k-1}=\\
+\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\\
+-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left[-\frac{1}{2}\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}-\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\right]\phi_{k-1}\\
++\left[\frac{1}{2}\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}-\frac{1}{2}\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}+\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\right]\phi_{k}\\
++\left[\frac{1}{2}\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right]\phi_{k+1}=\left(AS_{\phi}\Delta x\right)_{k}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Assim:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+L_{k}\phi_{k-1}-\left(L_{k}+R_{k}\right)\phi_{k}+R_{k}\phi_{k+1}=\left(AS_{\phi}\Delta x\right)_{k}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+onde:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+L_{k}=-\frac{1}{2}\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}-\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+R_{k}=\frac{1}{2}\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset Note Note
 status collapsed

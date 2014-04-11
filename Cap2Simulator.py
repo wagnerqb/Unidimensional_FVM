@@ -1,10 +1,11 @@
 # -*- coding: iso-8859-1 -*-
 """
 @author: Wagner Queiroz Barros
-@date:   Wed Apr 09 15:06:58 2014
+@date:   Fri Apr 11 13:24:24 2014
 @email:  wagnerqb@gmail.com
-@brief:  Simulator for difusive problems, described in Chapter 1 of report
+@brief:  Simulator for difusive/convective problems, described in Chapter 2
 """
+
 
 from __future__ import division
 import numpy as np
@@ -16,8 +17,11 @@ def run():
 
     A = 1                   # Pipe Area
     k = 0.5                 # Conductive factor kappa
-    T = 0                   # Inicial Condition for Temperature
+    phi = 0                 # Inicial Condition for phi property
     dx = 0.004              # Discretization lenght delta_x
+    rho = 1000              # Fluid Density
+    v = 0                   # Flow velocity
+    
 
     LBC = 100               # Left Boundary Condition
     RBC = 200               # Right Boundary Condition

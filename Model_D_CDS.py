@@ -3,7 +3,7 @@
 @author: Wagner Queiroz Barros
 @date:   Wed Apr 09 15:35:41 2014
 @email:  wagnerqb@gmail.com
-@brief:  Class Storing all models using to discretize PDEs
+@brief:  Class used to discretize Difuse PDEs using CDS Scheme
 """
 
 from __future__ import division
@@ -101,10 +101,11 @@ if __name__ == '__main__':
     gridteste = GridD(100, 500, 0)
 
     for i in range(5):
-        gridteste.add_cell(10e-3, 1000, 100, 0.1)
+        gridteste.add_cell(10e-3, 1000, 0.1, 100)
 
     A = modelteste.build_matrix(gridteste)
     print A
+    print
 
     b = modelteste.build_coef_vector(gridteste)
     print b
