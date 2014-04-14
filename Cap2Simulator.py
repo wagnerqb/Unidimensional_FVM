@@ -21,7 +21,7 @@ def run():
     phi = 0                 # Inicial Condition for phi property
     dx = 0.2                # Discretization lenght delta_x
     rho = 1                 # Fluid Density
-    v = 2.5                 # Flow velocity
+    v = 0.1                 # Flow velocity
     
 
     LBC = 1                 # Left Boundary Condition
@@ -37,9 +37,9 @@ def run():
     if (dmd == "CDS"):
         model = Model_CD_CDS()
         
-    if (dmd == "UDS"):
+    elif (dmd == "UDS"):
         model = Model_CD_UDS()
-
+    
     for i in range(ncells):
         grid.add_cell(A, k, dx, phi, rho, v)
 
