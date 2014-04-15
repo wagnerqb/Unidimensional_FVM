@@ -1115,5 +1115,161 @@ Isolando o termo
 
 \end_layout
 
+\begin_layout Section
+Quantidade de Movimento utilizando interpolação CDS
+\end_layout
+
+\begin_layout Standard
+A equação da conservação da quantidade de movimento (Equação 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Discretizacao_Quant_Movimento"
+
+\end_inset
+
+) foi definida como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}=\\
+-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}-v_{k+\frac{1}{2}}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}}{\Delta x_{k}}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Desprezando os termos fontes de velocidade, utilizando o algorítimo de interpola
+ção CDS para interpolar a velocidade e utilizando uma previsão para a pressão
+ (
+\begin_inset Formula $p^{*}$
+\end_inset
+
+), a equação para a previsão da velocidade pode ser escrita como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho v\right)_{k+1}\left(v^{*}\right)_{k+1}-\left(A\rho v\right)_{k}\left(v^{*}\right)_{k}=\\
+-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}^{*}-v_{k+\frac{1}{2}}^{*}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}^{*}-v_{k-\frac{1}{2}}^{*}}{\Delta x_{k}}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho v\right)_{k+1}\frac{v_{k+\frac{3}{2}}^{*}+v_{k+\frac{1}{2}}^{*}}{2}-\left(A\rho v\right)_{k}\frac{v_{k+\frac{1}{2}}^{*}+v_{k-\frac{1}{2}}^{*}}{2}=\\
+-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}^{*}-v_{k+\frac{1}{2}}^{*}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}^{*}-v_{k-\frac{1}{2}}^{*}}{\Delta x_{k}}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Organizando a equação:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\frac{\left(A\rho v\right)_{k+1}}{2}v_{k+\frac{3}{2}}^{*}+\frac{\left(A\rho v\right)_{k+1}}{2}v_{k+\frac{1}{2}}^{*}-\frac{\left(A\rho v\right)_{k}}{2}v_{k+\frac{1}{2}}^{*}-\frac{\left(A\rho v\right)_{k}}{2}v_{k-\frac{1}{2}}^{*}=\\
+-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}v_{k+\frac{3}{2}}^{*}-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}v_{k+\frac{1}{2}}^{*}\\
+-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}v_{k+\frac{1}{2}}^{*}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}v_{k-\frac{1}{2}}^{*}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left[-\frac{\left(A\rho v\right)_{k}}{2}-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\right]v_{k-\frac{1}{2}}^{*}\\
++\left[\frac{\left(A\rho v\right)_{k+1}}{2}-\frac{\left(A\rho v\right)_{k}}{2}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\right]v_{k+\frac{1}{2}}^{*}\\
++\left[\frac{\left(A\rho v\right)_{k+1}}{2}-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}\right]v_{k+\frac{3}{2}}^{*}\\
+=-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Que pode ser simplificada como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{vl}v_{k-\frac{1}{2}}^{*}+a_{vc}v_{k+\frac{1}{2}}^{*}+a_{vr}v_{k+\frac{3}{2}}^{*}=-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+onde
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{vl}=-\frac{\left(A\rho v\right)_{k}}{2}-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{vc}=\frac{\left(A\rho v\right)_{k+1}}{2}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}-\frac{\left(A\rho v\right)_{k}}{2}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{vr}=\frac{\left(A\rho v\right)_{k+1}}{2}-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
 \end_body
 \end_document

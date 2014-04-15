@@ -17,6 +17,7 @@ class Cell():
         self.k = k          # Kappa        
         self.dx = dx        # Delta x
 
+
 class CellD(Cell):
     "Class Célula com propriedades difusivas."
     
@@ -26,6 +27,7 @@ class CellD(Cell):
 
         #Atributos
         self.phi = phi      # Propriedade Transportada
+
         
 class CellCD(CellD):
     "Classe herdeira com propriedades convectivas."
@@ -37,6 +39,20 @@ class CellCD(CellD):
         #Atributos
         self.rho = rho      # Densidade
         self.v = v          # Velocidade
+
+
+class CellFluid():
+    "Classe Celula Fluida, Utlizada em Navier-Stokes"
+
+    #Construtor com Atributos
+    def __init__(self, A, dx, rho, mu, v_r, p):
+        self.A = A
+        self.dx = dx
+        self.rho = rho
+        self.mu = mu
+        self.v_r = v_r
+        self.p = p
+
 
 if __name__ == '__main__':
     
@@ -60,3 +76,12 @@ if __name__ == '__main__':
     print ccd.dx
     print ccd.rho
     print ccd.v
+    print
+
+    cfld = CellFluid(1, 2, 3, 4, 5, 6)
+    print cfld.A
+    print cfld.dx
+    print cfld.rho
+    print cfld.mu
+    print cfld.v_r
+    print cfld.p
