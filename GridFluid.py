@@ -42,8 +42,12 @@ class GridFluid():
 
     def dx(self, index):
         "Delta_x da celula index."
-        if (index < 0) or (index > (len(self.cells)-1)):
-            return 0
+        if (index < 0):
+            return self[0].dx
+
+        if (index > (len(self.cells)-1)):
+            return self[(len(self.cells)-1)].dx
+
 
         return self[index].dx
 
