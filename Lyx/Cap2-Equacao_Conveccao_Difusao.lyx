@@ -329,9 +329,10 @@ O método CDS é recomendado para escoamentos com baixo números de Peclet.
 
 \begin_layout Standard
 \begin_inset Formula 
-\begin{equation}
-\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\left(\phi\right)_{k+\frac{1}{2}}-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\left(\phi\right)_{k-\frac{1}{2}}=\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}
-\end{equation}
+\begin{multline}
+\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\left(\phi\right)_{k+\frac{1}{2}}-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\left(\phi\right)_{k-\frac{1}{2}}=\\
+\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}
+\end{multline}
 
 \end_inset
 
@@ -340,9 +341,10 @@ O método CDS é recomendado para escoamentos com baixo números de Peclet.
 
 \begin_layout Standard
 \begin_inset Formula 
-\begin{equation}
-\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}+\phi_{k}}{2}-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\frac{\phi_{k}+\phi_{k-1}}{2}=\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}
-\end{equation}
+\begin{multline}
+\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}+\phi_{k}}{2}-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}\frac{\phi_{k}+\phi_{k-1}}{2}=\\
+\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}+\left(AS_{\phi}\Delta x\right)_{k}
+\end{multline}
 
 \end_inset
 
@@ -434,9 +436,9 @@ R_{k}=\frac{1}{2}\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}-\frac{2\left(A\kappa\
 
 \begin_layout Standard
 \begin_inset Formula 
-\[
+\begin{equation}
 C_{k}=\frac{1}{2}\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}-\frac{1}{2}\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}+\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}
-\]
+\end{equation}
 
 \end_inset
 
@@ -858,9 +860,9 @@ R_{k}=\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}-\frac{2\left(A\kappa\right)_{k+\
 
 \begin_layout Standard
 \begin_inset Formula 
-\[
+\begin{equation}
 C_{k}=-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}+\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}
-\]
+\end{equation}
 
 \end_inset
 

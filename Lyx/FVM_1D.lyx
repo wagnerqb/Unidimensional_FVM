@@ -279,6 +279,17 @@ filename "Cap2-Equacao_Conveccao_Difusao.lyx"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\align block
+\begin_inset CommandInset include
+LatexCommand include
+filename "Cap3-Acoplamento_Pressao_Velocidade.lyx"
+
+\end_inset
+
+
 \begin_inset Note Note
 status collapsed
 

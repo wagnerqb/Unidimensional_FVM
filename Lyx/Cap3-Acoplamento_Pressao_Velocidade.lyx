@@ -251,6 +251,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename figuras/Control_Volume_2.png
+	scale 80
 
 \end_inset
 
@@ -331,7 +332,7 @@ Utilizando o volume de controle unidimensional:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\left(A\rho\vec{v}\right)_{k+\frac{1}{2}}-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}=\left(AS_{m}\Delta x\right)_{k}
+\left(A\rho v\right)_{k+\frac{1}{2}}-\left(A\rho v\right)_{k-\frac{1}{2}}=\left(AS_{m}\Delta x\right)_{k}
 \end{equation}
 
 \end_inset
@@ -417,8 +418,9 @@ Utilizando diferenças finitas para aproximar os termos das derivadas:
 \end_layout
 
 \begin_layout Standard
-As velocidades no centro das células são calculadas utilizando um algorítimo
- de interpolação, descrito no Capítulo 
+No lado esquerdo da equação existe um produto de velocidades no centro das
+ células que deverá ser calculado utilizando um algorítimo de interpolação,
+ descrito no Capítulo 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "cha:Eq_Difusão_Convecção"
@@ -426,6 +428,7 @@ reference "cha:Eq_Difusão_Convecção"
 \end_inset
 
 .
+ 
 \end_layout
 
 \begin_layout Section
@@ -445,7 +448,8 @@ O algorítimo SIMPLE (Semi-Implicit Method for Pressure-Linked Equations)
 \begin_inset Formula $p^{*}$
 \end_inset
 
-), dessa forma, utilizando a Eq.
+).
+ Separando o produto de velocidades e utilizando a Eq.
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -459,7 +463,7 @@ reference "eq:Discretizacao_Quant_Movimento"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-\left(A\rho\right)_{k+1}\left(v^{*}v^{*}\right)_{k+1}-\left(A\rho\right)_{k}\left(v^{*}v^{*}\right)_{k}=\\
+\left(A\rho v\right)_{k+1}\left(v^{*}\right)_{k+1}-\left(A\rho v\right)_{k}\left(v^{*}\right)_{k}=\\
 -\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}^{*}-v_{k+\frac{1}{2}}^{*}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}^{*}-v_{k-\frac{1}{2}}^{*}}{\Delta x_{k}}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}\label{eq:Quant_Movimento_Prevista}
 \end{multline}
 
@@ -469,7 +473,8 @@ reference "eq:Discretizacao_Quant_Movimento"
 \end_layout
 
 \begin_layout Standard
-Pode ser definidos os termos de correção, dados por:
+Uma definição importante utilizada no método SIMPLE são os termos de correção,
+ dados por:
 \end_layout
 
 \begin_layout Standard
@@ -536,7 +541,7 @@ reference "eq:Discretizacao_Quant_Movimento"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}-\left(\left(A\rho\right)_{k+1}\left(v^{*}v^{*}\right)_{k+1}-\left(A\rho\right)_{k}\left(v^{*}v^{*}\right)_{k}\right)=\\
+\left(A\rho v\right)_{k+1}\left(v\right)_{k+1}-\left(A\rho v\right)_{k}\left(v\right)_{k}-\left(\left(A\rho v\right)_{k+1}\left(v^{*}\right)_{k+1}-\left(A\rho v\right)_{k}\left(v^{*}\right)_{k}\right)=\\
 -\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}-v_{k+\frac{1}{2}}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}}{\Delta x_{k}}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}\\
 -\left(-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}^{*}-v_{k+\frac{1}{2}}^{*}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}^{*}-v_{k-\frac{1}{2}}^{*}}{\Delta x_{k}}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}\right)
 \end{multline}
@@ -549,7 +554,7 @@ reference "eq:Discretizacao_Quant_Movimento"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-\left(A\rho\right)_{k+1}\left[\left(vv\right)_{k+1}-\left(v^{*}v^{*}\right)_{k+1}\right]-\left(A\rho\right)_{k}\left[\left(vv\right)_{k}-\left(v^{*}v^{*}\right)_{k}\right]=\\
+\left(A\rho v\right)_{k+1}\left[v_{k+1}-v_{k+1}^{*}\right]-\left(A\rho v\right)_{k}\left[v_{k}-v_{k}^{*}\right]=\\
 -\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\left(p_{k+1}-p_{k}\right)+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}\left(v_{k+\frac{3}{2}}-v_{k+\frac{1}{2}}\right)-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\left(v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}\right)+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}\\
 +\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\left(p_{k+1}^{*}-p_{k}^{*}\right)-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}\left(v_{k+\frac{3}{2}}^{*}-v_{k+\frac{1}{2}}^{*}\right)+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\left(v_{k+\frac{1}{2}}^{*}-v_{k-\frac{1}{2}}^{*}\right)-\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}
 \end{multline}
@@ -560,6 +565,463 @@ reference "eq:Discretizacao_Quant_Movimento"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho v\right)_{k+1}\left[v_{k+1}-v_{k+1}^{*}\right]-\left(A\rho v\right)_{k}\left[v_{k}-v_{k}^{*}\right]=\\
+-\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\left[\left(p_{k+1}-p_{k+1}^{*}\right)-\left(p_{k}-p_{k}^{*}\right)\right]\\
++\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}\left[\left(v_{k+\frac{3}{2}}-v_{k+\frac{3}{2}}^{*}\right)-\left(v_{k+\frac{1}{2}}-v_{k+\frac{1}{2}}^{*}\right)\right]\\
+-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\left[\left(v_{k+\frac{1}{2}}-v_{k+\frac{1}{2}}^{*}\right)-\left(v_{k-\frac{1}{2}}-v_{k-\frac{1}{2}}^{*}\right)\right]
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+O método SIMPLE utiliza a seguinte aproximação para se definir a equação
+ corretora:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho v\right)_{k}\left[v_{k}-v_{k}^{*}\right]+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}\left[\left(v_{k+\frac{3}{2}}-v_{k+\frac{3}{2}}^{*}\right)-\left(v_{k+\frac{1}{2}}-v_{k+\frac{1}{2}}^{*}\right)\right]\\
+-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\left[\left(v_{k+\frac{1}{2}}-v_{k+\frac{1}{2}}^{*}\right)-\left(v_{k-\frac{1}{2}}-v_{k-\frac{1}{2}}^{*}\right)\right]=0
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dessa forma:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left(A\rho v\right)_{k+1}\left[v_{k+1}-v_{k+1}^{*}\right]=-\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\left[\left(p_{k+1}-p_{k+1}^{*}\right)-\left(p_{k}-p_{k}^{*}\right)\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+v'_{k+1}=-\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)\left(A\rho v\right)_{k+1}}\left[\left(p_{k+1}-p_{k+1}^{*}\right)-\left(p_{k}-p_{k}^{*}\right)\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+ou em termos do bloco 
+\begin_inset Formula $k$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+v'_{k}=-\frac{\left(A\Delta x\right)_{k-\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)\left(A\rho v\right)_{k}}\left[p'_{k}-p'_{k-1}\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+O termo 
+\begin_inset Formula $\left(A\rho v\right)_{k}$
+\end_inset
+
+ pode ser aproximado por 
+\begin_inset Formula $\left(A\rho v^{*}\right)_{k}$
+\end_inset
+
+, assim:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+v'_{k}=-\frac{\left(A\Delta x\right)_{k-\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)\left(A\rho v^{*}\right)_{k}}\left[p'_{k}-p'_{k-1}\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Assim a velocidade real pode ser escrita como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+v_{k}=v_{k}^{*}-\frac{\left(A\Delta x\right)_{k-\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)\left(A\rho v^{*}\right)_{k}}\left[p'_{k}-p'_{k-1}\right]\label{eq:Velocidade_Corrigida_SIMPLE}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A equação da conservação da massa discretizada ao redor do ponto 
+\begin_inset Formula $k+\frac{1}{2}$
+\end_inset
+
+ pode ser escrita como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left(A\rho v\right)_{k+1}-\left(A\rho v\right)_{k}=\left(AS_{m}\Delta x\right)_{k+\frac{1}{2}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Substituindo a Equação 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Velocidade_Corrigida_SIMPLE"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho\right)_{k+1}\left(v_{k+1}^{*}-\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)\left(A\rho v^{*}\right)_{k+1}}\left[p'_{k+1}-p'_{k}\right]\right)_{k+1}\\
+-\left(A\rho\right)_{k}\left(v_{k}^{*}-\frac{\left(A\Delta x\right)_{k-\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)\left(A\rho v^{*}\right)_{k}}\left[p'_{k}-p'_{k-1}\right]\right)_{k}=\left(AS_{m}\Delta x\right)_{k+\frac{1}{2}}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Organizando a equação:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho v^{*}\right)_{k+1}-\frac{\left(A\rho\right)_{k+1}\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)\left(A\rho v^{*}\right)_{k+1}}\left[p'_{k+1}-p'_{k}\right]\\
+-\left(A\rho v^{*}\right)_{k}+\frac{\left(A\rho\right)_{k}\left(A\Delta x\right)_{k-\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)\left(A\rho v^{*}\right)_{k}}\left[p'_{k}-p'_{k-1}\right]=\left(AS_{m}\Delta x\right)_{k+\frac{1}{2}}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+-\frac{\left(A\rho\right)_{k+1}\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)\left(A\rho v^{*}\right)_{k+1}}p'_{k+1}+\frac{\left(A\rho\right)_{k+1}\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)\left(A\rho v^{*}\right)_{k+1}}p'_{k}\\
++\frac{\left(A\rho\right)_{k}\left(A\Delta x\right)_{k-\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)\left(A\rho v^{*}\right)_{k}}p'_{k}-\frac{\left(A\rho\right)_{k}\left(A\Delta x\right)_{k-\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)\left(A\rho v^{*}\right)_{k}}p'_{k-1}\\
+=\left(AS_{m}\Delta x\right)_{k+\frac{1}{2}}-\left(A\rho v^{*}\right)_{k+1}+\left(A\rho v^{*}\right)_{k}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\frac{\left(A\rho\right)_{k+1}\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)\left(A\rho v^{*}\right)_{k+1}}p'_{k+1}\\
++\left[-\frac{\left(A\rho\right)_{k+1}\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)\left(A\rho v^{*}\right)_{k+1}}-\frac{\left(A\rho\right)_{k}\left(A\Delta x\right)_{k-\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)\left(A\rho v^{*}\right)_{k}}\right]p'_{k}\\
++\frac{\left(A\rho\right)_{k}\left(A\Delta x\right)_{k-\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)\left(A\rho v^{*}\right)_{k}}p'_{k-1}\\
+=-\left(AS_{m}\Delta x\right)_{k+\frac{1}{2}}+\left(A\rho v^{*}\right)_{k+1}-\left(A\rho v^{*}\right)_{k}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Que pode ser escrito como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{l}p'_{k+1}+a_{c}p'_{k}+a_{r}p'_{k-1}=-\left(AS_{m}\Delta x\right)_{k+\frac{1}{2}}+\left(A\rho v^{*}\right)_{k+1}-\left(A\rho v^{*}\right)_{k}\label{eq:Corretora_Pressao}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+onde:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{l}=\frac{\left(A\rho\right)_{k+1}\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)\left(A\rho v^{*}\right)_{k+1}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{r}=\frac{\left(A\rho\right)_{k}\left(A\Delta x\right)_{k-\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)\left(A\rho v^{*}\right)_{k}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{c}=-a_{l}-a_{r}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A Equação 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Corretora_Pressao"
+
+\end_inset
+
+ é a expressão para a correção da pressão em cada célula do domínio.
+ Com os valores de correção de pressão é possível corrigir a velocidade
+ do escoamento com a Equação 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Velocidade_Corrigida_SIMPLE"
+
+\end_inset
+
+.
+ A Figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Fluxograma-do-método-SIMPLE"
+
+\end_inset
+
+ mostra um fluxograma com as etapas de cálculo do método SIMPLE.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figuras/Método_SIMPLE.png
+	lyxscale 60
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Fluxograma do método SIMPLE.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Fluxograma-do-método-SIMPLE"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho\right)_{k+1}\left(v^{*}v^{*}\right)_{k+1}-\left(A\rho\right)_{k}\left(v^{*}v^{*}\right)_{k}=\\
+-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}^{*}-v_{k+\frac{1}{2}}^{*}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}^{*}-v_{k-\frac{1}{2}}^{*}}{\Delta x_{k}}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Pode ser definidos os termos de correção, dados por:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{equation}
+p=p^{*}+p'
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{equation}
+v=v^{*}+v'
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+onde 
+\begin_inset Formula $p'$
+\end_inset
+
+ é a correção da pressão e 
+\begin_inset Formula $v'$
+\end_inset
+
+ da velocidade.
+ Subtraindo a Equação 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Quant_Movimento_Prevista"
+
+\end_inset
+
+ da 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Discretizacao_Quant_Movimento"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}-\left(\left(A\rho\right)_{k+1}\left(v^{*}v^{*}\right)_{k+1}-\left(A\rho\right)_{k}\left(v^{*}v^{*}\right)_{k}\right)=\\
+-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}-v_{k+\frac{1}{2}}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}}{\Delta x_{k}}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}\\
+-\left(-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}^{*}-v_{k+\frac{1}{2}}^{*}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}^{*}-v_{k-\frac{1}{2}}^{*}}{\Delta x_{k}}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}\right)
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho\right)_{k+1}\left[\left(vv\right)_{k+1}-\left(v^{*}v^{*}\right)_{k+1}\right]-\left(A\rho\right)_{k}\left[\left(vv\right)_{k}-\left(v^{*}v^{*}\right)_{k}\right]=\\
+-\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\left(p_{k+1}-p_{k}\right)+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}\left(v_{k+\frac{3}{2}}-v_{k+\frac{1}{2}}\right)-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\left(v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}\right)+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}\\
++\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\left(p_{k+1}^{*}-p_{k}^{*}\right)-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}\left(v_{k+\frac{3}{2}}^{*}-v_{k+\frac{1}{2}}^{*}\right)+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\left(v_{k+\frac{1}{2}}^{*}-v_{k-\frac{1}{2}}^{*}\right)-\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Formula 
 \begin{multline}
 \left(A\rho\right)_{k+1}\left[\left(vv\right)_{k+1}-\left(v^{*}v^{*}\right)_{k+1}\right]-\left(A\rho\right)_{k}\left[\left(vv\right)_{k}-\left(v^{*}v^{*}\right)_{k}\right]=\\
@@ -573,7 +1035,7 @@ reference "eq:Discretizacao_Quant_Movimento"
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
 \begin{multline}
 \left(A\rho\right)_{k+1}\left[\left(vv\right)_{k+1}-\left(v^{*}v^{*}\right)_{k+1}\right]-\left(A\rho\right)_{k}\left[\left(vv\right)_{k}-\left(v^{*}v^{*}\right)_{k}\right]=\\
@@ -581,6 +1043,72 @@ reference "eq:Discretizacao_Quant_Movimento"
 +\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}\left[\left(v_{k+\frac{3}{2}}-v_{k+\frac{3}{2}}^{*}\right)-\left(v_{k+\frac{1}{2}}-v_{k+\frac{1}{2}}^{*}\right)\right]\\
 -\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\left[\left(v_{k+\frac{1}{2}}-v_{k+\frac{1}{2}}^{*}\right)-\left(v_{k-\frac{1}{2}}-v_{k-\frac{1}{2}}^{*}\right)\right]
 \end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+O algotítimo SIMPLE utiliza a seguinte aproximação para se definir a equação
+ corretora:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{equation}
+\left(A\rho\right)_{k+1}\left[\left(vv\right)_{k+1}-\left(v^{*}v^{*}\right)_{k+1}\right]=\left(A\rho\right)_{k}\left[\left(vv\right)_{k}-\left(v^{*}v^{*}\right)_{k}\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Dessa forma, a equação preditora é escrita da seguinte forma:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{multline}
+-\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\left[p'_{k+1}-p'_{k}\right]+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}\left[v'_{k+\frac{3}{2}}-v'_{k+\frac{1}{2}}\right]-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\left[v'_{k+\frac{1}{2}}-v'_{k-\frac{1}{2}}\right]=0
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Isolando o termo 
+\begin_inset Formula $v'_{k+\frac{1}{2}}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{multline}
+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}v'_{k+\frac{3}{2}}-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}v'_{k+\frac{1}{2}}-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}v'_{k+\frac{1}{2}}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}v'_{k-\frac{1}{2}}=\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\left[p'_{k+1}-p'_{k}\right]
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{multline}
+\left(\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\right)v'_{k+\frac{1}{2}}=-\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\left[p'_{k+1}-p'_{k}\right]+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}v'_{k+\frac{3}{2}}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}v'_{k-\frac{1}{2}}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
