@@ -332,7 +332,7 @@ Utilizando o volume de controle unidimensional:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\left(A\rho v\right)_{k+\frac{1}{2}}-\left(A\rho v\right)_{k-\frac{1}{2}}=\left(AS_{m}\Delta x\right)_{k}
+\left(A\rho v\right)_{k+\frac{1}{2}}-\left(A\rho v\right)_{k-\frac{1}{2}}=\left(AS_{m}\Delta x\right)_{k}\label{eq:Discretizacao_Cons_Massa}
 \end{equation}
 
 \end_inset
