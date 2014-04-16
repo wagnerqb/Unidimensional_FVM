@@ -257,7 +257,7 @@ reference "eq:Discretizacao_Quant_Movimento"
 
 \end_inset
 
-, desprezando termos fonte, são dados por :
+, desprezando termos fonte, são dados por:
 \end_layout
 
 \begin_layout Standard
@@ -343,6 +343,10 @@ Derivada da Massa em relação a velocidade
 Derivada da Quantidade de Movimento em relação a pressão
 \end_layout
 
+\begin_layout Subsubsection
+Derivada em relação ao bloco a esquerda
+\end_layout
+
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
@@ -364,6 +368,10 @@ Derivada da Quantidade de Movimento em relação a pressão
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsubsection
+Derivada em relação ao bloco ao centro
 \end_layout
 
 \begin_layout Standard
@@ -395,6 +403,10 @@ Derivada da Quantidade de Movimento em relação a pressão
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsubsection
+Derivada em relação ao bloco a direita
 \end_layout
 
 \begin_layout Standard
@@ -925,7 +937,7 @@ Jacobiano com células agrupadas:
 \begin_layout Standard
 \align center
 \begin_inset Note Note
-status collapsed
+status open
 
 \begin_layout Plain Layout
 Agrupando as derivadas com relação as células no Jacobiano:

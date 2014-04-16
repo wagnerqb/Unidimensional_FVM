@@ -86,6 +86,10 @@ class GridFluid():
 
         return self[index].v_r
 
+    def set_v_r(self, index, _v_r):
+        "Atribui a velocidade na face direita da célula"
+        self[index].v_r = _v_r
+
     def v_l(self, index):
         "velocidade na Face Esquerda da célula"
         if (index <= 0):
@@ -111,6 +115,10 @@ class GridFluid():
                 return self[(len(self.cells)-1)].p
 
         return self[index].p
+
+    def set_p(self, index, _p):
+        "Atribui a pressão no centro da célula"
+        self[index].p = _p
 
     def msrc(self, index):
         "Termo Fonte"

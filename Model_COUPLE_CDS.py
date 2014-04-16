@@ -152,6 +152,7 @@ class Model_COUPLE_CDS():
             mu_r = grid.mu(i+1)
             dx = grid.dx(i)
             dx_r = grid.dx(i+1)
+            dx_rh = self.center_scheme(grid.dx(i), grid.dx(i+1))
             v = self.center_scheme(grid.v_r(i-1), grid.v_r(i))
             v_r = self.center_scheme(grid.v_r(i), grid.v_r(i+1))
             v_lh = grid.v_l(i)
@@ -166,7 +167,7 @@ class Model_COUPLE_CDS():
             
             # Momentum residual
             R_mom = (A_r*rho_r*v_r*v_r) - (A*rho*v*v)
-            R_mom = R_mom + 2*(A_rh*(dx/2))*(p_r-p)/(dx_r + dx)
+            R_mom = R_mom + 2*(A_rh*dx_rh)*(p_r-p)/(dx_r + dx)
             R_mom = R_mom - (A_r*mu_r)*(v_rrh - v_rh)/dx_r
             R_mom = R_mom + (A*mu)*(v_rh - v_lh)/dx
 
