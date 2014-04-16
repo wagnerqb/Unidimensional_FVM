@@ -1116,7 +1116,233 @@ Isolando o termo
 \end_layout
 
 \begin_layout Section
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Section
 Quantidade de Movimento utilizando interpolação CDS
+\end_layout
+
+\begin_layout Plain Layout
+A equação da conservação da quantidade de movimento (Equação 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Discretizacao_Quant_Movimento"
+
+\end_inset
+
+) foi definida como:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}=\\
+-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}-v_{k+\frac{1}{2}}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}}{\Delta x_{k}}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Desprezando os termos fontes de velocidade, utilizando o algorítimo de interpola
+ção CDS para interpolar a velocidade e utilizando uma previsão para a pressão
+ (
+\begin_inset Formula $p^{*}$
+\end_inset
+
+), a equação para a previsão da velocidade pode ser escrita como:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho v\right)_{k+1}\left(v^{*}\right)_{k+1}-\left(A\rho v\right)_{k}\left(v^{*}\right)_{k}=\\
+-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}^{*}-v_{k+\frac{1}{2}}^{*}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}^{*}-v_{k-\frac{1}{2}}^{*}}{\Delta x_{k}}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho v\right)_{k+1}\frac{v_{k+\frac{3}{2}}^{*}+v_{k+\frac{1}{2}}^{*}}{2}-\left(A\rho v\right)_{k}\frac{v_{k+\frac{1}{2}}^{*}+v_{k-\frac{1}{2}}^{*}}{2}=\\
+-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}^{*}-v_{k+\frac{1}{2}}^{*}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}^{*}-v_{k-\frac{1}{2}}^{*}}{\Delta x_{k}}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Organizando a equação:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{multline}
+\frac{\left(A\rho v\right)_{k+1}}{2}v_{k+\frac{3}{2}}^{*}+\frac{\left(A\rho v\right)_{k+1}}{2}v_{k+\frac{1}{2}}^{*}-\frac{\left(A\rho v\right)_{k}}{2}v_{k+\frac{1}{2}}^{*}-\frac{\left(A\rho v\right)_{k}}{2}v_{k-\frac{1}{2}}^{*}=\\
+-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}v_{k+\frac{3}{2}}^{*}-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}v_{k+\frac{1}{2}}^{*}\\
+-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}v_{k+\frac{1}{2}}^{*}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}v_{k-\frac{1}{2}}^{*}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{multline}
+\left[-\frac{\left(A\rho v\right)_{k}}{2}-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\right]v_{k-\frac{1}{2}}^{*}\\
++\left[\frac{\left(A\rho v\right)_{k+1}}{2}-\frac{\left(A\rho v\right)_{k}}{2}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\right]v_{k+\frac{1}{2}}^{*}\\
++\left[\frac{\left(A\rho v\right)_{k+1}}{2}-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}\right]v_{k+\frac{3}{2}}^{*}\\
+=-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Que pode ser simplificada como:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{equation}
+a_{vl}v_{k-\frac{1}{2}}^{*}+a_{vc}v_{k+\frac{1}{2}}^{*}+a_{vr}v_{k+\frac{3}{2}}^{*}=-A_{k+\frac{1}{2}}\left(p_{k+1}^{*}-p_{k}^{*}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+onde
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{equation}
+a_{vl}=-\frac{\left(A\rho v\right)_{k}}{2}-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{equation}
+a_{vc}=\frac{\left(A\rho v\right)_{k+1}}{2}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}-\frac{\left(A\rho v\right)_{k}}{2}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{equation}
+a_{vr}=\frac{\left(A\rho v\right)_{k+1}}{2}-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Subsection*
+Condição de contorno a esquerda
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+v_{k-\frac{1}{2}}^{*}=v_{k+\frac{1}{2}}^{*}\frac{A_{k+\frac{1}{2}}}{A_{k-\frac{1}{2}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+a_{vc}=\frac{\left(A\rho v\right)_{k+1}}{2}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}-\frac{\left(A\rho v\right)_{k}}{2}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}+a_{vl}\frac{A_{k+\frac{1}{2}}}{A_{k-\frac{1}{2}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Condição de contorno a direita
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+v_{k+\frac{3}{2}}^{*}=v_{k+\frac{1}{2}}^{*}\frac{A_{k+\frac{1}{2}}}{A_{k+\frac{3}{2}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+a_{vc}=\frac{\left(A\rho v\right)_{k+1}}{2}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}-\frac{\left(A\rho v\right)_{k}}{2}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}+a_{vl}\frac{A_{k+\frac{1}{2}}}{A_{k+\frac{3}{2}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Quantidade de Movimento utilizando interpolação UDS
 \end_layout
 
 \begin_layout Standard
@@ -1133,8 +1359,8 @@ reference "eq:Discretizacao_Quant_Movimento"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}=\\
--\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}-v_{k+\frac{1}{2}}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}}{\Delta x_{k}}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}
+\left(A\rho v\right)_{k+1}v_{k+1}^{*}-\left(A\rho v\right)_{k}v_{k}^{*}=\\
+-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}^{*}-v_{k+\frac{1}{2}}^{*}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}^{*}-v_{k-\frac{1}{2}}^{*}}{\Delta x_{k}}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}
 \end{multline}
 
 \end_inset
@@ -1143,20 +1369,92 @@ reference "eq:Discretizacao_Quant_Movimento"
 \end_layout
 
 \begin_layout Standard
-Desprezando os termos fontes de velocidade, utilizando o algorítimo de interpola
-ção CDS para interpolar a velocidade e utilizando uma previsão para a pressão
- (
-\begin_inset Formula $p^{*}$
+O método UDS é recomendado para escoamentos com altos valores do número
+ de Peclet.
+ Utilizando a interpolação pos diferenças centradas para 
+\begin_inset Formula $\vec{v}$
 \end_inset
 
-), a equação para a previsão da velocidade pode ser escrita como:
+ e a interpolação pelo esquema Upwind de primeira ordem 
+\begin_inset Formula $UDS$
+\end_inset
+
+ para 
+\begin_inset Formula $\phi$
+\end_inset
+
+, o termo 
+\begin_inset Formula $\phi_{k+\frac{1}{2}}$
+\end_inset
+
+ pode ser expresso como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\phi_{k+\frac{1}{2}}=\phi_{k},\:\:\: v_{k}\geq0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\phi_{k+\frac{1}{2}}=\phi_{k+1},\:\:\: v_{k}<0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Já o termo 
+\begin_inset Formula $\phi_{k-\frac{1}{2}}$
+\end_inset
+
+ pode ser expresso como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\phi_{k-\frac{1}{2}}=\phi_{k-1},\:\:\: v_{k}\geq0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\phi_{k-\frac{1}{2}}=\phi_{k},\:\:\: v_{k}<0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Velocidades Positivas (
+\begin_inset Formula $\vec{v_{k}}\geq0$
+\end_inset
+
+)
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-\left(A\rho v\right)_{k+1}\left(v^{*}\right)_{k+1}-\left(A\rho v\right)_{k}\left(v^{*}\right)_{k}=\\
--\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}^{*}-v_{k+\frac{1}{2}}^{*}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}^{*}-v_{k-\frac{1}{2}}^{*}}{\Delta x_{k}}
+\left(A\rho v\right)_{k+1}v_{k+\frac{1}{2}}^{*}-\left(A\rho v\right)_{k}v_{k-\frac{1}{2}}^{*}=\\
+-A_{k+\frac{1}{2}}\left(p_{k+1}^{*}-p_{k}^{*}\right)+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}^{*}-v_{k+\frac{1}{2}}^{*}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}^{*}-v_{k-\frac{1}{2}}^{*}}{\Delta x_{k}}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}
 \end{multline}
 
 \end_inset
@@ -1165,41 +1463,17 @@ Desprezando os termos fontes de velocidade, utilizando o algorítimo de interpol
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\begin{multline}
-\left(A\rho v\right)_{k+1}\frac{v_{k+\frac{3}{2}}^{*}+v_{k+\frac{1}{2}}^{*}}{2}-\left(A\rho v\right)_{k}\frac{v_{k+\frac{1}{2}}^{*}+v_{k-\frac{1}{2}}^{*}}{2}=\\
--\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}^{*}-v_{k+\frac{1}{2}}^{*}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}^{*}-v_{k-\frac{1}{2}}^{*}}{\Delta x_{k}}
-\end{multline}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Organizando a equação:
+Rearranjando:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-\frac{\left(A\rho v\right)_{k+1}}{2}v_{k+\frac{3}{2}}^{*}+\frac{\left(A\rho v\right)_{k+1}}{2}v_{k+\frac{1}{2}}^{*}-\frac{\left(A\rho v\right)_{k}}{2}v_{k+\frac{1}{2}}^{*}-\frac{\left(A\rho v\right)_{k}}{2}v_{k-\frac{1}{2}}^{*}=\\
--\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}v_{k+\frac{3}{2}}^{*}-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}v_{k+\frac{1}{2}}^{*}\\
--\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}v_{k+\frac{1}{2}}^{*}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}v_{k-\frac{1}{2}}^{*}
-\end{multline}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{multline}
-\left[-\frac{\left(A\rho v\right)_{k}}{2}-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\right]v_{k-\frac{1}{2}}^{*}\\
-+\left[\frac{\left(A\rho v\right)_{k+1}}{2}-\frac{\left(A\rho v\right)_{k}}{2}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\right]v_{k+\frac{1}{2}}^{*}\\
-+\left[\frac{\left(A\rho v\right)_{k+1}}{2}-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}\right]v_{k+\frac{3}{2}}^{*}\\
-=-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}
+\left[-\left(A\rho v\right)_{k}-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\right]v_{k-\frac{1}{2}}^{*}\\
++\left[\left(A\rho v\right)_{k+1}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}\right]v_{k+\frac{1}{2}}^{*}\\
+\left[-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}\right]v_{k+\frac{3}{2}}^{*}\\
+=\\
+-A_{k+\frac{1}{2}}\left(p_{k+1}^{*}-p_{k}^{*}\right)
 \end{multline}
 
 \end_inset
@@ -1214,7 +1488,7 @@ Que pode ser simplificada como:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-a_{vl}v_{k-\frac{1}{2}}^{*}+a_{vc}v_{k+\frac{1}{2}}^{*}+a_{vr}v_{k+\frac{3}{2}}^{*}=-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}^{*}-p_{k}^{*}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}
+a_{vl}v_{k-\frac{1}{2}}^{*}+a_{vc}v_{k+\frac{1}{2}}^{*}+a_{vr}v_{k+\frac{3}{2}}^{*}=-A_{k+\frac{1}{2}}\left(p_{k+1}^{*}-p_{k}^{*}\right)
 \end{equation}
 
 \end_inset
@@ -1241,7 +1515,7 @@ onde
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-a_{vl}=-\frac{\left(A\rho v\right)_{k}}{2}-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}
+a_{vl}=-\left(A\rho v\right)_{k}-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}
 \end{equation}
 
 \end_inset
@@ -1252,7 +1526,7 @@ a_{vl}=-\frac{\left(A\rho v\right)_{k}}{2}-\frac{\left(A\mu\right)_{k}}{\Delta x
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-a_{vc}=\frac{\left(A\rho v\right)_{k+1}}{2}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}-\frac{\left(A\rho v\right)_{k}}{2}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}
+a_{vc}=\left(A\rho v\right)_{k+1}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}
 \end{equation}
 
 \end_inset
@@ -1263,7 +1537,424 @@ a_{vc}=\frac{\left(A\rho v\right)_{k+1}}{2}+\frac{\left(A\mu\right)_{k+1}}{\Delt
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-a_{vr}=\frac{\left(A\rho v\right)_{k+1}}{2}-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}
+a_{vr}=-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Velocidades Negativas (
+\begin_inset Formula $\vec{v_{k}}<0$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left(A\rho v\right)_{k+1}v_{k+\frac{3}{2}}^{*}-\left(A\rho v\right)_{k}v_{k+\frac{1}{2}}^{*}=\\
+-A_{k+\frac{1}{2}}\left(p_{k+1}^{*}-p_{k}^{*}\right)+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}^{*}-v_{k+\frac{1}{2}}^{*}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}^{*}-v_{k-\frac{1}{2}}^{*}}{\Delta x_{k}}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rearranjando:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left[-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\right]v_{k-\frac{1}{2}}^{*}\\
++\left[-\left(A\rho v\right)_{k}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}\right]v_{k+\frac{1}{2}}^{*}\\
+\left[\left(A\rho v\right)_{k+1}-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}\right]v_{k+\frac{3}{2}}^{*}\\
+=\\
+-A_{k+\frac{1}{2}}\left(p_{k+1}^{*}-p_{k}^{*}\right)
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Que pode ser simplificada como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{vl}v_{k-\frac{1}{2}}^{*}+a_{vc}v_{k+\frac{1}{2}}^{*}+a_{vr}v_{k+\frac{3}{2}}^{*}=-A_{k+\frac{1}{2}}\left(p_{k+1}^{*}-p_{k}^{*}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+onde
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{vl}=-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{vc}=\left(A\rho v\right)_{k}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{vr}=\left(A\rho v\right)_{k+1}-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Concição de Contorno a Esquerda
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{equation}
+a_{vl}v_{k-\frac{1}{2}}^{*}+a_{vc}v_{k+\frac{1}{2}}^{*}+a_{vr}v_{k+\frac{3}{2}}^{*}=-A_{k+\frac{1}{2}}\left(p_{k+1}^{*}-p_{k}^{*}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+onde
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{equation}
+a_{vl}=-\left(A\rho v\right)_{k}-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{equation}
+a_{vc}=\left(A\rho v\right)_{k+1}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{equation}
+a_{vr}=-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Pressão constante
+\end_layout
+
+\begin_layout Standard
+A velocidade pode ser calculada utilizando a equação da continuidade:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+v_{k}=v_{k+\frac{1}{2}}\frac{A_{k+\frac{1}{2}}}{A_{k}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A fronteira possui velocidade, utilizando Bernouli, a pressão estática pode
+ ser calculada por:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+p_{k} & = & p_{BC}-\frac{1}{2}\left(\rho v^{2}\right)_{k}\\
+ & = & p_{BC}-\frac{1}{2}\rho_{k}\left(\frac{A_{k+\frac{1}{2}}}{A_{k}}v_{k+\frac{1}{2}}\right)^{2}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Velocidades positivas
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{vl}v_{k-\frac{1}{2}}^{*}+a_{vc}v_{k+\frac{1}{2}}^{*}+a_{vr}v_{k+\frac{3}{2}}^{*}=-A_{k+\frac{1}{2}}\left(p_{k+1}^{*}-p_{BC}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+onde:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{vl}=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+a_{vc} & = & \left[\left(-\left(A\rho v\right)_{k}-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\right)\frac{A_{k+\frac{1}{2}}}{A_{k}}\right]+\left[\frac{1}{2}\left(\rho Av\right)_{k}\left(\frac{A_{k+\frac{1}{2}}}{A_{k}}\right)^{2}\right]+\left(A\rho v\right)_{k+1}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{vr}=-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Condição de contorno a direita
+\end_layout
+
+\begin_layout Standard
+A velocidade pode ser calculada utilizando a equação da continuidade:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left(\rho Av\right)_{k+1}=\left(\rho Av\right)_{k+\frac{1}{2}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A fronteira possui velocidade, utilizando Bernouli, a pressão estática pode
+ ser calculada por:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+p_{k+1} & = & p_{BC}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Velocidades positivas
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{vl}v_{k-\frac{1}{2}}^{*}+a_{vc}v_{k+\frac{1}{2}}^{*}+a_{vr}v_{k+\frac{3}{2}}^{*}=-A_{k+\frac{1}{2}}\left(p_{BC}-p_{k}^{*}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+onde
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{equation}
+a_{vl}=-\left(A\rho v\right)_{k}-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{equation}
+a_{vc}=\left[\frac{1}{2}\left(\rho vA\right)_{k+1}\left(\frac{A_{k+\frac{1}{2}}}{A_{k}}\right)^{2}\right]+\left[-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}\left(\frac{A_{k+\frac{1}{2}}}{A_{k}}\right)\right]+\left(A\rho v\right)_{k+1}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{equation}
+a_{vr}=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{vl}=-\left(A\rho v\right)_{k}-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{vc}=\left(A\rho v\right)_{k+\frac{1}{2}}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{vr}=0
 \end{equation}
 
 \end_inset
