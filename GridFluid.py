@@ -12,10 +12,12 @@ from Cell import *
 class GridFluid():
     "Classe grid fluido, utilizado na resolução das equações de Navier-Stokes"
 
-    def __init__(self, lbc, rbc, msrc):
+    def __init__(self, lbc_t, lbc, rbc_t, rbc, msrc):
             #Atributos
-            self.cells = []
+            self.cells = []             # Boundary (0-pressure, 1-velocity)
+            self.lbc_t = lbc_t          # Left Boundary Type
             self.lbc = lbc              # Left Boundary Condition
+            self.rbc_t = rbc_t          # Right Bounday Type
             self.rbc = rbc              # Right Boundary Condition
             self.msrc = msrc            # Mass Source Term
 
@@ -28,7 +30,6 @@ class GridFluid():
         "Adiciona uma celula no grid."
         self.cells.append(CellFluid(A, dx, rho, mu, v_r, p))
 
-
     def A(self, index):
         "Area no Centro da célula"
         if (index < 0):
@@ -39,7 +40,6 @@ class GridFluid():
 
         return self[index].A
 
-
     def dx(self, index):
         "Delta_x da celula index."
         if (index < 0):
@@ -47,7 +47,6 @@ class GridFluid():
 
         if (index > (len(self.cells)-1)):
             return self[(len(self.cells)-1)].dx
-
 
         return self[index].dx
 
@@ -71,17 +70,25 @@ class GridFluid():
 
         return self[index].mu
 
-
     def v_r(self, index):
         "velocidade na Face Direita da célula"
         if (index < 0):
-            return self[0].v_r
+            if (self.lbc_t == 0):
+                return self[0].v_r
+            else:
+                return self.lbc
 
         if (index > (len(self.cells)-1)):
-            return self[(len(self.cells)-1)].v_r
+            if (self.rbc_t == 0):
+                return self[(len(self.cells)-1)].v_r
+            else:
+                return self.rbc
 
         return self[index].v_r
 
+    def set_v_r(self, index, _v_r):
+        "Atribui a velocidade na face direita da célula"
+        self[index].v_r = _v_r
 
     def v_l(self, index):
         "velocidade na Face Esquerda da célula"
@@ -96,13 +103,26 @@ class GridFluid():
     def p(self, index):
         "pressão no Centro da célula"
         if (index < 0):
-            return self[0].p
+            if (self.lbc_t == 0):
+                return self.lbc
+            else:
+                return self[0].p
 
         if (index > (len(self.cells)-1)):
-            return self[(len(self.cells)-1)].p
+            if (self.rbc_t == 0):
+                return self.rbc
+            else:
+                return self[(len(self.cells)-1)].p
 
         return self[index].p
 
+    def set_p(self, index, _p):
+        "Atribui a pressão no centro da célula"
+        self[index].p = _p
+
+    def msrc(self, index):
+        "Termo Fonte"
+        return self.msrc
 
     def get_all_x(self):
         "Retorna um vetor com a posicao x do centro de todas as celulas,"
@@ -118,7 +138,6 @@ class GridFluid():
         all_x[cpoints+1] = all_x[cpoints] + self[cpoints-1].dx/2
         return all_x
 
-
     def get_all_p(self):
         "Retorna um vetor com a pressão de todas as celulas, inclusive as"
         "condicoes de contorno."
@@ -131,40 +150,38 @@ class GridFluid():
         all_T[cpoints+1] = self.rbc
 
         return all_P
-        
 
 if __name__ == '__main__':
 
-
-    grid = GridFluid(100, 500, 0)
-    grid.add_cell(0.001, 0.1, 1000, 1, 10, 100)
-    grid.add_cell(0.002, 0.2, 2000, 2, 20, 200)
-    grid.add_cell(0.003, 0.3, 3000, 3, 30, 300)
+    grid = GridFluid(1, 200, 0, 500, 0)
+    grid.add_cell(A=0.001, dx=0.1, rho=1000, mu=1, v_r=10, p=100)
+    grid.add_cell(A=0.002, dx=0.2, rho=2000, mu=2, v_r=20, p=200)
+    grid.add_cell(A=0.003, dx=0.3, rho=3000, mu=3, v_r=30, p=300)
 
     print "Teste A"
     print grid.A(-1)
     print grid.A(1)
     print grid.A(2)
     print
-    
+
     print "Teste dx"
     print grid.dx(-1)
     print grid.dx(1)
     print grid.dx(2)
     print
-    
+
     print "Teste rho"
     print grid.rho(-1)
     print grid.rho(1)
     print grid.rho(2)
     print
-    
+
     print "Teste mu"
     print grid.mu(-1)
     print grid.mu(1)
     print grid.mu(2)
     print
-    
+
     print "Teste v_r"
     print grid.v_r(-1)
     print grid.v_r(0)
@@ -172,7 +189,7 @@ if __name__ == '__main__':
     print grid.v_r(2)
     print grid.v_r(3)
     print
-    
+
     print "Teste v_l"
     print grid.v_l(-1)
     print grid.v_l(0)
@@ -180,12 +197,11 @@ if __name__ == '__main__':
     print grid.v_l(2)
     print grid.v_l(3)
     print
-    
+
     print "Teste p"
     print grid.p(-1)
+    print grid.p(0)
     print grid.p(1)
     print grid.p(2)
+    print grid.p(3)
     print
-    
-
-

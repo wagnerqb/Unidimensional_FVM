@@ -290,6 +290,17 @@ filename "Cap3-Acoplamento_Pressao_Velocidade.lyx"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\align block
+\begin_inset CommandInset include
+LatexCommand include
+filename "Cap4-Algoritimo_COUPLE_Pressao_Velocidade.lyx"
+
+\end_inset
+
+
 \begin_inset Note Note
 status collapsed
 
