@@ -346,7 +346,7 @@ Derivada da Quantidade de Movimento em relação a pressão
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-\frac{\partial R_{k}^{m}}{\partial p_{k-1}}=\frac{\partial}{\partial p_{k-1}}\left[\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}\right]\\
+\frac{\partial R_{k}^{p}}{\partial p_{k-1}}=\frac{\partial}{\partial p_{k-1}}\left[\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}\right]\\
 +\frac{\partial}{\partial p_{k-1}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}-v_{k+\frac{1}{2}}}{\Delta x_{k+1}}+\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}}{\Delta x_{k}}\right]
 \end{multline}
 
@@ -358,7 +358,7 @@ Derivada da Quantidade de Movimento em relação a pressão
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial R_{k}^{m}}{\partial p_{k-1}}=0
+\frac{\partial R_{k}^{p}}{\partial p_{k-1}}=0
 \end{equation}
 
 \end_inset
@@ -369,7 +369,7 @@ Derivada da Quantidade de Movimento em relação a pressão
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-\frac{\partial R_{k}^{m}}{\partial p_{k}}=\frac{\partial}{\partial p_{k}}\left[\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}\right]\\
+\frac{\partial R_{k}^{p}}{\partial p_{k}}=\frac{\partial}{\partial p_{k}}\left[\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}\right]\\
 +\frac{\partial}{\partial p_{k}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}-v_{k+\frac{1}{2}}}{\Delta x_{k+1}}+\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}}{\Delta x_{k}}\right]
 \end{multline}
 
@@ -380,17 +380,17 @@ Derivada da Quantidade de Movimento em relação a pressão
 
 \begin_layout Standard
 \begin_inset Formula 
-\begin{multline}
+\begin{equation}
 \frac{\partial R_{k}^{m}}{\partial p_{k}}=\frac{\partial}{\partial p_{k}}\left[\frac{2\left(A\Delta x\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\left(p_{k+1}-p_{k}\right)\right]
-\end{multline}
+\end{equation}
 
 \end_inset
 
 
 \begin_inset Formula 
-\begin{multline}
-\frac{\partial R_{k}^{m}}{\partial p_{k}}=-\frac{2\left(A\Delta x\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}
-\end{multline}
+\begin{equation}
+\frac{\partial R_{k}^{p}}{\partial p_{k}}=-\frac{2\left(A\Delta x\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}
+\end{equation}
 
 \end_inset
 
@@ -400,7 +400,7 @@ Derivada da Quantidade de Movimento em relação a pressão
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-\frac{\partial R_{k}^{m}}{\partial p_{k+1}}=\frac{\partial}{\partial p_{k+1}}\left[\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}\right]\\
+\frac{\partial R_{k}^{p}}{\partial p_{k+1}}=\frac{\partial}{\partial p_{k+1}}\left[\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}\right]\\
 +\frac{\partial}{\partial p_{k+1}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}-v_{k+\frac{1}{2}}}{\Delta x_{k+1}}+\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}}{\Delta x_{k}}\right]
 \end{multline}
 
@@ -411,9 +411,9 @@ Derivada da Quantidade de Movimento em relação a pressão
 
 \begin_layout Standard
 \begin_inset Formula 
-\begin{multline}
-\frac{\partial R_{k}^{m}}{\partial p_{k+1}}=\frac{\partial}{\partial p_{k+1}}\left[\frac{2\left(A\Delta x\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\left(p_{k+1}-p_{k}\right)\right]
-\end{multline}
+\begin{equation}
+\frac{\partial R_{k}^{p}}{\partial p_{k+1}}=\frac{\partial}{\partial p_{k+1}}\left[\frac{2\left(A\Delta x\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\left(p_{k+1}-p_{k}\right)\right]
+\end{equation}
 
 \end_inset
 
@@ -422,9 +422,9 @@ Derivada da Quantidade de Movimento em relação a pressão
 
 \begin_layout Standard
 \begin_inset Formula 
-\begin{multline}
-\frac{\partial R_{k}^{m}}{\partial p_{k+1}}=\frac{2\left(A\Delta x\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}
-\end{multline}
+\begin{equation}
+\frac{\partial R_{k}^{p}}{\partial p_{k+1}}=\frac{2\left(A\Delta x\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}
+\end{equation}
 
 \end_inset
 
@@ -442,7 +442,7 @@ Derivada em relação ao bloco a esquerda
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-\frac{\partial R_{k}^{m}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}\right]\\
+\frac{\partial R_{k}^{p}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}\right]\\
 +\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}-v_{k+\frac{1}{2}}}{\Delta x_{k+1}}+\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}}{\Delta x_{k}}\right]
 \end{multline}
 
@@ -454,7 +454,7 @@ Derivada em relação ao bloco a esquerda
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial R_{k}^{m}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}\right]+\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}}{\Delta x_{k}}\right]
+\frac{\partial R_{k}^{p}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}\right]+\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}}{\Delta x_{k}}\right]
 \end{equation}
 
 \end_inset
@@ -465,7 +465,7 @@ Derivada em relação ao bloco a esquerda
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial R_{k}^{m}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}\right]-\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\rho\right)_{k}\left(vv\right)_{k}\right]+\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\left(v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}\right)\right]
+\frac{\partial R_{k}^{p}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}\right]-\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\rho\right)_{k}\left(vv\right)_{k}\right]+\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\left(v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}\right)\right]
 \end{equation}
 
 \end_inset
@@ -476,7 +476,7 @@ Derivada em relação ao bloco a esquerda
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial R_{k}^{m}}{\partial v_{k-\frac{1}{2}}}=\left(A\rho\right)_{k+1}\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(vv\right)_{k+1}\right]-\left(A\rho\right)_{k}\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(vv\right)_{k}\right]-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}
+\frac{\partial R_{k}^{p}}{\partial v_{k-\frac{1}{2}}}=\left(A\rho\right)_{k+1}\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(vv\right)_{k+1}\right]-\left(A\rho\right)_{k}\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(vv\right)_{k}\right]-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}
 \end{equation}
 
 \end_inset
@@ -487,7 +487,7 @@ Derivada em relação ao bloco a esquerda
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial R_{k}^{m}}{\partial v_{k-\frac{1}{2}}}=\left(A\rho\right)_{k+1}\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k-\frac{1}{2}}}-\left(A\rho\right)_{k}\frac{\partial\left(vv\right)_{k}}{\partial v_{k-\frac{1}{2}}}-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}
+\frac{\partial R_{k}^{p}}{\partial v_{k-\frac{1}{2}}}=\left(A\rho\right)_{k+1}\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k-\frac{1}{2}}}-\left(A\rho\right)_{k}\frac{\partial\left(vv\right)_{k}}{\partial v_{k-\frac{1}{2}}}-\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}
 \end{equation}
 
 \end_inset
@@ -502,7 +502,7 @@ Derivada em relação ao bloco central
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-\frac{\partial R_{k}^{m}}{\partial v_{k+\frac{1}{2}}}=\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}\right]\\
+\frac{\partial R_{k}^{p}}{\partial v_{k+\frac{1}{2}}}=\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}\right]\\
 +\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}-v_{k+\frac{1}{2}}}{\Delta x_{k+1}}+\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}}{\Delta x_{k}}\right]
 \end{multline}
 
@@ -514,7 +514,7 @@ Derivada em relação ao bloco central
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-\frac{\partial R_{k}^{m}}{\partial v_{k+\frac{1}{2}}}=\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}\right]\\
+\frac{\partial R_{k}^{p}}{\partial v_{k+\frac{1}{2}}}=\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}\right]\\
 +\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}\left(v_{k+\frac{3}{2}}-v_{k+\frac{1}{2}}\right)+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\left(v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}\right)\right]
 \end{multline}
 
@@ -526,7 +526,7 @@ Derivada em relação ao bloco central
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-\frac{\partial R_{k}^{m}}{\partial v_{k+\frac{1}{2}}}=\left(A\rho\right)_{k+1}\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+\frac{1}{2}}}-\left(A\rho\right)_{k}\frac{\partial\left(vv\right)_{k}}{\partial v_{k+\frac{1}{2}}}\\
+\frac{\partial R_{k}^{p}}{\partial v_{k+\frac{1}{2}}}=\left(A\rho\right)_{k+1}\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+\frac{1}{2}}}-\left(A\rho\right)_{k}\frac{\partial\left(vv\right)_{k}}{\partial v_{k+\frac{1}{2}}}\\
 +\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}\left(v_{k+\frac{1}{2}}\right)+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}\left(v_{k+\frac{1}{2}}\right)\right]
 \end{multline}
 
@@ -537,9 +537,9 @@ Derivada em relação ao bloco central
 
 \begin_layout Standard
 \begin_inset Formula 
-\begin{multline}
-\frac{\partial R_{k}^{m}}{\partial v_{k+\frac{1}{2}}}=\left(A\rho\right)_{k+1}\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+\frac{1}{2}}}-\left(A\rho\right)_{k}\frac{\partial\left(vv\right)_{k}}{\partial v_{k+\frac{1}{2}}}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}
-\end{multline}
+\begin{equation}
+\frac{\partial R_{k}^{p}}{\partial v_{k+\frac{1}{2}}}=\left(A\rho\right)_{k+1}\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+\frac{1}{2}}}-\left(A\rho\right)_{k}\frac{\partial\left(vv\right)_{k}}{\partial v_{k+\frac{1}{2}}}+\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}
+\end{equation}
 
 \end_inset
 
@@ -553,7 +553,7 @@ Derivada em relação ao bloco a direita
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-\frac{\partial R_{k}^{m}}{\partial v_{k+\frac{3}{2}}}=\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}\right]\\
+\frac{\partial R_{k}^{p}}{\partial v_{k+\frac{3}{2}}}=\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}\right]\\
 +\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}-\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}-v_{k+\frac{1}{2}}}{\Delta x_{k+1}}+\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}}{\Delta x_{k}}\right]
 \end{multline}
 
@@ -564,9 +564,9 @@ Derivada em relação ao bloco a direita
 
 \begin_layout Standard
 \begin_inset Formula 
-\begin{multline}
-\frac{\partial R_{k}^{m}}{\partial v_{k+\frac{3}{2}}}=\left(A\rho\right)_{k+1}\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+\frac{1}{2}}}-\left(A\rho\right)_{k}\frac{\partial\left(vv\right)_{k}}{\partial v_{k+\frac{1}{2}}}-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}
-\end{multline}
+\begin{equation}
+\frac{\partial R_{k}^{p}}{\partial v_{k+\frac{3}{2}}}=\left(A\rho\right)_{k+1}\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+\frac{1}{2}}}-\left(A\rho\right)_{k}\frac{\partial\left(vv\right)_{k}}{\partial v_{k+\frac{1}{2}}}-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}
+\end{equation}
 
 \end_inset
 
@@ -814,8 +814,208 @@ Construção da Matriz Jacobiana
 
 \begin_layout Standard
 Existem duas formas práticas de se montar a matriz jacobiano, a primeira
- é se agrupar as equações por tipo para formar o resíduo, como mostrado
- a seguir:
+ é se agrupar as equações por tipo para formar o resíduo, e a segunda é
+ se agrupar as equações a partir das células.
+\end_layout
+
+\begin_layout Subsection
+Jacobiano com equações agrupadas:
+\end_layout
+
+\begin_layout Standard
+Agrupando as equações do mesmo tipo no Jacobiano:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left[\begin{array}{cccccccccc}
+\frac{\partial R_{1}^{m}}{\partial p_{1}} & \frac{\partial R_{1}^{m}}{\partial p_{2}} & \frac{\partial R_{1}^{m}}{\partial p_{3}} & \cdots & \frac{\partial R_{1}^{m}}{\partial p_{n}} & \frac{\partial R_{1}^{m}}{\partial v_{1}} & \frac{\partial R_{1}^{m}}{\partial v_{2}} & \frac{\partial R_{1}^{m}}{\partial v_{3}} & \cdots & \frac{\partial R_{1}^{m}}{\partial v_{n}}\\
+\frac{\partial R_{2}^{m}}{\partial p_{1}} & \frac{\partial R_{2}^{m}}{\partial p_{2}} & \frac{\partial R_{2}^{m}}{\partial p_{3}} & \cdots & \frac{\partial R_{2}^{m}}{\partial p_{n}} & \frac{\partial R_{2}^{m}}{\partial v_{1}} & \frac{\partial R_{2}^{m}}{\partial v_{2}} & \frac{\partial R_{2}^{m}}{\partial v_{3}} & \cdots & \frac{\partial R_{2}^{m}}{\partial v_{n}}\\
+\frac{\partial R_{3}^{m}}{\partial p_{1}} & \frac{\partial R_{3}^{m}}{\partial p_{2}} & \frac{\partial R_{3}^{m}}{\partial p_{3}} & \cdots & \frac{\partial R_{3}^{m}}{\partial p_{n}} & \frac{\partial R_{3}^{m}}{\partial v_{1}} & \frac{\partial R_{3}^{m}}{\partial v_{2}} & \frac{\partial R_{3}^{m}}{\partial v_{3}} & \cdots & \frac{\partial R_{3}^{m}}{\partial v_{n}}\\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots\\
+\frac{\partial R_{n}^{m}}{\partial p_{1}} & \frac{\partial R_{n}^{m}}{\partial p_{2}} & \frac{\partial R_{n}^{m}}{\partial p_{3}} & \cdots & \frac{\partial R_{n}^{m}}{\partial p_{n}} & \frac{\partial R_{n}^{m}}{\partial v_{1}} & \frac{\partial R_{n}^{m}}{\partial v_{2}} & \frac{\partial R_{n}^{m}}{\partial v_{3}} & \cdots & \frac{\partial R_{n}^{m}}{\partial v_{n}}\\
+\frac{\partial R_{1}^{p}}{\partial p_{1}} & \frac{\partial R_{1}^{p}}{\partial p_{2}} & \frac{\partial R_{1}^{p}}{\partial p_{3}} & \cdots & \frac{\partial R_{1}^{p}}{\partial p_{n}} & \frac{\partial R_{1}^{p}}{\partial v_{1}} & \frac{\partial R_{1}^{p}}{\partial v_{2}} & \frac{\partial R_{1}^{p}}{\partial v_{3}} & \cdots & \frac{\partial R_{1}^{p}}{\partial v_{n}}\\
+\frac{\partial R_{2}^{p}}{\partial p_{1}} & \frac{\partial R_{2}^{p}}{\partial p_{2}} & \frac{\partial R_{2}^{p}}{\partial p_{3}} & \cdots & \frac{\partial R_{2}^{p}}{\partial p_{n}} & \frac{\partial R_{2}^{p}}{\partial v_{1}} & \frac{\partial R_{2}^{p}}{\partial v_{2}} & \frac{\partial R_{2}^{p}}{\partial v_{3}} & \cdots & \frac{\partial R_{2}^{p}}{\partial v_{n}}\\
+\frac{\partial R_{3}^{p}}{\partial p_{1}} & \frac{\partial R_{3}^{p}}{\partial p_{2}} & \frac{\partial R_{3}^{p}}{\partial p_{3}} & \cdots & \frac{\partial R_{3}^{p}}{\partial p_{n}} & \frac{\partial R_{3}^{p}}{\partial v_{1}} & \frac{\partial R_{3}^{p}}{\partial v_{2}} & \frac{\partial R_{3}^{p}}{\partial v_{3}} & \cdots & \frac{\partial R_{3}^{p}}{\partial v_{n}}\\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \ddots & \vdots\\
+\frac{\partial R_{n}^{p}}{\partial p_{1}} & \frac{\partial R_{n}^{p}}{\partial p_{2}} & \frac{\partial R_{n}^{p}}{\partial p_{3}} & \cdots & \frac{\partial R_{n}^{p}}{\partial p_{n}} & \frac{\partial R_{n}^{p}}{\partial v_{1}} & \frac{\partial R_{n}^{p}}{\partial v_{2}} & \frac{\partial R_{n}^{p}}{\partial v_{3}} & \cdots & \frac{\partial R_{n}^{p}}{\partial v_{n}}
+\end{array}\right]\left[\begin{array}{c}
+\delta p_{1}\\
+\delta p_{2}\\
+\delta p_{3}\\
+\vdots\\
+\delta p_{n}\\
+\delta v_{1}\\
+\delta v_{2}\\
+\delta v_{3}\\
+\vdots\\
+\delta v_{n}
+\end{array}\right]=-\left[\begin{array}{c}
+\delta R_{1}^{m}\\
+\delta R_{2}^{m}\\
+\delta R_{3}^{m}\\
+\vdots\\
+\delta R_{n}^{m}\\
+\delta R_{1}^{p}\\
+\delta R_{2}^{p}\\
+\delta R_{3}^{p}\\
+\vdots\\
+\delta R_{n}^{p}
+\end{array}\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Substituindo as derivadas calculadas:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left[\begin{array}{cccccccccc}
+0 & 0 & 0 & \cdots & 0 & \frac{\partial R_{1}^{m}}{\partial v_{1}} & 0 & 0 & \cdots & 0\\
+0 & 0 & 0 & \cdots & 0 & \frac{\partial R_{2}^{m}}{\partial v_{1}} & \frac{\partial R_{2}^{m}}{\partial v_{2}} & 0 & \cdots & 0\\
+0 & 0 & 0 & \cdots & 0 & 0 & \frac{\partial R_{3}^{m}}{\partial v_{2}} & \frac{\partial R_{3}^{m}}{\partial v_{3}} & \cdots & 0\\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots\\
+0 & 0 & 0 & \cdots & 0 & 0 & 0 & 0 & \cdots & \frac{\partial R_{n}^{m}}{\partial v_{n}}\\
+\frac{\partial R_{1}^{p}}{\partial p_{1}} & \frac{\partial R_{1}^{p}}{\partial p_{2}} & 0 & \cdots & 0 & \frac{\partial R_{1}^{p}}{\partial v_{1}} & \frac{\partial R_{1}^{p}}{\partial v_{2}} & 0 & \cdots & 0\\
+0 & \frac{\partial R_{2}^{p}}{\partial p_{2}} & \frac{\partial R_{2}^{p}}{\partial p_{3}} & \cdots & 0 & \frac{\partial R_{2}^{p}}{\partial v_{1}} & \frac{\partial R_{2}^{p}}{\partial v_{2}} & \frac{\partial R_{2}^{p}}{\partial v_{3}} & \cdots & 0\\
+0 & 0 & \frac{\partial R_{3}^{p}}{\partial p_{3}} & \cdots & 0 & 0 & \frac{\partial R_{3}^{p}}{\partial v_{2}} & \frac{\partial R_{3}^{p}}{\partial v_{3}} & \cdots & 0\\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \ddots & \vdots\\
+0 & 0 & 0 & \cdots & \frac{\partial R_{n}^{p}}{\partial p_{n}} & 0 & 0 & 0 & \cdots & \frac{\partial R_{n}^{p}}{\partial v_{n}}
+\end{array}\right]\left[\begin{array}{c}
+\delta p_{1}\\
+\delta p_{2}\\
+\delta p_{3}\\
+\vdots\\
+\delta p_{n}\\
+\delta v_{1}\\
+\delta v_{2}\\
+\delta v_{3}\\
+\vdots\\
+\delta v_{n}
+\end{array}\right]=-\left[\begin{array}{c}
+\delta R_{1}^{m}\\
+\delta R_{2}^{m}\\
+\delta R_{3}^{m}\\
+\vdots\\
+\delta R_{n}^{m}\\
+\delta R_{1}^{p}\\
+\delta R_{2}^{p}\\
+\delta R_{3}^{p}\\
+\vdots\\
+\delta R_{n}^{p}
+\end{array}\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Jacobiano com células agrupadas:
+\end_layout
+
+\begin_layout Standard
+Agrupando as derivadas com relação as células no Jacobiano:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left[\begin{array}{ccccccccc}
+\frac{\partial R_{1}^{m}}{\partial p_{1}} & \frac{\partial R_{1}^{m}}{\partial v_{1}} & \frac{\partial R_{1}^{m}}{\partial p_{2}} & \frac{\partial R_{1}^{m}}{\partial v_{2}} & \frac{\partial R_{1}^{m}}{\partial p_{3}} & \frac{\partial R_{1}^{m}}{\partial v_{3}} & \cdots & \frac{\partial R_{1}^{m}}{\partial p_{n}} & \frac{\partial R_{1}^{m}}{\partial v_{n}}\\
+\frac{\partial R_{1}^{p}}{\partial p_{1}} & \frac{\partial R_{1}^{p}}{\partial v_{1}} & \frac{\partial R_{1}^{p}}{\partial p_{2}} & \frac{\partial R_{1}^{p}}{\partial v_{2}} & \frac{\partial R_{1}^{p}}{\partial p_{3}} & \frac{\partial R_{1}^{p}}{\partial v_{3}} & \cdots & \frac{\partial R_{1}^{p}}{\partial p_{n}} & \frac{\partial R_{1}^{p}}{\partial v_{n}}\\
+\frac{\partial R_{2}^{m}}{\partial p_{1}} & \frac{\partial R_{2}^{m}}{\partial v_{1}} & \frac{\partial R_{2}^{m}}{\partial p_{2}} & \frac{\partial R_{2}^{m}}{\partial v_{2}} & \frac{\partial R_{2}^{m}}{\partial p_{3}} & \frac{\partial R_{2}^{m}}{\partial v_{3}} & \cdots & \frac{\partial R_{2}^{m}}{\partial p_{n}} & \frac{\partial R_{2}^{m}}{\partial v_{n}}\\
+\frac{\partial R_{2}^{p}}{\partial p_{1}} & \frac{\partial R_{2}^{p}}{\partial v_{1}} & \frac{\partial R_{2}^{p}}{\partial p_{2}} & \frac{\partial R_{2}^{p}}{\partial v_{2}} & \frac{\partial R_{2}^{p}}{\partial p_{3}} & \frac{\partial R_{2}^{p}}{\partial v_{3}} & \cdots & \frac{\partial R_{2}^{p}}{\partial p_{n}} & \frac{\partial R_{2}^{p}}{\partial v_{n}}\\
+\frac{\partial R_{3}^{m}}{\partial p_{1}} & \frac{\partial R_{3}^{m}}{\partial v_{1}} & \frac{\partial R_{3}^{m}}{\partial p_{2}} & \frac{\partial R_{3}^{m}}{\partial v_{2}} & \frac{\partial R_{3}^{m}}{\partial p_{3}} & \frac{\partial R_{3}^{m}}{\partial v_{3}} & \cdots & \frac{\partial R_{3}^{m}}{\partial p_{n}} & \frac{\partial R_{3}^{m}}{\partial v_{n}}\\
+\frac{\partial R_{3}^{p}}{\partial p_{1}} & \frac{\partial R_{3}^{p}}{\partial v_{1}} & \frac{\partial R_{3}^{p}}{\partial p_{2}} & \frac{\partial R_{3}^{p}}{\partial v_{2}} & \frac{\partial R_{3}^{p}}{\partial p_{3}} & \frac{\partial R_{3}^{p}}{\partial v_{3}} & \cdots & \frac{\partial R_{3}^{p}}{\partial p_{n}} & \frac{\partial R_{3}^{p}}{\partial v_{n}}\\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots\\
+\frac{\partial R_{n}^{m}}{\partial p_{1}} & \frac{\partial R_{n}^{m}}{\partial v_{1}} & \frac{\partial R_{n}^{m}}{\partial p_{2}} & \frac{\partial R_{n}^{m}}{\partial v_{2}} & \frac{\partial R_{n}^{m}}{\partial p_{3}} & \frac{\partial R_{n}^{m}}{\partial v_{3}} & \cdots & \frac{\partial R_{n}^{m}}{\partial p_{n}} & \frac{\partial R_{n}^{m}}{\partial v_{n}}\\
+\frac{\partial R_{n}^{p}}{\partial p_{1}} & \frac{\partial R_{n}^{p}}{\partial v_{1}} & \frac{\partial R_{n}^{p}}{\partial p_{2}} & \frac{\partial R_{n}^{p}}{\partial v_{2}} & \frac{\partial R_{n}^{p}}{\partial p_{3}} & \frac{\partial R_{n}^{p}}{\partial v_{3}} & \cdots & \frac{\partial R_{n}^{p}}{\partial p_{n}} & \frac{\partial R_{n}^{p}}{\partial v_{n}}
+\end{array}\right]\left[\begin{array}{c}
+\delta p_{1}\\
+\delta v_{1}\\
+\delta p_{2}\\
+\delta v_{2}\\
+\delta p_{3}\\
+\delta v_{3}\\
+\vdots\\
+\delta p_{n}\\
+\delta v_{n}
+\end{array}\right]=-\left[\begin{array}{c}
+\delta R_{1}^{m}\\
+\delta R_{1}^{p}\\
+\delta R_{2}^{m}\\
+\delta R_{2}^{p}\\
+\delta R_{3}^{m}\\
+\delta R_{3}^{p}\\
+\vdots\\
+\delta R_{n}^{m}\\
+\delta R_{n}^{p}
+\end{array}\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Substituindo as derivadas:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left[\begin{array}{ccccccccc}
+0 & \frac{\partial R_{1}^{m}}{\partial v_{1}} & 0 & 0 & 0 & 0 & \cdots & 0 & 0\\
+\frac{\partial R_{1}^{p}}{\partial p_{1}} & \frac{\partial R_{1}^{p}}{\partial v_{1}} & \frac{\partial R_{1}^{p}}{\partial p_{2}} & \frac{\partial R_{1}^{p}}{\partial v_{2}} & 0 & 0 & \cdots & 0 & 0\\
+0 & \frac{\partial R_{2}^{m}}{\partial v_{1}} & 0 & \frac{\partial R_{2}^{m}}{\partial v_{2}} & 0 & 0 & \cdots & 0 & 0\\
+0 & \frac{\partial R_{2}^{p}}{\partial v_{1}} & \frac{\partial R_{2}^{p}}{\partial p_{2}} & \frac{\partial R_{2}^{p}}{\partial v_{2}} & \frac{\partial R_{2}^{p}}{\partial p_{3}} & \frac{\partial R_{2}^{p}}{\partial v_{3}} & \cdots & 0 & 0\\
+0 & 0 & 0 & \frac{\partial R_{3}^{m}}{\partial v_{2}} & 0 & \frac{\partial R_{3}^{m}}{\partial v_{3}} & \cdots & 0 & 0\\
+0 & 0 & 0 & \frac{\partial R_{3}^{p}}{\partial v_{2}} & \frac{\partial R_{3}^{p}}{\partial p_{3}} & \frac{\partial R_{3}^{p}}{\partial v_{3}} & \cdots & 0 & 0\\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots\\
+0 & 0 & 0 & 0 & 0 & 0 & \cdots & 0 & \frac{\partial R_{n}^{m}}{\partial v_{n}}\\
+0 & 0 & 0 & 0 & 0 & 0 & \cdots & \frac{\partial R_{n}^{p}}{\partial p_{n}} & \frac{\partial R_{n}^{p}}{\partial v_{n}}
+\end{array}\right]\left[\begin{array}{c}
+\delta p_{1}\\
+\delta v_{1}\\
+\delta p_{2}\\
+\delta v_{2}\\
+\delta p_{3}\\
+\delta v_{3}\\
+\vdots\\
+\delta p_{n}\\
+\delta v_{n}
+\end{array}\right]=-\left[\begin{array}{c}
+\delta R_{1}^{m}\\
+\delta R_{1}^{p}\\
+\delta R_{2}^{m}\\
+\delta R_{2}^{p}\\
+\delta R_{3}^{m}\\
+\delta R_{3}^{p}\\
+\vdots\\
+\delta R_{n}^{m}\\
+\delta R_{n}^{p}
+\end{array}\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Observa-se que o Jacobiano com células agrupadas resulta em uma matriz com
+ maior peso na diagonal, o que facilita os métodos numéricos.
+ Dessa forma esse Jacobiano será implementado.
 \end_layout
 
 \end_body
