@@ -81,7 +81,7 @@ class Model_SIMPLE_UDS():
         for i in range(n-1):
             A_c = self.center_scheme(grid.A(i), grid.A(i+1))
             b[i] = -A_c*(grid.p(i+1)-grid.p(i))
-        
+
         #Condicao de Contorno a Esquerda
         A = grid.A(0)
         A_kph = self.center_scheme(grid.A(0), grid.A(1))
@@ -92,14 +92,27 @@ class Model_SIMPLE_UDS():
         v_BC = v*A_kph/A
         ac_k = A*rho*v_BC
         ad_k = (A*mu)/dx
-        b[0] = (ac_k + ad_k)*v*A_kph/A -A_kph*(grid.p(1)-10)
-        
+        b[0] += (ac_k + ad_k)*v*A_kph/A
+
         #Condicao de Contorno a Direita
-        A_kph = self.center_scheme(grid.A(n-2), grid.A(n-1))
-        
-        b[n-2] = -A_kph*(0-grid.p(n-2))
-        
+        #Automatica
+
         return b
+        
+    def build_matrix_p(self, grid, v):
+        "Classe que constrói a matrz de p' (previsão de velocidade)"
+        n = len(v)
+        A = np.zeros((n-1, n-1))
+        
+        for i in range(1, n):
+            v_kp1 = self.center_scheme(v[i+2], v[i+1])
+            A_kph = self.center_scheme(grid.A(i), grid.A(i+1))
+            v_km1 = self.center_scheme(v[i], v[i+1])
+            A_kmh = self.center_scheme(grid.A(i), grid.A(i-1))
+            print A_kmh/v_k
+            print 
+            
+        
 
     #Funções de Interpolação
     def center_scheme(self, leftprop, rightprop):
@@ -110,7 +123,7 @@ if __name__ == '__main__':
 
     from GridFluid import *
 
-    gridteste = GridFluid(10, 0, 1)
+    gridteste = GridFluid(0, 10, 0, 0, 1)
     for i in range(5):
         A = 0.5-0.1*(i)
         Ai = 0.45 -0.1*i
@@ -120,8 +133,12 @@ if __name__ == '__main__':
 
     A = modelCD.build_matrix_v(gridteste)
     b = modelCD.build_coef_vector_v(gridteste)
+    v = (np.matrix(A).I*np.matrix(b).T).A1
+    
+    A = modelCD.build_matrix_p(gridteste, v)    
+    b = []
+    
     print "\nA:\n", A
-    print "\nb:\n", b
-    print "\nv:\n", (np.matrix(A).I*np.matrix(b).T).A1
-    print
+    print "\nb:\n", 
+    print "\np:\n",
 
