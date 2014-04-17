@@ -908,6 +908,10 @@ onde:
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
 \begin_inset Formula 
 \begin{equation}
 a_{l}=\left(A\rho\right)_{k-\frac{1}{2}}\left(\frac{\left(A\Delta x\right)_{k-\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)\left(A\rho v\right)_{k}}\right)
@@ -918,10 +922,37 @@ a_{l}=\left(A\rho\right)_{k-\frac{1}{2}}\left(\frac{\left(A\Delta x\right)_{k-\f
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
 \begin{equation}
 a_{r}=\left(A\rho\right)_{k+\frac{1}{2}}\left(\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)\left(A\rho v\right)_{k+1}}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{l}=\left(A\rho\right)_{k-\frac{1}{2}}\frac{A_{k-\frac{1}{2}}}{\left(A\rho v\right)_{k}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{r}=\left(A\rho\right)_{k+\frac{1}{2}}\frac{A_{k+\frac{1}{2}}}{\left(A\rho v\right)_{k+1}}
 \end{equation}
 
 \end_inset

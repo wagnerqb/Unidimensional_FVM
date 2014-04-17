@@ -201,7 +201,7 @@ if __name__ == '__main__':
     
     print "\n A: \n", A
     print "\n b: \n", b
-    print "\n p: \n", v
+    print "\n v: \n", v
     print
     
     Ap = modelCD.build_matrix_p(gridteste, v)

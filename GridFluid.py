@@ -39,19 +39,19 @@ class GridFluid():
             return self[(len(self.cells)-1)].A
 
         return self[index].A
-    
+
     def A_r(self, index):
         "Area no centro da célula a direita"
         return self.A(index+1)
-        
-    def A_l(self,index):
+
+    def A_l(self, index):
         "Area no centro da célula a esquerda"
         return self.A(index-1)
-        
+
     def A_rh(self, index):
         "Area na face direita da célula"
         return (self.A(index) + self.A_r(index))/2
-        
+
     def A_lh(self, index):
         "Area na face esquerda da célula"
         return (self.A_l(index) + self.A(index))/2
@@ -65,14 +65,22 @@ class GridFluid():
             return self[(len(self.cells)-1)].dx
 
         return self[index].dx
-        
+
     def dx_r(self, index):
         "Delta_x no centro da celula direita."
         return self.dx(index+1)
-    
+
     def dx_l(self, index):
         "Delta_x no centro da celula esquerda."
         return self.dx(index-1)
+
+    def dx_rh(self, index):
+        "Delta_x na face direita da célula"
+        return (self.dx_r(index) + self.dx(index))/2
+
+    def dx_lh(self, index):
+        "Delta_x na face esquerda da célula."
+        return (self.dx(index) + self.dx_l(index))/2
 
     def rho(self, index):
         "densidade no Centro da célula"
@@ -83,19 +91,19 @@ class GridFluid():
             return self[(len(self.cells)-1)].rho
 
         return self[index].rho
-    
+
     def rho_r(self, index):
         "densidade no centro da celula a direita"
         return self.rho(index+1)
-    
+
     def rho_l(self, index):
         "densidade no centro da celula a esquerda"
         return self.rho(index-1)
-    
+
     def rho_rh(self, index):
         "densidade na face direita da celula"
         return (self.rho(index) + self.rho_r(index))/2
-    
+
     def rho_lh(self, index):
         "densidade na face esquerda da celula"
         return (self.rho_l(index) + self.rho(index))/2
@@ -109,19 +117,19 @@ class GridFluid():
             return self[(len(self.cells)-1)].mu
 
         return self[index].mu
-        
+
     def mu_r(self, index):
         "viscosidade no centro da célula a direita"
         return self.mu(index+1)
-    
+
     def mu_l(self, index):
         "viscosidade no centro da célula a esquerda"
         return self.mu(index-1)
-    
+
     def mu_rh(self, index):
         "viscosidade na face direita da célula"
         return (self.mu_r(index) + self.mu(index))/2
-        
+
     def mu_lh(self, index):
         "viscosidade na face esquerda da célula"
         return (self.mu(index) + self.mu_l(index))/2
@@ -149,15 +157,15 @@ class GridFluid():
     def v_lh(self, index):
         "velocidade na Face Esquerda da célula"
         return self.v_rh(index-1)
-        
+
     def v(self, index):
         "velocidade no centro da célula (CDS Interpolation Method)"
         return (self.v_lh(index) + self.v_rh(index))/2
-    
+
     def v_r(self, index):
         "velocidade no centro da célula direita (CDS Method)"
         return self.v(index + 1)
-    
+
     def v_l(self, index):
         "velocidade no centro da célula esquerda (CDS Method)"
         return self.v(index - 1)
@@ -177,19 +185,19 @@ class GridFluid():
                 return self[(len(self.cells)-1)].p
 
         return self[index].p
-        
+
     def p_r(self, index):
         "pressão no centro da célula direita."
         return self.p(index + 1)
-    
+
     def p_l(self, index):
         "pressão no centro da célula esquerda."
         return self.p(index - 1)
-        
+
     def p_rh(self, index):
         "pressâo na face direita da célula."
         return (self.p_r(index) + self.p(index))/2
-    
+
     def p_rl(self, index):
         "pressâo na face esquerda da célula."
         return (self.p(index) + self.p_l(index))/2
