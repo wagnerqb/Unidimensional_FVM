@@ -285,7 +285,7 @@ filename "Cap2-Equacao_Conveccao_Difusao.lyx"
 \align block
 \begin_inset CommandInset include
 LatexCommand include
-filename "Cap3-Acoplamento_Pressao_Velocidade.lyx"
+filename "Cap3-Algoritimo_SIMPLE_Pressao_Velocidade.lyx"
 
 \end_inset
 
