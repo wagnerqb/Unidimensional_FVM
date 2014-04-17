@@ -14,7 +14,7 @@ class Model_SIMPLE_CDS():
     """Classe de Modelo para Equações de Navier Stokes, utilizando
     o modelo SIMPLE para o acoplamento pressão velocidade, e o
     esquema CDS Central Discretization Scheme para interpolar a velocidade."""
-
+# CLASSE NAO CORRETA.
     def build_matrix_v(self, grid):
         "Classe que constrói a matrz de v* (previsão de velocidade)"
         cpoints = len(grid.cells)

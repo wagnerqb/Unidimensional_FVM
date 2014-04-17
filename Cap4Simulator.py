@@ -55,7 +55,7 @@ def run():
     print "Pipe Area  -->", Ar   
     print
 
-    for j in range(5):
+    for j in range(50):
         print "Iteration ", (j+1)
         #Construindo Matrix Inicial do Sistema
         A = np.matrix(model.build_Jacobian_matrix(grid))
@@ -80,9 +80,9 @@ def run():
             print "NEW P --> ", newp
             grid.set_p(i, newp)
             
-            newv = (grid.v_r(i) + x[2*i + 1])
+            newv = (grid.v_rh(i) + x[2*i + 1])
             print "NEW v --> ", newv
-            grid.set_v_r(i, newv)
+            grid.set_v_rh(i, newv)
         print
 #    grid.print_phi()
 #

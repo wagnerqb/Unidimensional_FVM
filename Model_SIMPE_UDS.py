@@ -126,8 +126,8 @@ class Model_SIMPLE_UDS():
             else:
                 d[i] = A_rh/(A_r*rho_r*v_r)
             
-        print "d --> ", d
-        print
+#        print "d --> ", d
+#        print
             
         for i in range(1, n):
             
@@ -168,9 +168,31 @@ class Model_SIMPLE_UDS():
                 p_matrix[i-1][i] = ar
         
         return p_matrix
-
-            
         
+    def build_coef_vector_p(self, grid, v_prev):
+        "Classe que constroi o vetor de coeficientes da correcao da pressao."
+        #classe que constroi o vetor que será resolvido pelo solver
+        n = len(v_prev)
+        bp = np.zeros(n-1)
+        
+
+        for i in range(1, n):
+            A_lh = grid.A_lh(i)
+            A_rh = grid.A_rh(i)
+            rho_lh = grid.rho_lh(i)
+            rho_rh = grid.rho_rh(i)
+            
+            bp[i-1] = A_rh*rho_rh*v_prev[i] - A_lh*rho_lh*v_prev[i-1]
+#            print "bp ---> ", bp[i-1]
+
+        #Condicao de Contorno a Esquerda
+        #Automatica (REVER)
+
+        #Condicao de Contorno a Direita
+        #Automatica (REVER)
+
+        return bp
+    
 
     #Funções de Interpolacao
     def center_scheme(self, leftprop, rightprop):
@@ -198,10 +220,16 @@ if __name__ == '__main__':
     print "\n p: \n", v
     print
     
-    Ap = modelCD.build_matrix_p(gridteste, v)    
-#    b = []
+    Ap = modelCD.build_matrix_p(gridteste, v)
+    Bp = modelCD.build_coef_vector_p(gridteste, v)    
+    Rp = (np.matrix(Ap).I*np.matrix(Bp).T).A1
+
     
     print "\n Ap: \n", Ap
     print
     
+    print "\n Bp: \n", Bp
+    print
+    
+    print "\n Rp: \n", Rp
 
