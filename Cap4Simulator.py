@@ -23,11 +23,11 @@ def run():
     # Fluid properties
     rho = 999                 # Fluid density
     mu = 1E-3*rho               # Fluid viscosity
-    msrc = 0                # Mass Source term per volume unity
+    msrc = 0.               # Mass Source term per volume unity
 
     # Initial properties
-    v_ini = 0               # Initial Condition for v
-    p_ini = 0               # Initial Condition for p
+    v_ini = 5               # Initial Condition for v
+    p_ini = 15000               # Initial Condition for p
 
     # Boundary Condition
     # Left Boundary Condtion
@@ -36,7 +36,7 @@ def run():
 
     # Right Boundary Condtion
     rbc_t = 0               # LBC Type (0 - Pressure / 1 - Velocity)
-    rbc = 10                 # LBC Value
+    rbc = 0                 # LBC Value
 
     # Calculated Values
     Ar = np.pi*r*r           # Pipe Area
@@ -49,7 +49,7 @@ def run():
     model = Model_COUPLE_CDS()
 
     for i in range(ncells):
-        grid.add_cell(Ar, dx, rho, mu, v_ini, p_ini)
+        grid.add_cell(Ar, dx, rho, mu, v_ini, p_ini-p_ini/ncells*i)
 
     print "Initial Reynolds Number -->", Re
     print "Pipe Area  -->", Ar
