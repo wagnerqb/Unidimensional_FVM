@@ -39,9 +39,25 @@ class GridFluid():
             return self[(len(self.cells)-1)].A
 
         return self[index].A
+    
+    def A_r(self, index):
+        "Area no centro da célula a direita"
+        return self.A(index+1)
+        
+    def A_l(self,index):
+        "Area no centro da célula a esquerda"
+        return self.A(index-1)
+        
+    def A_rh(self, index):
+        "Area na face direita da célula"
+        return (self.A(index) + self.A_r(index))/2
+        
+    def A_lh(self, index):
+        "Area na face esquerda da célula"
+        return (self.A_l(index) + self.A(index))/2
 
     def dx(self, index):
-        "Delta_x da celula index."
+        "Delta_x no centro da celula index."
         if (index < 0):
             return self[0].dx
 
@@ -49,6 +65,14 @@ class GridFluid():
             return self[(len(self.cells)-1)].dx
 
         return self[index].dx
+        
+    def dx_r(self, index):
+        "Delta_x no centro da celula direita."
+        return self.dx(index+1)
+    
+    def dx_l(self, index):
+        "Delta_x no centro da celula esquerda."
+        return self.dx(index-1)
 
     def rho(self, index):
         "densidade no Centro da célula"
@@ -59,9 +83,25 @@ class GridFluid():
             return self[(len(self.cells)-1)].rho
 
         return self[index].rho
+    
+    def rho_r(self, index):
+        "densidade no centro da celula a direita"
+        return self.rho(index+1)
+    
+    def rho_l(self, index):
+        "densidade no centro da celula a esquerda"
+        return self.rho(index-1)
+    
+    def rho_rh(self, index):
+        "densidade na face direita da celula"
+        return (self.rho(index) + self.rho_r(index))/2
+    
+    def rho_lh(self, index):
+        "densidade na face esquerda da celula"
+        return (self.rho_l(index) + self.rho(index))/2
 
     def mu(self, index):
-        "Delta_x da celula index."
+        "viscosidade da celula index."
         if (index < 0):
             return self[0].mu
 
@@ -69,36 +109,58 @@ class GridFluid():
             return self[(len(self.cells)-1)].mu
 
         return self[index].mu
+        
+    def mu_r(self, index):
+        "viscosidade no centro da célula a direita"
+        return self.mu(index+1)
+    
+    def mu_l(self, index):
+        "viscosidade no centro da célula a esquerda"
+        return self.mu(index-1)
+    
+    def mu_rh(self, index):
+        "viscosidade na face direita da célula"
+        return (self.mu_r(index) + self.mu(index))/2
+        
+    def mu_lh(self, index):
+        "viscosidade na face esquerda da célula"
+        return (self.mu(index) + self.mu_l(index))/2
 
-    def v_r(self, index):
+    def v_rh(self, index):
         "velocidade na Face Direita da célula"
         if (index < 0):
             if (self.lbc_t == 0):
-                return self[0].v_r
+                return self[0].v_rh
             else:
                 return self.lbc
 
         if (index > (len(self.cells)-1)):
             if (self.rbc_t == 0):
-                return self[(len(self.cells)-1)].v_r
+                return self[(len(self.cells)-1)].v_rh
             else:
                 return self.rbc
 
-        return self[index].v_r
+        return self[index].v_rh
 
-    def set_v_r(self, index, _v_r):
+    def set_v_rh(self, index, _v_r):
         "Atribui a velocidade na face direita da célula"
         self[index].v_r = _v_r
 
-    def v_l(self, index):
+    def v_lh(self, index):
         "velocidade na Face Esquerda da célula"
-        if (index <= 0):
-            return self[0].v_r
-
-        if (index > (len(self.cells)-1)):
-            return self[(len(self.cells)-1)].v_r
-
-        return self[index-1].v_r
+        return self.v_rh(index-1)
+        
+    def v(self, index):
+        "velocidade no centro da célula (CDS Interpolation Method)"
+        return (self.v_lh(index) + self.v_rh(index))/2
+    
+    def v_r(self, index):
+        "velocidade no centro da célula direita (CDS Method)"
+        return self.v(index + 1)
+    
+    def v_l(self, index):
+        "velocidade no centro da célula esquerda (CDS Method)"
+        return self.v(index - 1)
 
     def p(self, index):
         "pressão no Centro da célula"
@@ -182,20 +244,20 @@ if __name__ == '__main__':
     print grid.mu(2)
     print
 
-    print "Teste v_r"
-    print grid.v_r(-1)
-    print grid.v_r(0)
-    print grid.v_r(1)
-    print grid.v_r(2)
-    print grid.v_r(3)
+    print "Teste v_hr"
+    print grid.v_rh(-1)
+    print grid.v_rh(0)
+    print grid.v_rh(1)
+    print grid.v_rh(2)
+    print grid.v_rh(3)
     print
 
-    print "Teste v_l"
-    print grid.v_l(-1)
-    print grid.v_l(0)
-    print grid.v_l(1)
-    print grid.v_l(2)
-    print grid.v_l(3)
+    print "Teste v_lh"
+    print grid.v_lh(-1)
+    print grid.v_lh(0)
+    print grid.v_lh(1)
+    print grid.v_lh(2)
+    print grid.v_lh(3)
     print
 
     print "Teste p"

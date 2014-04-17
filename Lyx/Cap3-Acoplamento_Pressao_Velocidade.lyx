@@ -677,6 +677,17 @@ v'_{k}=-\frac{\left(A\Delta x\right)_{k-\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_
 
 \begin_layout Standard
 Assim a velocidade real pode ser escrita como:
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+OUTRO PONTO DE ERRO.
+ ESSA VELOCIDADE DEVERIA SER NA FACE.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -688,6 +699,24 @@ v_{k}=v_{k}^{*}-\frac{\left(A\Delta x\right)_{k-\frac{1}{2}}}{\frac{1}{2}\left(\
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+PONTO DO ERRO, DEVERIA DISCRETIZAR AO REDOR DO PONTO 
+\begin_inset Formula $k$
+\end_inset
+
+.
+ !!!
+\end_layout
+
+\end_inset
+
+?? ERRO
 \end_layout
 
 \begin_layout Standard
@@ -808,12 +837,23 @@ onde:
 
 \begin_layout Standard
 \begin_inset Note Note
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Formula 
 \begin{equation}
-a_{l}=\frac{\left(A\rho\right)_{k+1}\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)\left(A\rho v^{*}\right)_{k+1}}
+a_{l}=\frac{\left(A\rho\right)_{k}\left(A\Delta x\right)_{k-\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)\left(A\rho v^{*}\right)_{k}}=\left(A\rho\right)_{k}d_{k-1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{equation}
+a_{r}=\frac{\left(A\rho\right)_{k+1}\left(A\Delta x\right)_{k+\frac{1}{2}}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)\left(A\rho v^{*}\right)_{k+1}}=\left(A\rho\right)_{k+1}d_{k+1}
 \end{equation}
 
 \end_inset
@@ -829,7 +869,7 @@ a_{l}=\frac{\left(A\rho\right)_{k+1}\left(A\Delta x\right)_{k+\frac{1}{2}}}{\fra
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-a_{r}=\frac{A_{k+\frac{1}{2}}}{v^{*}_{k+1}}
+a_{r}=\frac{A_{k+\frac{1}{2}}}{v_{k+1}^{*}}
 \end{equation}
 
 \end_inset
@@ -840,7 +880,7 @@ a_{r}=\frac{A_{k+\frac{1}{2}}}{v^{*}_{k+1}}
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-a_{l}=\frac{A_{k-\frac{1}{2}}}{v^{*}_{k}}
+a_{l}=\frac{A_{k-\frac{1}{2}}}{v_{k}^{*}}
 \end{equation}
 
 \end_inset
