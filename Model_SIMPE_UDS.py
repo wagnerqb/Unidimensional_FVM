@@ -100,40 +100,14 @@ class Model_SIMPLE_UDS():
         "Classe que constrói a matrz de p' (previsão de velocidade)"
         n = len(v_prev)
         p_matrix = np.zeros((n-1, n-1))
-        d = [0]*4
+  
         
-        for i in range(n):
-            v_r = grid.v_r(i)
-            v_rh = grid.v_rh(i)
-            v_lh = grid.v_lh(i)
-            A_rh = grid.A_rh(i)
-            A_lh = grid.A_lh(i)
-            A_r = grid.A_r(i)
-            A = grid.A(i)
-            rho = grid.rho(i)
-            rho_r = grid.rho_r(i)
-            rho_lh = grid.rho_lh(i)
-            rho_rh = grid.rho_rh(i)
-            
-            if (i == 0):          
-#                Termo da pressão de estagnaçao. RETIRAR FUTURO
-                t = rho_lh*(v_rh*A_rh/A)*A_lh*0.5*(A_rh*A_rh)/(A*A)
-                d[i] = A_rh/(A_r*rho_r*v_r + t) 
-            elif (i == 3):
-#                Termo de Direita. REVISAR NO FUTURO
-                d[i] = A_rh/(A_rh*rho_rh*v_rh)
-                
-            else:
-                d[i] = A_rh/(A_r*rho_r*v_r)
-            
-#        print "d --> ", d
-#        print
-            
         for i in range(1, n):
-            
             v_r = grid.v_r(i)
+            v = grid.v(i)
             v_rh = grid.v_rh(i)
             v_lh = grid.v_lh(i)
+            A_l = grid.A_l(i)
             A_rh = grid.A_rh(i)
             A_lh = grid.A_lh(i)
             A_r = grid.A_r(i)
@@ -143,30 +117,40 @@ class Model_SIMPLE_UDS():
             rho_lh = grid.rho_lh(i)
             rho_rh = grid.rho_rh(i)
             
-             #Filling Matrix
-            if i == 1:
-                al = A_lh*rho_lh*d[i-1]
-                ar = A_rh*rho_rh*d[i]
+            if (i == 1):          
+#                Termo da pressão de estagnaçao. RETIRAR FUTURO
+                t = rho_lh*(v_lh*A_lh/A_l)*A_l*0.5*(A_lh*A_lh)/(A_l*A_l)
+                dl = A_lh/(A*rho*v + t)
+                dr = A_rh/(A_r*rho_r*v_r)
+                al = A_lh*rho_lh*dl
+                ar = A_rh*rho_rh*dr
                 ac = - al - ar
-                
                 p_matrix[i-1][i-1] = ac
                 p_matrix[i-1][i] = ar
-            elif i == (n-1):
-                al = A_lh*rho_lh*d[i-1]
-                ar = A_rh*rho_rh*d[i]
-                ac = - al - ar
                 
-                p_matrix[i-1][i-2] = al
-                p_matrix[i-1][i-1] = ac
+            elif (i == (n - 1)):
+#                Termo de Direita. REVISAR NO FUTURO
+                #Roubei esse termo devido a condiçao de pressão/pressão
+                dl = A_lh/(A*rho*v)
+                dr = A_rh/(A_rh*rho_r*v_rh)
+                al = A_lh*rho_lh*dl
+                ar = A_rh*rho_rh*dr
+                ac = - al - ar
+                p_matrix[n-2][n-3] = al
+                p_matrix[n-2][n-2] = ac
+#                p_matrix[n-1][i] = ar
+                
             else:
-                al = A_lh*rho_lh*d[i-1]
-                ar = A_rh*rho_rh*d[i]
+                dl = A_lh/(A*rho*v)
+                dr = A_rh/(A_r*rho_r*v_r)
+                al = A_lh*rho_lh*dl
+                ar = A_rh*rho_rh*dr
                 ac = - al - ar
-                
                 p_matrix[i-1][i-2] = al
                 p_matrix[i-1][i-1] = ac
                 p_matrix[i-1][i] = ar
-        
+
+                
         return p_matrix
         
     def build_coef_vector_p(self, grid, v_prev):
@@ -227,7 +211,7 @@ if __name__ == '__main__':
     
     print "\n Ap: \n", Ap
     print
-    
+
     print "\n Bp: \n", Bp
     print
     
