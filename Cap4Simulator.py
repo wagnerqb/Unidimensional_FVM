@@ -17,7 +17,7 @@ def run():
 
     # Pipe properties
     r = 0.1                 # Pipe radius
-    dx = 0.2                # Discretization lenght delta_x
+    dx = 0.05               # Discretization lenght delta_x
     ncells = 3              # Number of cells in domai
 
     # Fluid properties
@@ -55,7 +55,7 @@ def run():
     print "Pipe Area  -->", Ar   
     print
 
-    for j in range(5):
+    for j in range(20):
         print "Iteration ", (j+1)
         #Construindo Matrix Inicial do Sistema
         A = np.matrix(model.build_Jacobian_matrix(grid))
