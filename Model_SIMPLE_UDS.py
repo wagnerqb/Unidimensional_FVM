@@ -15,6 +15,12 @@ class Model_SIMPLE_UDS():
     """Classe de Modelo para Equações de Navier Stokes, utilizando
     o modelo SIMPLE para o acoplamento pressão velocidade, e o
     esquema UDS Central Discretization Scheme para interpolar a velocidade."""
+    
+    def __init__(self, p_relax, v_relax):
+        "Construtor do modelo UDS"
+        
+        self.p_relax = p_relax            # Pressure Relaxation Factor
+        self.v_relax = v_relax            # Velocity Relaxation Factor
 
     def build_matrix_v(self, grid):
         "Classe que constrói a matrz de v* (previsão de velocidade)"
@@ -36,7 +42,7 @@ class Model_SIMPLE_UDS():
             ac_k = A*rho*v
             ad_k = (A*mu)/dx
             ac_kr = A_r*rho_r*v_r
-            ad_kr = A_r*mu_r/dx_r
+            ad_kr = (A_r*mu_r)/dx_r
 
             ##  Velocidades Positivas  ##
             if (grid.v_rh(i) >= 0):
@@ -58,7 +64,6 @@ class Model_SIMPLE_UDS():
             elif i == (cpoints - 1):
                 v_matrix[i][i-1] = a_vl
                 v_matrix[i][i] = a_vc
-                print
 
             else:
                 v_matrix[i][i-1] = a_vl
@@ -117,9 +122,6 @@ class Model_SIMPLE_UDS():
         for i in range(n):
             v_r = grid.v_r(i)
             v = grid.v(i)
-#            v_rh = grid.v_rh(i)
-#            v_lh = grid.v_lh(i)
-#            A_l = grid.A_l(i)
             A_rh = grid.A_rh(i)
             A_rrh = grid.A_rh(i+1)
             A_lh = grid.A_lh(i)
@@ -175,49 +177,70 @@ class Model_SIMPLE_UDS():
             dx_r = grid.dx_r(i)
             v = grid.v(i)
             v_r = grid.v_r(i)
-            
-            msrc = grid.msrc
-            
-            if (grid.v_r(i) >= 0):
-                RHS = - (A*dx*msrc) + A_rh*rho_rh*v_r
-                RHS +=  - A_lh*rho_lh*v
-            else:
-                RHS = - (A_r*dx_r*msrc) + A_rrh*rho_rrh*v_r
-                RHS +=  - A_rh*rho_rh*v
-                
 
-            bp[i] = RHS
+            msrc = grid.msrc
+
+            if (grid.v_r(i) >= 0):
+                rhs = - (A*dx*msrc) + (A_rh*rho_rh*v_r)
+                rhs += - (A_lh*rho_lh*v)
+            else:
+                rhs = - (A_r*dx_r*msrc) + (A_rrh*rho_rrh*v_r)
+                rhs += - (A_rh*rho_rh*v)
+
+            bp[i] = rhs
 
         #Condicao de Contorno a Esquerda
-        #Automatica (REVER)
+        #Automatica
 
         #Condicao de Contorno a Direita
-        #Automatica (REVER)
+        #Automatica
 
         return bp
+
+    def set_guess_v(self, grid, v_guess):
+        """Funcao que atualiza o campo de velocidades do escoamento,
+        de acordo com a previsao de velocidades."""
+        n = len(grid.cells)
+        
+        for i in range(n):
+            v_old = grid.v_rh(i)
+            v_new = (1 - self.v_relax)*v_old + self.v_relax*v_guess[i]
+            
+            grid.set_v_rh(i, v_new)
+            
         
     def correct_p(self, grid, dp):
         "Funcao que corrige os valores de p na celula de acordo com p'."
         n = len(grid.cells)
 
         for i in range(n):
-            grid.set_p(i, grid.p(i) + dp[i])
+            p_old = grid.p(i)
+            p_calc = grid.p(i) + dp[i]
+            p_new = (1 - self.p_relax)*p_old + self.p_relax*p_calc
+            grid.set_p(i, p_new)
             
     def correct_v_rh(self, grid, dp):
         "Funcao que corrige as velocidas na celula de acordo com p'."
         n = len(grid.cells)
         
         for i in range(n):
+
             A_lh = grid.A_lh(i)
             A = grid.A(i)
             rho = grid.rho(i)
             v = grid.v(i)
-            
+
             coef = A_lh/(A*rho*v)
+            v_old = grid.v_rh(i)
+
             if (i == 0):
-                grid.set_v_rh(i, - coef*dp[i])
+                v_calc = grid.v_rh(i) - coef*dp[i]
+
             else:
-                grid.set_v_rh(i, - coef*(dp[i] - dp[i-1]))
+                v_calc = grid.v_rh(i) - coef*(dp[i] - dp[i-1])
+
+            v_new = (1 - self.v_relax)*v_old + self.v_relax*v_calc
+            grid.set_v_rh(i, v_new)
 
     #Funções de Interpolacao
     def center_scheme(self, leftprop, rightprop):
@@ -234,7 +257,7 @@ if __name__ == '__main__':
         Ai = 0.45 - 0.1*i
         gridteste.add_cell(A=A, dx=0.5, rho=1, mu=0, v_r=1/Ai, p=10-2.5*(i))
 
-    modelCD = Model_SIMPLE_UDS()
+    modelCD = Model_SIMPLE_UDS(1, 1)
 
     A = modelCD.build_matrix_v(gridteste)
     b = modelCD.build_coef_vector_v(gridteste)

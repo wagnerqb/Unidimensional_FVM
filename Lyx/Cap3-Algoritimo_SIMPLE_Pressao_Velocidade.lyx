@@ -1806,7 +1806,7 @@ O método UDS é recomendado para escoamentos com altos valores do número
 \end_inset
 
 , o termo 
-\begin_inset Formula $\phi_{k+\frac{1}{2}}$
+\begin_inset Formula $\phi_{k}$
 \end_inset
 
  pode ser expresso como:
@@ -1815,7 +1815,7 @@ O método UDS é recomendado para escoamentos com altos valores do número
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\phi_{k+\frac{1}{2}}=\phi_{k},\:\:\: v_{k}\geq0
+\phi_{k}=\phi_{k-\frac{1}{2}},\:\:\: v_{k}\geq0
 \end{equation}
 
 \end_inset
@@ -1826,37 +1826,7 @@ O método UDS é recomendado para escoamentos com altos valores do número
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\phi_{k+\frac{1}{2}}=\phi_{k+1},\:\:\: v_{k}<0
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Já o termo 
-\begin_inset Formula $\phi_{k-\frac{1}{2}}$
-\end_inset
-
- pode ser expresso como:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-\phi_{k-\frac{1}{2}}=\phi_{k-1},\:\:\: v_{k}\geq0
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-\phi_{k-\frac{1}{2}}=\phi_{k},\:\:\: v_{k}<0
+\phi_{k}=\phi_{k+\frac{1}{2}},\:\:\: v_{k}<0
 \end{equation}
 
 \end_inset
@@ -1885,7 +1855,7 @@ Velocidades Positivas (
 \end_layout
 
 \begin_layout Standard
-Rearranjando:
+Rearranjando e desprezando o termo fonte:
 \end_layout
 
 \begin_layout Standard
