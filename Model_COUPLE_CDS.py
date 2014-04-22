@@ -130,9 +130,9 @@ class Model_COUPLE_CDS():
 
     #Vetor de Resíduos
     def build_Residual_Vector(self, grid):
-        #classe que constrói o vetor de resíduosque será resolvido pelo solver
-        #Observa-se que o vetor de resíduos possui sinal positivo, devendo
-        #ser multiplicado por -1 na hora de resolver o sistema
+        '''Constrói o vetor de resíduosque será resolvido pelo solver.
+        Observa-se que o vetor de resíduos possui sinal positivo, devendo
+        ser multiplicado por -1 na hora de resolver o sistema'''
 
         cpoints = len(grid.cells)
         R = np.zeros(2*cpoints)
@@ -151,7 +151,7 @@ class Model_COUPLE_CDS():
             mu_r = grid.mu_r(i)
             dx = grid.dx(i)
             dx_r = grid.dx_r(i)
-            dx_rh = self.center_scheme(grid.dx(i), grid.dx(i+1))
+            #dx_rh = self.center_scheme(grid.dx(i), grid.dx(i+1))
             v = grid.v(i)
             v_r = grid.v_r(i)
             v_lh = grid.v_lh(i)
@@ -160,10 +160,10 @@ class Model_COUPLE_CDS():
             p = grid.p(i)
             p_r = grid.p_r(i)
             msrc = grid.msrc
-            
+
             # Mass Residual
             R_mass = (A_rh*rho_rh*v_rh) - (A_lh*rho_lh*v_lh) - A*msrc*dx
-            
+
             # Momentum residual
             R_mom = (A_r*rho_r*v_r*v_r) - (A*rho*v*v)
             R_mom += A_rh*(p_r-p)  # 2*(A_rh*dx_rh)*(p_r-p)/(dx_r + dx)
@@ -185,9 +185,9 @@ if __name__ == '__main__':
 
     from GridFluid import *
 
-    gridteste = GridFluid(0, 150, 1, 20, 0)
+    gridteste = GridFluid(1, 15, 0, 20, 0)
     for i in range(4):
-        gridteste.add_cell(A=0.1, dx=0.01, rho=1, mu=1, v_r=10, p=100)
+        gridteste.add_cell(A=0.3, dx=0.1, rho=1, mu=1, v_r=1, p=10)
 
     modelCD = Model_COUPLE_CDS()
 
@@ -200,7 +200,7 @@ if __name__ == '__main__':
     print
     
     x = (np.matrix(A).I*np.matrix(R).T).A1
-    p = x[::2]
-    v = x[1::2]
-    print 'dv:', v
-    print 'dp:', p
+    dp = x[::2]
+    dv = x[1::2]
+    print 'dv:', dv
+    print 'dp:', dp
