@@ -261,15 +261,28 @@ class GridFluid():
     def get_all_p(self):
         """Retorna um vetor com a pressão de todas as celulas, inclusive as
         condicoes de contorno."""
-        cpoints = len(self.cells)
-        all_P = np.zeros(cpoints+2)
+        all_P = np.zeros(self.n+2)
 
         all_P[0] = self.lbc
-        for i in range(cpoints):
+        for i in range(self.n):
             all_T[i+1] = self[i].p
-        all_T[cpoints+1] = self.rbc
+        all_T[self.n+1] = self.rbc
 
         return all_P
+
+    def get_p(self):
+        """Retorna um vetor com a pressão de todas as celulas."""
+        p = []
+        for i in range(self.n):
+            p.append(self[i].p)
+        return np.array(p)
+
+    def get_v_rh(self):
+        """Retorna um vetor com a velocidade de todas as celulas."""
+        v_rh = []
+        for i in range(self.n):
+            v_rh.append(self[i].v_rh)
+        return np.array(v_rh)
 
     def extrapolation(self, x1, y1, x2, y2, x):
         """Função que interpola uma reta que passa pelos pontos (x1,y1) e
