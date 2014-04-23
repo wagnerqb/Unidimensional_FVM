@@ -94,7 +94,7 @@
 \begin_body
 
 \begin_layout Chapter
-Acoplamento entre Pressão e Velocidade - Equação de Navier-Stokes
+Algorítimo SIMPLE - Equação de Navier-Stokes com formulação semi-implicit
 \begin_inset Index idx
 status open
 
@@ -107,7 +107,7 @@ Introdução
 
 \begin_inset CommandInset label
 LatexCommand label
-name "cha:Acoplamento_P_V"
+name "cha:Acoplamento_P_V_SIMPLE"
 
 \end_inset
 

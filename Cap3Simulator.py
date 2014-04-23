@@ -9,7 +9,7 @@
 
 from __future__ import division
 import numpy as np
-from GridFluid import *
+from GridFluid_SIMPLE import *
 from Model_SIMPLE_UDS import *
 
 
@@ -18,7 +18,7 @@ def run():
     # Pipe properties
     r = 0.1                 # Pipe radius
     dx = 0.1                # Discretization lenght delta_x
-    ncells = 100              # Number of cells in domai
+    ncells = 10              # Number of cells in domai
 
     # Fluid properties
     rho = 1                 # Fluid density
@@ -47,7 +47,7 @@ def run():
 #    Re = rho*v_ini*2*r/mu       # Reynolds Number
 
     # Creating Grid
-    grid = GridFluid(lbc_t, lbc, rbc_t, rbc, msrc)
+    grid = GridFluid_SIMPLE(lbc_t, lbc, rbc_t, rbc, msrc)
 
     # Creating Model
     model = Model_SIMPLE_UDS(p_relax, v_relax)
@@ -59,7 +59,7 @@ def run():
     print "Pipe Area  -->", Ar
     print
 
-    for j in range(5):
+    for j in range(50):
         print "Iteration ", (j+1)
 
         #Construindo Matrix Previsão de Velocidade do Sistema
@@ -81,10 +81,9 @@ def run():
 
 #        Atribuindo os resultados de velocidade
         model.set_guess_v(grid, xv)
-        
-        for i in range(ncells):
-            print "NEW v --> ", grid.v_rh(i)
 
+#        for i in range(ncells):
+#            print "NEW v --> ", grid.v_rh(i)
 
         #Construindo a Matriz de correção de pressão do sistema
         Ap = np.matrix(model.build_matrix_p(grid))
@@ -105,12 +104,12 @@ def run():
 
         model.correct_p(grid, Rp)
         model.correct_v_rh(grid, Rp)
-        
+
         print " --- NEW p --- "
         for i in range(len(grid.cells)):
             print grid.p(i)
         print
-        
+
         print " --- NEW v_r --- "
         for i in range(len(grid.cells)):
             print grid.v_r(i)

@@ -215,8 +215,9 @@ class Model_SIMPLE_UDS():
 
         for i in range(n):
             p_old = grid.p(i)
-            p_calc = grid.p(i) + dp[i]
-            p_new = (1 - self.p_relax)*p_old + self.p_relax*p_calc
+#            p_calc = grid.p(i) + dp[i]
+#            p_new = (1 - self.p_relax)*p_old + self.p_relax*p_calc
+            p_new = p_old + self.p_relax*dp[i]
             grid.set_p(i, p_new)
             
     def correct_v_rh(self, grid, dp):
@@ -249,9 +250,9 @@ class Model_SIMPLE_UDS():
 
 if __name__ == '__main__':
 
-    from GridFluid import *
+    from GridFluid_SIMPLE import *
 
-    gridteste = GridFluid(0, 10, 0, 0, 0)
+    gridteste = GridFluid_SIMPLE(0, 10, 0, 0, 0)
     for i in range(5):
         A = 0.5 - 0.1*(i)
         Ai = 0.45 - 0.1*i

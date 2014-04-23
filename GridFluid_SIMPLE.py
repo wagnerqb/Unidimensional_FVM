@@ -3,14 +3,14 @@
 @author: Wagner Queiroz Barros
 @date:   Tue Apr 15 10:36:55 2014
 @email:  wagnerqb@gmail.com
-@brief:  GridFluid class, used to store cell data in Fluid Flow Problems
+@brief:  GridFluid_SIMPLE class, used to store cell data in Fluid Flow Problems
 """
 from __future__ import division
 from Cell import *
 
 
-class GridFluid():
-    "Classe grid fluido, utilizado na resolução das equações de Navier-Stokes"
+class GridFluid_SIMPLE():
+    "Classe grid fluido para o método SIMPLE, utilizado na resolução das equações de Navier-Stokes"
 
     def __init__(self, lbc_t, lbc, rbc_t, rbc, msrc):
             #Atributos
@@ -239,7 +239,7 @@ class GridFluid():
 
 if __name__ == '__main__':
 
-    grid = GridFluid(1, 200, 0, 500, 0)
+    grid = GridFluid_SIMPLE(1, 200, 0, 500, 0)
     grid.add_cell(A=0.001, dx=0.1, rho=1000, mu=1, v_r=10, p=100)
     grid.add_cell(A=0.002, dx=0.2, rho=2000, mu=2, v_r=20, p=200)
     grid.add_cell(A=0.003, dx=0.3, rho=3000, mu=3, v_r=30, p=300)
