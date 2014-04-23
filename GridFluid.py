@@ -6,6 +6,7 @@
 @brief:  GridFluid class, used to store cell data in Fluid Flow Problems
 """
 from __future__ import division
+import numpy as np
 from Cell import *
 
 
@@ -20,23 +21,33 @@ class GridFluid():
             self.rbc_t = rbc_t          # Right Bounday Type
             self.rbc = rbc              # Right Boundary Condition
             self.msrc = msrc            # Mass Source Term
+            self.n = 0
+            self.extrapolar = self.extrapolation   
 
     def __getitem__(self, index):
         "Sobrecarga do operador [ ]"
         return self.cells[index]
 
-    #Métodos
     def add_cell(self, A, dx, rho, mu, v_r, p):
         "Adiciona uma celula no grid."
         self.cells.append(CellFluid(A, dx, rho, mu, v_r, p))
+        self.n += 1
 
     def A(self, index):
         "Area no Centro da célula"
         if (index < 0):
-            return self[0].A
+            # Sem extrapolação
+            #return self[0].A
 
-        if (index > (len(self.cells)-1)):
-            return self[(len(self.cells)-1)].A
+            # Com extrapolação
+            return self.extrapolation_l(self[0].A, self[1].A)
+
+        if (index > self.n-1):
+            # Sem extrapolação
+            #return self[(len(self.cells)-1)].A
+
+            # Com extrapolação
+            return self.extrapolation_r(self[-2].A, self[-1].A)
 
         return self[index].A
 
@@ -61,8 +72,8 @@ class GridFluid():
         if (index < 0):
             return self[0].dx
 
-        if (index > (len(self.cells)-1)):
-            return self[(len(self.cells)-1)].dx
+        if (index > self.n-1):
+            return self[self.n-1].dx
 
         return self[index].dx
 
@@ -87,8 +98,8 @@ class GridFluid():
         if (index < 0):
             return self[0].rho
 
-        if (index > (len(self.cells)-1)):
-            return self[(len(self.cells)-1)].rho
+        if (index > self.n-1):
+            return self[self.n-1].rho
 
         return self[index].rho
 
@@ -113,8 +124,8 @@ class GridFluid():
         if (index < 0):
             return self[0].mu
 
-        if (index > (len(self.cells)-1)):
-            return self[(len(self.cells)-1)].mu
+        if (index > self.n-1):
+            return self[self.n-1].mu
 
         return self[index].mu
 
@@ -138,13 +149,28 @@ class GridFluid():
         "velocidade na Face Direita da célula"
         if (index < 0):
             if (self.lbc_t == 0):
-                return self[0].v_rh
+                # Sem extrapolação
+                #return self[0].v_rh
+
+                #TIP: Não foi testado ########################################
+
+                # Com extrapolação
+                A_lh = self.extrapolation_lh(self[0].A, self[1].A)
+                return self[0].v_r*self.A_rh(0)/A_lh
             else:
                 return self.lbc
-
-        if (index > (len(self.cells)-1)):
+        if (index > self.n-1):
             if (self.rbc_t == 0):
-                return self[(len(self.cells)-1)].v_rh
+                # Sem extrapolação
+                #return self[n-1].v_rh
+
+                # Com extrapolação
+                A_rrh = self.extrapolation_rrh(self[-2].A, self[-1].A)
+                ##Area interpolada dentro do tubo e considerada constante fora
+                return self[-1].v_rh*self.A_r(self.n-1)/A_rrh
+                
+                ##Area interpolada dentro e fora do tubo
+                # return self[-1].v_rh*self.A_rh(self.n-1)/A_rrh
             else:
                 return self.rbc
 
@@ -176,13 +202,21 @@ class GridFluid():
             if (self.lbc_t == 0):
                 return self.lbc
             else:
-                return self[0].p
+                # Sem extrapolação
+                #return self[0].p
 
-        if (index > (len(self.cells)-1)):
+                # Com extrapolação
+                return self.extrapolation_l(self[0].p, self[1].p)
+
+        if index > self.n-1:
             if (self.rbc_t == 0):
                 return self.rbc
             else:
-                return self[(len(self.cells)-1)].p
+                # Sem extrapolação
+                #return self[(len(self.cells)-1)].p
+
+                # Com extrapolação
+                return self.extrapolation_r(self[-2].p, self[-1].p)
 
         return self[index].p
 
@@ -225,8 +259,8 @@ class GridFluid():
         return all_x
 
     def get_all_p(self):
-        "Retorna um vetor com a pressão de todas as celulas, inclusive as"
-        "condicoes de contorno."
+        """Retorna um vetor com a pressão de todas as celulas, inclusive as
+        condicoes de contorno."""
         cpoints = len(self.cells)
         all_P = np.zeros(cpoints+2)
 
@@ -236,6 +270,41 @@ class GridFluid():
         all_T[cpoints+1] = self.rbc
 
         return all_P
+
+    def extrapolation(self, x1, y1, x2, y2, x):
+        """Função que interpola uma reta que passa pelos pontos (x1,y1) e
+        (x2,y2) no ponto x."""
+        return y1 + (x-x1)*(y2-y1)/(x2-x1)
+
+    def extrapolation_r(self, y1, y2):
+        """Função que extrapola uma propriedade y no bloco a direita."""
+        x1 = 0
+        x2 = self.dx_lh(self.n-1)
+        x = x2 + self.dx_rh(self.n-1)
+        return self.extrapolation(x1, y1, x2, y2, x)
+
+    def extrapolation_rrh(self, y1, y2):
+        """Função que extrapola uma propriedade y na face direita do vizinho a
+        direita."""
+        x1 = 0
+        x2 = self.dx_lh(self.n-1)
+        x = x2 + self.dx_rh(self.n-1) + 0.5*self.dx_r(self.n-1)
+        return self.extrapolation(x1, y1, x2, y2, x)
+
+    def extrapolation_l(self, y1, y2):
+        """Função que extrapola uma propriedade y no bloco a esquerda."""
+        x2 = 0
+        x1 = -self.dx_rh(0)
+        x = x1 - self.dx_lh(0)
+        return self.extrapolation(x1, y1, x2, y2, x)
+
+    def extrapolation_lh(self, y1, y2):
+        """Função que extrapola uma propriedade y na face direta do vizinho a
+        esquerda."""
+        x2 = 0
+        x1 = -self.dx_rh(0)
+        x = x1 - self.dx(0)*0.5
+        return self.extrapolation(x1, y1, x2, y2, x)
 
 if __name__ == '__main__':
 
@@ -291,3 +360,5 @@ if __name__ == '__main__':
     print grid.p(2)
     print grid.p(3)
     print
+    
+    print grid.extrapolar(1,1,2,3,3)

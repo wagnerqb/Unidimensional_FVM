@@ -804,6 +804,28 @@ Utilizando o método UDS, as derivadas parciais das velocidades são calculadas
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+\frac{3}{2}}}=\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+1}}\frac{\partial v_{k+1}}{\partial v_{k+\frac{3}{2}}}=2v_{k+1}\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[v_{k+\frac{1}{2}}\right]=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(vv\right)_{k}}{\partial v_{k+\frac{3}{2}}}=\frac{\partial\left(vv\right)_{k}}{\partial v_{k}}\frac{\partial v_{k}}{\partial v_{k+\frac{3}{2}}}=2v_{k}\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[v_{k-\frac{1}{2}}\right]=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsubsection
 \begin_inset Formula $v_{k+\frac{1}{2}}<0$
 \end_inset
