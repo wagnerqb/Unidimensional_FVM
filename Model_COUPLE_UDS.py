@@ -1,5 +1,12 @@
 # -*- coding: iso-8859-1 -*-
 """
+@author: Bismarck Gomes Souza Junior
+@date:   Thu Apr 17 15:28:23 2014
+@email:  bismarckjunior@outlook.com
+@brief:  
+"""
+# -*- coding: iso-8859-1 -*-
+"""
 @author: Wagner Queiroz Barros
 @date:   Tue Apr 15 10:55:33 2014
 @email:  wagnerqb@gmail.com
