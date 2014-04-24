@@ -51,7 +51,7 @@ for i in range(ncells):
     A = b_ - (b_-a_)*(.5+i)/ncells
     grid.add_cell(A, dx, rho, mu, v_ini, p_ini)
 
-    #Calculando as soluções reais
+    #Calculando as soluções analíticas
     A_rh = b_ - (b_-a_)*(1+i)/ncells
     v_real.append(b_*lbc/A_rh)
     p_real.append(rbc+0.5*rho*(lbc*b_)**2*(1/a_**2-1/A**2))
