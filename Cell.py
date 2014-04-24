@@ -45,12 +45,12 @@ class CellFluid():
     "Classe Celula Fluida, Utlizada em Navier-Stokes"
 
     #Construtor com Atributos
-    def __init__(self, A, dx, rho, mu, v_r, p):
+    def __init__(self, A, dx, rho, mu, v_rh, p):
         self.A = A
         self.dx = dx
         self.rho = rho
         self.mu = mu
-        self.v_r = v_r
+        self.v_rh = v_rh
         self.p = p
 
 
@@ -83,5 +83,5 @@ if __name__ == '__main__':
     print cfld.dx
     print cfld.rho
     print cfld.mu
-    print cfld.v_r
+    print cfld.v_rh
     print cfld.p

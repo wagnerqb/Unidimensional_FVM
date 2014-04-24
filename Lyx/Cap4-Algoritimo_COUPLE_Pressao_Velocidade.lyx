@@ -153,7 +153,7 @@ reference "cha:Acoplamento_P_V"
 \end_layout
 
 \begin_layout Section
-Mátodo de Newton-Rapson
+Método de Newton-Rapson
 \end_layout
 
 \begin_layout Standard
@@ -164,7 +164,7 @@ A formulação implícita do problema será realizada utilizando-se o método
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-R_{k}^{\nu}+\sum_{j}^{NoBlocks}\frac{\partial R_{k}^{\nu}}{\partial x_{j}}\left(x_{j}^{\left(\nu+1\right)}-x_{j}^{\left(\nu\right)}\right)=0
+R_{k}^{\nu}+\sum_{j}^{N\: Equations}\frac{\partial R_{k}^{\nu}}{\partial x_{j}}\left(x_{j}^{\left(\nu+1\right)}-x_{j}^{\left(\nu\right)}\right)=0
 \end{equation}
 
 \end_inset
@@ -405,6 +405,17 @@ Derivada em relação ao bloco ao centro
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{p}}{\partial p_{k}}=-A_{k+\frac{1}{2}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsubsection
 Derivada em relação ao bloco a direita
 \end_layout
@@ -436,6 +447,30 @@ Derivada em relação ao bloco a direita
 \begin_inset Formula 
 \begin{equation}
 \frac{\partial R_{k}^{p}}{\partial p_{k+1}}=\frac{2\left(A\Delta x\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\lang english
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{p}}{\partial p_{k+1}}=A_{k+\frac{1}{2}}
 \end{equation}
 
 \end_inset
@@ -602,7 +637,7 @@ Utilizando o método CDS, as derivadas parciais das velocidades são calculadas
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+1}}\frac{\partial v_{k+1}}{\partial v_{k-\frac{1}{2}}}=0
+\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+1}}\frac{\partial v_{k+1}}{\partial v_{k-\frac{1}{2}}}=2v_{k+1}\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\frac{v_{k+\frac{3}{2}}+v_{k+\frac{1}{2}}}{2}\right]=0
 \end{equation}
 
 \end_inset
@@ -665,6 +700,28 @@ Utilizando o método CDS, as derivadas parciais das velocidades são calculadas
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(vv\right)_{k}}{\partial v_{k+\frac{3}{2}}}=\frac{\partial\left(vv\right)_{k}}{\partial v_{k}}\frac{\partial v_{k}}{\partial v_{k+\frac{3}{2}}}=2v_{k}\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[\frac{v_{k+\frac{1}{2}}+v_{k-\frac{1}{2}}}{2}\right]=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+\frac{3}{2}}}=\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+1}}\frac{\partial v_{k+1}}{\partial v_{k+\frac{3}{2}}}=2v_{k+1}\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[\frac{v_{k+\frac{3}{2}}+v_{k+\frac{1}{2}}}{2}\right]=v_{k+1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Interpolação UDS
 \end_layout
@@ -684,7 +741,7 @@ Utilizando o método UDS, as derivadas parciais das velocidades são calculadas
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+1}}\frac{\partial v_{k+1}}{\partial v_{k-\frac{1}{2}}}=0
+\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+1}}\frac{\partial v_{k+1}}{\partial v_{k-\frac{1}{2}}}=2v_{k+1}\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[v_{k+\frac{1}{2}}\right]=0
 \end{equation}
 
 \end_inset
@@ -747,8 +804,30 @@ Utilizando o método UDS, as derivadas parciais das velocidades são calculadas
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+\frac{3}{2}}}=\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+1}}\frac{\partial v_{k+1}}{\partial v_{k+\frac{3}{2}}}=2v_{k+1}\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[v_{k+\frac{1}{2}}\right]=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(vv\right)_{k}}{\partial v_{k+\frac{3}{2}}}=\frac{\partial\left(vv\right)_{k}}{\partial v_{k}}\frac{\partial v_{k}}{\partial v_{k+\frac{3}{2}}}=2v_{k}\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[v_{k-\frac{1}{2}}\right]=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsubsection
-\begin_inset Formula $v_{k+\frac{1}{2}}\geq0$
+\begin_inset Formula $v_{k+\frac{1}{2}}<0$
 \end_inset
 
 :
@@ -757,7 +836,7 @@ Utilizando o método UDS, as derivadas parciais das velocidades são calculadas
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+1}}\frac{\partial v_{k+1}}{\partial v_{k-\frac{1}{2}}}=0
+\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+1}}\frac{\partial v_{k+1}}{\partial v_{k-\frac{1}{2}}}=2v_{k+1}\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[v_{k+\frac{3}{2}}\right]=0
 \end{equation}
 
 \end_inset
@@ -864,16 +943,16 @@ Agrupando as equações do mesmo tipo no Jacobiano:
 \vdots\\
 \delta v_{n}
 \end{array}\right]=-\left[\begin{array}{c}
-\delta R_{1}^{m}\\
-\delta R_{2}^{m}\\
-\delta R_{3}^{m}\\
+R_{1}^{m}\\
+R_{2}^{m}\\
+R_{3}^{m}\\
 \vdots\\
-\delta R_{n}^{m}\\
-\delta R_{1}^{p}\\
-\delta R_{2}^{p}\\
-\delta R_{3}^{p}\\
+R_{n}^{m}\\
+R_{1}^{p}\\
+R_{2}^{p}\\
+R_{3}^{p}\\
 \vdots\\
-\delta R_{n}^{p}
+R_{n}^{p}
 \end{array}\right]
 \end{equation}
 
@@ -912,16 +991,16 @@ Substituindo as derivadas calculadas:
 \vdots\\
 \delta v_{n}
 \end{array}\right]=-\left[\begin{array}{c}
-\delta R_{1}^{m}\\
-\delta R_{2}^{m}\\
-\delta R_{3}^{m}\\
+R_{1}^{m}\\
+R_{2}^{m}\\
+R_{3}^{m}\\
 \vdots\\
-\delta R_{n}^{m}\\
-\delta R_{1}^{p}\\
-\delta R_{2}^{p}\\
-\delta R_{3}^{p}\\
+R_{n}^{m}\\
+R_{1}^{p}\\
+R_{2}^{p}\\
+R_{3}^{p}\\
 \vdots\\
-\delta R_{n}^{p}
+R_{n}^{p}
 \end{array}\right]
 \end{equation}
 
@@ -967,15 +1046,15 @@ Agrupando as derivadas com relação as células no Jacobiano:
 \delta p_{n}\\
 \delta v_{n}
 \end{array}\right]=-\left[\begin{array}{c}
-\delta R_{1}^{m}\\
-\delta R_{1}^{p}\\
-\delta R_{2}^{m}\\
-\delta R_{2}^{p}\\
-\delta R_{3}^{m}\\
-\delta R_{3}^{p}\\
+R_{1}^{m}\\
+R_{1}^{p}\\
+R_{2}^{m}\\
+R_{2}^{p}\\
+R_{3}^{m}\\
+R_{3}^{p}\\
 \vdots\\
-\delta R_{n}^{m}\\
-\delta R_{n}^{p}
+R_{n}^{m}\\
+R_{n}^{p}
 \end{array}\right]
 \end{equation}
 
@@ -1012,15 +1091,15 @@ Substituindo as derivadas:
 \delta p_{n}\\
 \delta v_{n}
 \end{array}\right]=-\left[\begin{array}{c}
-\delta R_{1}^{m}\\
-\delta R_{1}^{p}\\
-\delta R_{2}^{m}\\
-\delta R_{2}^{p}\\
-\delta R_{3}^{m}\\
-\delta R_{3}^{p}\\
+R_{1}^{m}\\
+R_{1}^{p}\\
+R_{2}^{m}\\
+R_{2}^{p}\\
+R_{3}^{m}\\
+R_{3}^{p}\\
 \vdots\\
-\delta R_{n}^{m}\\
-\delta R_{n}^{p}
+R_{n}^{m}\\
+R_{n}^{p}
 \end{array}\right]
 \end{equation}
 
@@ -1062,15 +1141,15 @@ Agrupando as derivadas com relação as células no Jacobiano:
 \delta p_{n}\\
 \delta v_{n}
 \end{array}\right]=-\left[\begin{array}{c}
-\delta R_{1}^{p}\\
-\delta R_{1}^{m}\\
-\delta R_{2}^{p}\\
-\delta R_{2}^{m}\\
-\delta R_{3}^{p}\\
-\delta R_{3}^{m}\\
+R_{1}^{p}\\
+R_{1}^{m}\\
+R_{2}^{p}\\
+R_{2}^{m}\\
+R_{3}^{p}\\
+R_{3}^{m}\\
 \vdots\\
-\delta R_{n}^{p}\\
-\delta R_{n}^{m}
+R_{n}^{p}\\
+R_{n}^{m}
 \end{array}\right]
 \end{equation}
 
@@ -1107,15 +1186,15 @@ Substituindo as derivadas:
 \delta p_{n}\\
 \delta v_{n}
 \end{array}\right]=-\left[\begin{array}{c}
-\delta R_{1}^{p}\\
-\delta R_{1}^{m}\\
-\delta R_{2}^{p}\\
-\delta R_{2}^{m}\\
-\delta R_{3}^{p}\\
-\delta R_{3}^{m}\\
+R_{1}^{p}\\
+R_{1}^{m}\\
+R_{2}^{p}\\
+R_{2}^{m}\\
+R_{3}^{p}\\
+R_{3}^{m}\\
 \vdots\\
-\delta R_{n}^{p}\\
-\delta R_{n}^{m}
+R_{n}^{p}\\
+R_{n}^{m}
 \end{array}\right]
 \end{equation}
 
@@ -1157,15 +1236,15 @@ Agrupando as derivadas com relação as células no Jacobiano:
 \delta p_{n}\\
 \delta v_{n}
 \end{array}\right]=-\left[\begin{array}{c}
-\delta R_{1}^{m}\\
-\delta R_{1}^{p}\\
-\delta R_{2}^{m}\\
-\delta R_{2}^{p}\\
-\delta R_{3}^{m}\\
-\delta R_{3}^{p}\\
+R_{1}^{m}\\
+R_{1}^{p}\\
+R_{2}^{m}\\
+R_{2}^{p}\\
+R_{3}^{m}\\
+R_{3}^{p}\\
 \vdots\\
-\delta R_{n}^{m}\\
-\delta R_{n}^{p}
+R_{n}^{m}\\
+R_{n}^{p}
 \end{array}\right]
 \end{equation}
 
@@ -1202,15 +1281,15 @@ Substituindo as derivadas:
 \delta p_{n}\\
 \delta v_{n}
 \end{array}\right]=-\left[\begin{array}{c}
-\delta R_{1}^{m}\\
-\delta R_{1}^{p}\\
-\delta R_{2}^{m}\\
-\delta R_{2}^{p}\\
-\delta R_{3}^{m}\\
-\delta R_{3}^{p}\\
+R_{1}^{m}\\
+R_{1}^{p}\\
+R_{2}^{m}\\
+R_{2}^{p}\\
+R_{3}^{m}\\
+R_{3}^{p}\\
 \vdots\\
-\delta R_{n}^{m}\\
-\delta R_{n}^{p}
+R_{n}^{m}\\
+R_{n}^{p}
 \end{array}\right]
 \end{equation}
 
