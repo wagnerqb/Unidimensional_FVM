@@ -1,10 +1,9 @@
 # -*- coding: iso-8859-1 -*-
 """
-@author: Wagner Queiroz Barros
+@author: Wagner Queiroz Barros e Bismarck Gomes
 @date:   Tue Apr 15 10:55:33 2014
-@email:  wagnerqb@gmail.com
-@brief:  Class used to discretize Navier-Stokes using SIMPLE Method, CDS for P
-and CDS for v.
+@email:  wagnerqb@gmail.com | bismarckgomes@gmail.com
+@brief:  Class used to discretize Navier-Stokes using COUPLE Method.
 """
 
 from __future__ import division
@@ -16,13 +15,47 @@ class Model_COUPLE_CDS():
     o modelo COUPLE para o acoplamento pressão velocidade, e o
     esquema CDS Central Discretization Scheme para interpolar a velocidade."""
 
+    def iterate_x(self, grid, it_max=1E2, erro_max=1E-8):
+        "Função que realiza n_it iterações utilizando o modelo COUPLE."
+        it = 0
+        erro = erro_max
+        print '='*40
+        print ' It |  E(v_rh)  |   E(p)    |  E_tot  '
+        print '----+-----------+-----------+----------'
+        while(it < it_max and erro >= erro_max):
+            A = np.matrix(self.build_Jacobian_matrix(grid))
+            b = np.matrix(self.build_Residual_Vector(grid))
+            x = (A.I*b.T).A1
+
+            #Valores novos
+            new_p = x[::2]
+            new_v_rh = x[1::2]
+
+            #Calculando norma L2
+            erro_p = (sum(new_p**2))**0.5
+            erro_v_rh = (sum(new_v_rh**2))**0.5
+            erro = erro_p + erro_v_rh
+
+            #Atualizando valores
+            it += 1
+            for i in range(grid.n):
+                grid.set_p(i, grid.p(i)+new_p[i])
+                grid.set_v_rh(i, grid.v_rh(i)+new_v_rh[i])
+
+            #Imprimindo resultados da iteração
+            print '{0:03d} | {1:.3E} | {2:.3E} | {3:.3E}'.format(it,\
+                erro_v_rh, erro_p, erro_v_rh+erro_p)
+        print '='*40
+        return it, erro
+
+
+
     def build_Jacobian_matrix(self, grid):
-        "Classe que constrói a matrz de v* (previsão de velocidade)"
-        cpoints = len(grid.cells)
-        v_matrix = np.zeros((2*cpoints, 2*cpoints))
+        "Função que constrói o Jacobiano"
+        n = len(grid.cells)
+        J = np.zeros((2*n, 2*n))
 
-        for i in range(cpoints):
-
+        for i in range(n):
             A = grid.A(i)
             A_r = grid.A_r(i)
             A_lh = grid.A_lh(i)
@@ -35,7 +68,6 @@ class Model_COUPLE_CDS():
             mu_r = grid.mu_r(i)
             dx = grid.dx(i)
             dx_r = grid.dx_r(i)
-#            dx_rh = self.center_scheme(grid.dx(i), grid.dx(i+1))
             v = grid.v(i)
             v_r = grid.v_r(i)
 
@@ -68,76 +100,76 @@ class Model_COUPLE_CDS():
             dRm_dvr = 0
 
             #Derivada do resíduo do momentum em relação a velocidade face k-1/2
-            dvvr_dvlh = 0  # v_r         # CDS Method
-            dvv_dvlh = v            # CDS Method
+            dvvr_dvlh = 0                # CDS Method
+            dvv_dvlh = v                 # CDS Method
             dRp_dvl = (A_rh*rho_rh)*dvvr_dvlh - (A*rho)*dvv_dvlh - (A*mu)/dx
 
             #Derivada do resíduo do momentum em relação a velocidade face k+1/2
-            dvvr_dvrh = v_r  # 1           # CDS Method
-            dvv_dvrh = v  # 1            # CDS Method
-            dRp_dvc = (A_r*rho_r)*dvvr_dvrh - (A*rho)*dvv_dvrh + (A_r*mu_r)/dx_r + (A*mu)/dx
+            dvvr_dvrh = v_r              # CDS Method
+            dvv_dvrh = v                 # CDS Method
+            dRp_dvc = (A_r*rho_r)*dvvr_dvrh - (A*rho)*dvv_dvrh \
+                + (A_r*mu_r)/dx_r + (A*mu)/dx
 
             #Derivada do resíduo do momentum em relação a velocidade face k+3/2
-            dvvr_dvrrh = 0  #  v_r          # CDS Method
-            dvv_dvrrh = v_r  #  v       # CDS Method
-            dRp_dvr = (A_r*rho_r)*dvvr_dvrrh - (A*rho)*dvv_dvrrh - (A_r*mu_r)/dx_r
+            dvvr_dvrrh = 0               # CDS Method
+            dvv_dvrrh = v_r              # CDS Method
+            dRp_dvr = (A_r*rho_r)*dvvr_dvrrh - (A*rho)*dvv_dvrrh \
+                - (A_r*mu_r)/dx_r
 
             #Filling Matrix
             if i == 0:
                 #Resíduos do momentum
-                v_matrix[2*i][(2*i)] = dRp_dpc
-                v_matrix[2*i][(2*i)+1] = dRp_dvc
-                v_matrix[2*i][(2*i)+2] = dRp_dpr
-                v_matrix[2*i][(2*i)+3] = dRp_dvr
+                J[2*i][(2*i)] = dRp_dpc
+                J[2*i][(2*i)+1] = dRp_dvc
+                J[2*i][(2*i)+2] = dRp_dpr
+                J[2*i][(2*i)+3] = dRp_dvr
 
                 #Resíduos da massa
-                v_matrix[2*i+1][(2*i+1)-1] = dRm_dpc
-                v_matrix[2*i+1][(2*i+1)] = dRm_dvc
-                v_matrix[2*i+1][(2*i+1)+1] = dRm_dpr
-                v_matrix[2*i+1][(2*i+1)+2] = dRm_dvr
+                J[2*i+1][(2*i+1)-1] = dRm_dpc
+                J[2*i+1][(2*i+1)] = dRm_dvc
+                J[2*i+1][(2*i+1)+1] = dRm_dpr
+                J[2*i+1][(2*i+1)+2] = dRm_dvr
 
-            elif i == cpoints-1:
+            elif i == n-1:
                 #Resíduos do momentum
-                v_matrix[2*i][(2*i)-2] = dRp_dpl    # BC
-                v_matrix[2*i][(2*i)-1] = dRp_dvl
-                v_matrix[2*i][(2*i)] = dRp_dpc      # BC
-                v_matrix[2*i][(2*i)+1] = dRp_dvc
+                J[2*i][(2*i)-2] = dRp_dpl
+                J[2*i][(2*i)-1] = dRp_dvl
+                J[2*i][(2*i)] = dRp_dpc
+                J[2*i][(2*i)+1] = dRp_dvc
 
                 #Resíduos da massa
-                v_matrix[2*i+1][(2*i+1)-3] = dRm_dpl
-                v_matrix[2*i+1][(2*i+1)-2] = dRm_dvl
-                v_matrix[2*i+1][(2*i+1)-1] = dRm_dpc
-                v_matrix[2*i+1][(2*i+1)] = dRm_dvc
+                J[2*i+1][(2*i+1)-3] = dRm_dpl
+                J[2*i+1][(2*i+1)-2] = dRm_dvl
+                J[2*i+1][(2*i+1)-1] = dRm_dpc
+                J[2*i+1][(2*i+1)] = dRm_dvc
 
             else:
                 #Resíduos do momentum
-                v_matrix[2*i][(2*i)-2] = dRp_dpl
-                v_matrix[2*i][(2*i)-1] = dRp_dvl
-                v_matrix[2*i][(2*i)] = dRp_dpc
-                v_matrix[2*i][(2*i)+1] = dRp_dvc
-                v_matrix[2*i][(2*i)+2] = dRp_dpr
-                v_matrix[2*i][(2*i)+3] = dRp_dvr
+                J[2*i][(2*i)-2] = dRp_dpl
+                J[2*i][(2*i)-1] = dRp_dvl
+                J[2*i][(2*i)] = dRp_dpc
+                J[2*i][(2*i)+1] = dRp_dvc
+                J[2*i][(2*i)+2] = dRp_dpr
+                J[2*i][(2*i)+3] = dRp_dvr
 
                 #Resíduos da massa
-                v_matrix[2*i+1][(2*i+1)-3] = dRm_dpl
-                v_matrix[2*i+1][(2*i+1)-2] = dRm_dvl
-                v_matrix[2*i+1][(2*i+1)-1] = dRm_dpc
-                v_matrix[2*i+1][(2*i+1)] = dRm_dvc
-                v_matrix[2*i+1][(2*i+1)+1] = dRm_dpr
-                v_matrix[2*i+1][(2*i+1)+2] = dRm_dvr
+                J[2*i+1][(2*i+1)-3] = dRm_dpl
+                J[2*i+1][(2*i+1)-2] = dRm_dvl
+                J[2*i+1][(2*i+1)-1] = dRm_dpc
+                J[2*i+1][(2*i+1)] = dRm_dvc
+                J[2*i+1][(2*i+1)+1] = dRm_dpr
+                J[2*i+1][(2*i+1)+2] = dRm_dvr
 
-        return v_matrix
+        return J
 
-    #Vetor de Resíduos
     def build_Residual_Vector(self, grid):
-        '''Constrói o vetor de resíduosque será resolvido pelo solver.
-        Observa-se que o vetor de resíduos possui sinal positivo, devendo
-        ser multiplicado por -1 na hora de resolver o sistema'''
+        """Função que constrói o vetor de resíduos. Observa-se que o vetor de
+        resíduos já possui sinal negativo."""
 
-        cpoints = len(grid.cells)
-        R = np.zeros(2*cpoints)
+        n = len(grid.cells)
+        R = np.zeros(2*n)
 
-        for i in range(cpoints):
+        for i in range(n):
             #Termos Fonte
             A = grid.A(i)
             A_r = grid.A_r(i)
@@ -173,12 +205,7 @@ class Model_COUPLE_CDS():
             R[2*i] = R_mom
             R[2*i+1] = R_mass
 
-        return R
-
-    #Funções de Interpolação
-    def center_scheme(self, leftprop, rightprop):
-        "Classe interpola utilizando diferencas centrais."
-        return (rightprop + leftprop)/2
+        return -R
 
 
 if __name__ == '__main__':
