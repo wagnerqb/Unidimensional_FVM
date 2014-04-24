@@ -5,23 +5,15 @@
 @email:  bismarckjunior@outlook.com
 @brief:  
 """
-# -*- coding: iso-8859-1 -*-
-"""
-@author: Wagner Queiroz Barros
-@date:   Tue Apr 15 10:55:33 2014
-@email:  wagnerqb@gmail.com
-@brief:  Class used to discretize Navier-Stokes using SIMPLE Method, CDS for P
-and CDS for v.
-"""
 
 from __future__ import division
 import numpy as np
 
 
-class Model_COUPLE_CDS():
+class Model_COUPLE_UDS():
     """Classe de Modelo para Equações de Navier Stokes, utilizando
     o modelo COUPLE para o acoplamento pressão velocidade, e o
-    esquema CDS Central Discretization Scheme para interpolar a velocidade."""
+    esquema UDS Central Discretization Scheme para interpolar a velocidade."""
 
     def build_Jacobian_matrix(self, grid):
         "Classe que constrói a matrz de v* (previsão de velocidade)"
@@ -74,19 +66,23 @@ class Model_COUPLE_CDS():
             #Derivada do resíduo da massa em relação a velocidade face k+3/2
             dRm_dvr = 0
 
+            if v > 0:
+                dvvr_dvlh = 0               # UDS Method
+                dvv_dvlh = 2*v              # UDS Method
+
+                dvvr_dvrh = 2*v_r           # UDS Method
+                dvv_dvrh = 0                # UDS Method
+
+                dvvr_dvrrh = 0              # UDS Method
+                dvv_dvrrh = 0               # UDS Method
+
             #Derivada do resíduo do momentum em relação a velocidade face k-1/2
-            dvvr_dvlh = 0  # v_r         # CDS Method
-            dvv_dvlh = v            # CDS Method
             dRp_dvl = (A_rh*rho_rh)*dvvr_dvlh - (A*rho)*dvv_dvlh - (A*mu)/dx
 
             #Derivada do resíduo do momentum em relação a velocidade face k+1/2
-            dvvr_dvrh = v_r  # 1           # CDS Method
-            dvv_dvrh = v  # 1            # CDS Method
             dRp_dvc = (A_r*rho_r)*dvvr_dvrh - (A*rho)*dvv_dvrh + (A_r*mu_r)/dx_r + (A*mu)/dx
 
             #Derivada do resíduo do momentum em relação a velocidade face k+3/2
-            dvvr_dvrrh = 0  #  v_r          # CDS Method
-            dvv_dvrrh = v_r  #  v       # CDS Method
             dRp_dvr = (A_r*rho_r)*dvvr_dvrrh - (A*rho)*dvv_dvrrh - (A_r*mu_r)/dx_r
 
             #Filling Matrix
@@ -167,10 +163,10 @@ class Model_COUPLE_CDS():
             p = grid.p(i)
             p_r = grid.p_r(i)
             msrc = grid.msrc
-            
+
             # Mass Residual
             R_mass = (A_rh*rho_rh*v_rh) - (A_lh*rho_lh*v_lh) - A*msrc*dx
-            
+
             # Momentum residual
             R_mom = (A_r*rho_r*v_r*v_r) - (A*rho*v*v)
             R_mom += A_rh*(p_r-p)  # 2*(A_rh*dx_rh)*(p_r-p)/(dx_r + dx)
