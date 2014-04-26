@@ -6,7 +6,6 @@
 @brief:  Simulator for difusive/convective problems, described in Chapter 2
 """
 
-
 from __future__ import division
 import numpy as np
 from GridCD import *

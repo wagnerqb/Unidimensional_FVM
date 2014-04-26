@@ -1,0 +1,456 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass abnt
+\begin_preamble
+\usepackage {graphicx}
+\usepackage {longtable}
+\usepackage {indentfirst}
+\renewenvironment{center}{\par\centering}{\par}
+
+% Comentar linhas abaixo se não estiver usando pacote abntex
+% ou se o pacote ainda não foi instalado.
+% neste caso sugere-se usar citações no padrão apalike (lembra o da anbt).
+\usepackage[alf ,abnt-etal-cite=2 , abnt-year-extra-label=yes , abnt-etal-list=0]{abntcite}
+\usepackage {helvet}
+\renewcommand {\familydefault}{\sfdefault}
+\end_preamble
+\options normaltoc, sumarioincompleto
+\use_default_options false
+\maintain_unincluded_children false
+\language brazilian
+\language_package default
+\inputencoding latin1
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing onehalf
+\use_hyperref true
+\pdf_title "Título da Monografia - Dissertação - Tese"
+\pdf_author "Nome do Autor"
+\pdf_subject "Descrever assunto"
+\pdf_keywords "Copiar do resumo"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered true
+\pdf_bookmarksopen true
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref page
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry true
+\use_amsmath 1
+\use_esint 0
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Índice
+\shortcut idx
+\color #008000
+\end_index
+\paperwidth 210mm
+\paperheight 297mm
+\leftmargin 30mm
+\topmargin 25mm
+\rightmargin 20mm
+\bottommargin 20mm
+\secnumdepth 2
+\tocdepth 1
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Chapter
+Equação da Difusão de Energia
+\begin_inset CommandInset label
+LatexCommand label
+name "cha:Eq_Difusão"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lhead{
+\backslash
+thechapter
+\backslash
+space - Introdução}
+\backslash
+rhead{}
+\backslash
+pagenumbering{arabic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Será aplicado o método dos volumes finitos na equação da difusão como descrito
+ no capítulo 4 de 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+citeonline{Versteeg(2007)} 
+\end_layout
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Section
+Volume de Controle
+\end_layout
+
+\begin_layout Standard
+A Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:VC-1D"
+
+\end_inset
+
+, ilustra o volume de controle que será adotado para a discretização das
+ equações médias de transporte.
+ O subíndice 
+\begin_inset Formula $k$
+\end_inset
+
+ representa o elemento discreto de uma tubulação na direção 
+\begin_inset Formula $z$
+\end_inset
+
+.
+ As variáveis 
+\begin_inset Formula $A_{k}$
+\end_inset
+
+, 
+\begin_inset Formula $S_{k}$
+\end_inset
+
+ e 
+\begin_inset Formula $r_{k}$
+\end_inset
+
+ representam, respectimvamente, a área transversal ao escomanto, a superfície
+ lateral e o raio do elemento discreto.
+ O termo 
+\begin_inset Formula $q_{m_{c,p}}$
+\end_inset
+
+ representa a vazão mássica do componente 
+\begin_inset Formula $c$
+\end_inset
+
+ na fase 
+\begin_inset Formula $p$
+\end_inset
+
+ por unidade de volume.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figuras/VC_cilindrico_1D.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Volume de Controle Unidimensional.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:VC-1D"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+De acordo com a Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:VC-1D"
+
+\end_inset
+
+, é possível definir os seguintes termos:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+dV_{k}=\pi r_{k}^{2}\Delta z_{k}\label{eq:def_dV}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+A_{k}=\pi r_{k}^{2}\label{eq:def_Ak}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+dS_{k}=2\pi r_{k}\Delta z_{k}\label{eq:def_Sk}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Equação da Difusão
+\end_layout
+
+\begin_layout Standard
+A equação da difusão de energia é dada por:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+-\nabla\cdot\left(\kappa\nabla\phi\right)=S_{\phi}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+onde 
+\begin_inset Formula $\kappa$
+\end_inset
+
+ é a condutividade térmica do fluido, 
+\begin_inset Formula $T$
+\end_inset
+
+ é a temperatura e 
+\begin_inset Formula $S_{\phi}$
+\end_inset
+
+ é o termo fonte de energia.
+ Integrando no volume de controle:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+-\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\kappa\nabla\phi\right)dV=\underset{\textrm{V.C}.}{\iiint}S_{\phi}dV
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Aplicando o teorema de Gauss:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\underset{\textrm{S.C}.}{\iiint}\left(\kappa\nabla\phi\right)\cdot\vec{n}dS+\underset{\textrm{V.C}.}{\iiint}S_{\phi}dV=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Utilizando o volume de controle unidimensional:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+-\left[\left(A\kappa\frac{\partial\phi}{\partial x}\right)_{k+\frac{1}{2}}-\left(A\kappa\frac{\partial\phi}{\partial x}\right)_{k-\frac{1}{2}}\right]=\left(AS_{\phi}\Delta x\right)_{k}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+O termo de derivada será calculado utilizando uma aproximação por diferenças
+ simples, assim:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+-\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}=\left(AS_{\phi}\Delta x\right)_{k}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Organizando a equação:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+-\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\\
++\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}=\left(AS_{\phi}\Delta x\right)_{k}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+-2\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}+2\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\\
++2\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}-2\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k-1}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}=\left(AS_{\phi}\Delta x\right)_{k}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+-\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\phi_{k+1}+\left(\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\right)\phi_{k}\\
+-\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\phi_{k-1}=\left(AS_{\phi}\Delta x\right)_{k}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+O termo 
+\begin_inset Formula $\left(A\kappa\right)_{i\pm\frac{1}{2}}$
+\end_inset
+
+ será calculado segundo uma interpolação do tipo esquema centrado.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "Bibliografia_Dissertacao"
+options "abnt-alf"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

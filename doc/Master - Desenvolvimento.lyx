@@ -143,7 +143,7 @@ LatexCommand tableofcontents
 
 
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align block
@@ -267,47 +267,7 @@ Nomenclatura nova do lyx,antes de usar faça testes.
 \align block
 \begin_inset CommandInset include
 LatexCommand include
-filename "Cap1-Equacao_Difusao.lyx"
-
-\end_inset
-
-
-\begin_inset CommandInset include
-LatexCommand include
-filename "Cap2-Equacao_Conveccao_Difusao.lyx"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\align block
-\begin_inset CommandInset include
-LatexCommand include
-filename "Cap3-Algoritimo_SIMPLE_Pressao_Velocidade.lyx"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\align block
-\begin_inset CommandInset include
-LatexCommand include
-filename "Cap4-Algoritimo_COUPLE_Pressao_Velocidade.lyx"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\align block
-\begin_inset CommandInset include
-LatexCommand include
-filename "Cap5-Algoritimo_SIMPLER_Pressao_Velocidade.lyx"
+filename "Caso1-Euler_Gas.lyx"
 
 \end_inset
 
@@ -352,127 +312,6 @@ rhead{}
 LatexCommand bibtex
 bibfiles "Bibliografia_Dissertacao"
 options "abnt-alf"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\start_of_appendix
-\noindent
-\align center
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-\start_of_appendix
-\noindent
-\begin_inset CommandInset include
-LatexCommand include
-filename "Cap-Apendice_A.lyx"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\noindent
-\align center
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-\noindent
-\begin_inset CommandInset include
-LatexCommand include
-filename "Cap-Apendice_B.lyx"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\noindent
-\align center
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-Leia aqui no apêndice B como fazer citações!
-\end_layout
-
-\end_inset
-
-
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-Todo material auxiliar, não diretamente relacionado ao trabalho deve estar
- nos apêndices!
-\end_layout
-
-\begin_layout Plain Layout
-Ou seja, nos capítulos COLOCAR SOMENTE MATERIAL DIRETAMENTE RELACIONADO
- AO TRABALHO!
-\end_layout
-
-\begin_layout Plain Layout
-Isto faz com a linha de raciocínio se desenvolva naturalmente, fazendo com
- que a leitura do material fique gostosa.
-\end_layout
-
-\begin_layout Plain Layout
-Um documento que tem layout e formatação adequada (como este modelo - não
- mude!), e cuja leitura é fluida (gostosa), é meio caminho andado para uma
- boa defesa.
-\end_layout
-
-\begin_layout Plain Layout
-Some aí um bom documento de apresentação, com apresentação bem ensaiada,
- e teremos 50% do sucesso garantido.
- Os outros 50% referem-se a importância e qualidade do trabalho desenvolvido!
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-Índice remissivo
-\end_layout
-
-\end_inset
-
-
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-para ter et all em itálico acrescente, junto com suas outras opcões: 
-\backslash
-usepackage[abnt-etal-text=emph,......]{abntcite} ou 
-\backslash
-usepackage[abnt-etal-text=it,......]{abntcite} 
-\end_layout
 
 \end_inset
 

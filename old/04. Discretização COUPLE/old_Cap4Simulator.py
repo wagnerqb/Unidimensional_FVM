@@ -23,8 +23,8 @@ def run():
 
     # Fluid properties
     rho = 100                 # Fluid density
-    mu = 100                 # Fluid viscosity
-    msrc = 0.               # Mass Source term per volume unity
+    mu = 1                    # Fluid viscosity
+    msrc = 0.                 # Mass Source term per volume unity
 
     # Initial properties
     v_ini = 1               # Initial Condition for v

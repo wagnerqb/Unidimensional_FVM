@@ -869,5 +869,17 @@ C_{k}=-\left(A\rho\vec{v}\right)_{k-\frac{1}{2}}+\frac{2\left(A\kappa\right)_{k+
 
 \end_layout
 
+\begin_layout Standard
+\noindent
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "Bibliografia_Dissertacao"
+options "abnt-alf"
+
+\end_inset
+
+
+\end_layout
+
 \end_body
 \end_document

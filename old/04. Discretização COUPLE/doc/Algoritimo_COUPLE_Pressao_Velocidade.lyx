@@ -95,16 +95,6 @@
 
 \begin_layout Chapter
 Algorítimo COUPLE - Equação de Navier-Stokes com formulação full-implicit
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-Introdução
-\end_layout
-
-\end_inset
-
-
 \begin_inset CommandInset label
 LatexCommand label
 name "cha:Couple_NS"
@@ -139,17 +129,15 @@ pagenumbering{arabic}
 \end_layout
 
 \begin_layout Standard
-No Capítulo 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "cha:Acoplamento_P_V"
-
+Nesse capítulo será utilizada uma formulação totalmente 
+\begin_inset Quotes eld
 \end_inset
 
- foi utilizado o método SIMPLE para o acoplamento entre a pressão e velocidade
- nas equações de Navier-Stoker.
- Nesse capítulo será utilizada uma formulação totalmente implícita, capaz
- de resolver essas equações utilizando o método de Newton-Rapson.
+implícita
+\begin_inset Quotes erd
+\end_inset
+
+, capaz de resolver essas equações utilizando o método de Newton-Rapson.
 \end_layout
 
 \begin_layout Section
@@ -228,14 +216,7 @@ onde
 \end_layout
 
 \begin_layout Standard
-Os resíduos para a equação da conservação da massa, Equação 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:Discretizacao_Cons_Massa"
-
-\end_inset
-
-, são dados por:
+Os resíduos para a equação da conservação da massa são dados por:
 \end_layout
 
 \begin_layout Standard
@@ -250,14 +231,8 @@ R_{k}^{m}=\left(A\rho v\right)_{k+\frac{1}{2}}-\left(A\rho v\right)_{k-\frac{1}{
 \end_layout
 
 \begin_layout Standard
-Os resíduos para a equação da quantidade de movimento, Equação 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:Discretizacao_Quant_Movimento"
-
-\end_inset
-
-, desprezando termos fonte, são dados por:
+Os resíduos para a equação da quantidade de movimento desprezando termos
+ fonte, são dados por:
 \end_layout
 
 \begin_layout Standard
@@ -1307,6 +1282,11 @@ R_{n}^{p}
 Observa-se que o Jacobiano com células agrupadas resulta em uma matriz com
  maior peso na diagonal, o que facilita os métodos numéricos.
  Dessa forma esse Jacobiano será implementado.
+\end_layout
+
+\begin_layout Standard
+\noindent
+
 \end_layout
 
 \end_body

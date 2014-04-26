@@ -95,16 +95,6 @@
 
 \begin_layout Chapter
 Algorítimo SIMPLE - Equação de Navier-Stokes com formulação semi-implicit
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-Introdução
-\end_layout
-
-\end_inset
-
-
 \begin_inset CommandInset label
 LatexCommand label
 name "cha:Acoplamento_P_V_SIMPLE"
@@ -419,15 +409,8 @@ Utilizando diferenças finitas para aproximar os termos das derivadas:
 
 \begin_layout Standard
 No lado esquerdo da equação existe um produto de velocidades no centro das
- células que deverá ser calculado utilizando um algorítimo de interpolação,
- descrito no Capítulo 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "cha:Eq_Difusão_Convecção"
-
-\end_inset
-
-.
+ células que deverá ser calculado utilizando um algorítimo de interpolação
+ (CDS, UDS, etc).
  
 \end_layout
 
@@ -1537,7 +1520,7 @@ a_{c}=-a_{l}-a_{r}
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Standard
 \begin_inset Note Note
 status collapsed
 
@@ -2088,6 +2071,18 @@ a_{vc}=-\left(A\rho v\right)_{k}+\frac{\left(A\mu\right)_{k}}{\Delta x_{k}}+\fra
 \begin{equation}
 a_{vr}=\left(A\rho v\right)_{k+1}-\frac{\left(A\mu\right)_{k+1}}{\Delta x_{k+1}}
 \end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "Bibliografia_Dissertacao"
+options "abnt-alf"
 
 \end_inset
 
