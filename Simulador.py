@@ -8,7 +8,7 @@
 from __future__ import division
 import matplotlib.pyplot as plt
 from Cell import CellWell
-from Grid import GridWell
+from GridWell import GridWell
 from DiscretizationWell_COUPLE_CDS import *
 
 

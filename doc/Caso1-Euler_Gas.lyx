@@ -94,14 +94,7 @@
 \begin_body
 
 \begin_layout Chapter
-Equação da Difusão de Energia
-\begin_inset CommandInset label
-LatexCommand label
-name "cha:Eq_Difusão"
-
-\end_inset
-
-
+Equações de Navier-Stokes Aplicadas em Escoamentos Monofásicos
 \end_layout
 
 \begin_layout Standard
@@ -128,22 +121,106 @@ pagenumbering{arabic}
 
 \end_layout
 
-\begin_layout Standard
-Será aplicado o método dos volumes finitos na equação da difusão como descrito
- no capítulo 4 de 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-citeonline{Versteeg(2007)} 
+\begin_layout Section
+Descrição do Problema
 \end_layout
+
+\begin_layout Standard
+Escrever Texto sobre o problema.
+\end_layout
+
+\begin_layout Standard
+Serão utilizadas as seguintes hipóteses:
+\end_layout
+
+\begin_layout Enumerate
+Escoamento monofásico;
+\end_layout
+
+\begin_layout Enumerate
+Fluido monocomponente;
+\end_layout
+
+\begin_layout Enumerate
+Não há trocas de calor entre o meio e a tubulação;
+\end_layout
+
+\begin_layout Enumerate
+Escoamento isotérmico;
+\end_layout
+
+\begin_layout Enumerate
+Sem atrito com as paredes do tubo (Equação de Euler);
+\end_layout
+
+\begin_layout Enumerate
+Fluido Incompressível;
+\end_layout
+
+\begin_layout Section
+Equações Governantes
+\end_layout
+
+\begin_layout Standard
+A equação de Navier-Stokes unidimensional pode ser escrita como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\nabla\cdot\left(\rho\vec{v}\right)=S_{m}\label{eq:CONS_MASSA}
+\end{equation}
 
 \end_inset
 
-.
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\nabla\cdot\left(\rho\vec{v}\vec{v}\right)=-\nabla p+S_{u}\label{eq:CONS_QUANT_MOVIM}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:CONS_MASSA"
+
+\end_inset
+
+ representa a equação da conservação da massa sendo uma equação puramente
+ convectiva.
+ A eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:CONS_QUANT_MOVIM"
+
+\end_inset
+
+ é a conservação da quantidade de movimento sendo uma equação difusiva e
+ convectiva.
+ Observa-se dois fatos que tornam a solução numérica desse conjunto de equações
+ dificil:
+\end_layout
+
+\begin_layout Enumerate
+A Eq.
+ da quantidade de movimento é não linear pois apresenta o produto de velocidades
+ na derivada.
+\end_layout
+
+\begin_layout Enumerate
+As equações estão acopladas entre sí, o que torna inviável a solução delas
+ de forma separada.
  
 \end_layout
 
@@ -204,7 +281,7 @@ reference "fig:VC-1D"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -287,26 +364,68 @@ dS_{k}=2\pi r_{k}\Delta z_{k}\label{eq:def_Sk}
 
 \end_layout
 
-\begin_layout Section
-Equação da Difusão
+\begin_layout Standard
+Para facilitar a solução das equações, será adotado o esquema de malhas
+ deslocadas, mostrado na Figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Malha-deslocada-NS"
+
+\end_inset
+
+.
+ Nesse esquema a pressão é armazenada no centro da célula e a velocidade
+ na face da mesma.
 \end_layout
 
 \begin_layout Standard
-A equação da difusão de energia é dada por:
-\end_layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
 
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
--\nabla\cdot\left(\kappa\nabla\phi\right)=S_{\phi}
-\end{equation}
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figuras/Control_Volume_2.png
+	scale 80
 
 \end_inset
 
 
 \end_layout
 
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Malha deslocada para solução das equações de Navier-Stokes unidimensionais.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Malha-deslocada-NS"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Equações de Navier-Stokes discretizadas
+\end_layout
+
 \begin_layout Standard
+Será aplicado o método dos volumes finitos na equação da difusão como descrito
+ no capítulo 4 de 
 \begin_inset ERT
 status open
 
@@ -314,31 +433,28 @@ status open
 
 
 \backslash
-noindent 
+citeonline{Versteeg(2007)} 
 \end_layout
 
 \end_inset
 
-onde 
-\begin_inset Formula $\kappa$
-\end_inset
+.
+ 
+\end_layout
 
- é a condutividade térmica do fluido, 
-\begin_inset Formula $T$
-\end_inset
+\begin_layout Subsection
+Conservação da Massa
+\end_layout
 
- é a temperatura e 
-\begin_inset Formula $S_{\phi}$
-\end_inset
-
- é o termo fonte de energia.
- Integrando no volume de controle:
+\begin_layout Standard
+utilizando o método dos volumes finitos, a equação da conservação da massa
+ pode ser escrita como:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
--\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\kappa\nabla\phi\right)dV=\underset{\textrm{V.C}.}{\iiint}S_{\phi}dV
+\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\rho\vec{v}\right)dV=\underset{\textrm{V.C}.}{\iiint}S_{m}dV
 \end{equation}
 
 \end_inset
@@ -353,7 +469,7 @@ Aplicando o teorema de Gauss:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\underset{\textrm{S.C}.}{\iiint}\left(\kappa\nabla\phi\right)\cdot\vec{n}dS+\underset{\textrm{V.C}.}{\iiint}S_{\phi}dV=0
+\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\right)\cdot\vec{n}dS=\underset{\textrm{V.C}.}{\iiint}S_{m}dV
 \end{equation}
 
 \end_inset
@@ -368,7 +484,7 @@ Utilizando o volume de controle unidimensional:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
--\left[\left(A\kappa\frac{\partial\phi}{\partial x}\right)_{k+\frac{1}{2}}-\left(A\kappa\frac{\partial\phi}{\partial x}\right)_{k-\frac{1}{2}}\right]=\left(AS_{\phi}\Delta x\right)_{k}
+\left(A\rho v\right)_{k+\frac{1}{2}}-\left(A\rho v\right)_{k-\frac{1}{2}}=\left(AS_{m}\Delta x\right)_{k}\label{eq:Discretizacao_Cons_Massa}
 \end{equation}
 
 \end_inset
@@ -376,15 +492,18 @@ Utilizando o volume de controle unidimensional:
 
 \end_layout
 
+\begin_layout Subsection
+Conservação da Quantidade de Movimento
+\end_layout
+
 \begin_layout Standard
-O termo de derivada será calculado utilizando uma aproximação por diferenças
- simples, assim:
+A equação da quantidade de movimento pode ser escrita como:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
--\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}-\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}-\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}=\left(AS_{\phi}\Delta x\right)_{k}
+\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\rho\vec{v}\vec{v}\right)dV=-\underset{\textrm{V.C}.}{\iiint}\nabla pdV+\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\mu\nabla\vec{v}\right)dV+\underset{\textrm{V.C}.}{\iiint}S_{u}dV
 \end{equation}
 
 \end_inset
@@ -393,14 +512,44 @@ O termo de derivada será calculado utilizando uma aproximação por diferenças
 \end_layout
 
 \begin_layout Standard
-Organizando a equação:
+Aplicando o teorema de Gauss:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\vec{v}\right)\cdot\vec{n}dS=-\underset{\textrm{V.C}.}{\iiint}\nabla pdV+\underset{\textrm{S.C}.}{\iiint}\left(\mu\nabla\vec{v}\right)\cdot\vec{n}dS+\underset{\textrm{V.C}.}{\iiint}S_{u}dV
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Utilizando o volume de controle unidimensional:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left(A\rho vv\right)_{k+1}-\left(A\rho vv\right)_{k}=-\left(A\Delta x\frac{\partial p}{\partial x}\right)_{k+\frac{1}{2}}+\left(A\mu\frac{\partial v}{\partial x}\right)_{k+1}-\left(A\mu\frac{\partial v}{\partial x}\right)_{k}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Utilizando diferenças finitas para aproximar os termos das derivadas:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
--\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\\
-+\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}-\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k-1}}{\frac{1}{2}\left(\Delta x_{k}+\Delta x_{k-1}\right)}=\left(AS_{\phi}\Delta x\right)_{k}
+\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}=\\
+-\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{\partial p}{\partial x}\right)_{k+\frac{1}{2}}+\left(A\mu\right)_{k+1}\left(\frac{\partial v}{\partial x}\right)_{k+1}-\left(A\mu\right)_{k}\left(\frac{\partial v}{\partial x}\right)_{k}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}
 \end{multline}
 
 \end_inset
@@ -411,8 +560,8 @@ Organizando a equação:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
--2\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k+1}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}+2\left(A\kappa\right)_{k+\frac{1}{2}}\frac{\phi_{k}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\\
-+2\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}-2\left(A\kappa\right)_{k-\frac{1}{2}}\frac{\phi_{k-1}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}=\left(AS_{\phi}\Delta x\right)_{k}
+\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}=\\
+-\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}-v_{k+\frac{1}{2}}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}}{\Delta x_{k}}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}\label{eq:Discretizacao_Quant_Movimento}
 \end{multline}
 
 \end_inset
@@ -421,23 +570,10 @@ Organizando a equação:
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\begin{multline}
--\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}\phi_{k+1}+\left(\frac{2\left(A\kappa\right)_{k+\frac{1}{2}}}{\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\right)\phi_{k}\\
--\frac{2\left(A\kappa\right)_{k-\frac{1}{2}}}{\left(\Delta x_{k}+\Delta x_{k-1}\right)}\phi_{k-1}=\left(AS_{\phi}\Delta x\right)_{k}
-\end{multline}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-O termo 
-\begin_inset Formula $\left(A\kappa\right)_{i\pm\frac{1}{2}}$
-\end_inset
-
- será calculado segundo uma interpolação do tipo esquema centrado.
+No lado esquerdo da equação existe um produto de velocidades no centro das
+ células que deverá ser calculado utilizando um algorítimo de interpolação
+ (CDS, UDS, etc).
+ 
 \end_layout
 
 \end_body
