@@ -62,8 +62,6 @@ class DiscretizationWell_COUPLE_CDS():
             rho_r = grid.rho_r(i)
             rho_lh = grid.rho_lh(i)
             rho_rh = grid.rho_rh(i)
-            mu = grid.mu(i)
-            mu_r = grid.mu_r(i)
             dx = grid.dx(i)
             dx_r = grid.dx_r(i)
             v = grid.v(i)
@@ -100,19 +98,17 @@ class DiscretizationWell_COUPLE_CDS():
             #Derivada do resíduo do momentum em relação a velocidade face k-1/2
             dvvr_dvlh = 0                # CDS Method
             dvv_dvlh = v                 # CDS Method
-            dRp_dvl = (A_rh*rho_rh)*dvvr_dvlh - (A*rho)*dvv_dvlh - (A*mu)/dx
+            dRp_dvl = (A_rh*rho_rh)*dvvr_dvlh - (A*rho)*dvv_dvlh
 
             #Derivada do resíduo do momentum em relação a velocidade face k+1/2
             dvvr_dvrh = v_r              # CDS Method
             dvv_dvrh = v                 # CDS Method
-            dRp_dvc = (A_r*rho_r)*dvvr_dvrh - (A*rho)*dvv_dvrh \
-                + (A_r*mu_r)/dx_r + (A*mu)/dx
+            dRp_dvc = (A_r*rho_r)*dvvr_dvrh - (A*rho)*dvv_dvrh
 
             #Derivada do resíduo do momentum em relação a velocidade face k+3/2
             dvvr_dvrrh = 0               # CDS Method
             dvv_dvrrh = v_r              # CDS Method
-            dRp_dvr = (A_r*rho_r)*dvvr_dvrrh - (A*rho)*dvv_dvrrh \
-                - (A_r*mu_r)/dx_r
+            dRp_dvr = (A_r*rho_r)*dvvr_dvrrh - (A*rho)*dvv_dvrrh
 
             #Filling Matrix
             if i == 0:
@@ -177,8 +173,6 @@ class DiscretizationWell_COUPLE_CDS():
             rho_r = grid.rho_r(i)
             rho_lh = grid.rho_lh(i)
             rho_rh = grid.rho_rh(i)
-            mu = grid.mu(i)
-            mu_r = grid.mu_r(i)
             dx = grid.dx(i)
             dx_r = grid.dx_r(i)
             #dx_rh = self.center_scheme(grid.dx(i), grid.dx(i+1))
@@ -189,7 +183,7 @@ class DiscretizationWell_COUPLE_CDS():
             v_rrh = grid.v_rh(i+1)
             p = grid.p(i)
             p_r = grid.p_r(i)
-            msrc = grid.msrc
+            msrc = grid.msrc(i)
 
             # Mass Residual
             R_mass = (A_rh*rho_rh*v_rh) - (A_lh*rho_lh*v_lh) - A*msrc*dx
@@ -197,8 +191,6 @@ class DiscretizationWell_COUPLE_CDS():
             # Momentum residual
             R_mom = (A_r*rho_r*v_r*v_r) - (A*rho*v*v)
             R_mom += A_rh*(p_r-p)  # 2*(A_rh*dx_rh)*(p_r-p)/(dx_r + dx)
-            R_mom += -(A_r*mu_r)*(v_rrh - v_rh)/dx_r
-            R_mom += (A*mu)*(v_rh - v_lh)/dx
 
             R[2*i] = R_mom
             R[2*i+1] = R_mass

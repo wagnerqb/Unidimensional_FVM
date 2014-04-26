@@ -7,13 +7,20 @@
 """
 
 
-class CellWell():
+class Cell():
+    "Classe celula genérica."
+
+    def __init__(self, A, dx, msrc):
+        self.A = A                  # Área transversal
+        self.dx = dx                # Comprimento
+        self.msrc = msrc            # Fonte de massa
+
+
+class CellWell(Cell):
     "Classe celula que será utilizada nas simulações no poço."
 
-    def __init__(self, A, dx, rho, mu, v_rh, p):
-        self.A = A          # Área transversal
-        self.dx = dx        # Comprimento
-        self.rho = rho      # Densidade
-        self.mu = mu        # Viscosidade
-        self.v_rh = v_rh    # Velocidade na face direita
-        self.p = p          # Pressão no centro
+    def __init__(self, A, dx, rho, v_rh, p, msrc):
+        Cell.__init__(self, A, dx, msrc)  # Inicializa área e comprimento
+        self.rho = rho              # Densidade
+        self.v_rh = v_rh            # Velocidade na face direita
+        self.p = p                  # Pressão no centro
