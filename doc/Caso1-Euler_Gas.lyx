@@ -1596,22 +1596,139 @@ Derivada do resíduo do momentum em relação a velocidade
 Bloco à esquerda:
 \end_layout
 
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\frac{\partial R_{k}^{p}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]\right.\\
+\left.+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}\right]
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\frac{\partial R_{k}^{p}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}\right]+\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left(A\rho vv\right)_{k+1}^{n+1}-\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left(A\rho vv\right)_{k}^{n+1}\\
++\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}\right]-\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{p}}{\partial v_{k-\frac{1}{2}}}=-\left(A\rho\right)_{k}^{n+1}\frac{\partial\left(vv\right)_{k}^{n+1}}{\partial v_{k-\frac{1}{2}}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Bloco central:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\frac{\partial R_{k}^{p}}{\partial v_{k+\frac{1}{2}}}=\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]\right.\\
+\left.+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}\right]
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\frac{\partial R_{k}^{p}}{\partial v_{k+\frac{1}{2}}}=\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}\right]+\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left(A\rho vv\right)_{k+1}^{n+1}-\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left(A\rho vv\right)_{k}^{n+1}\\
++\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}\right]-\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\frac{\partial R_{k}^{p}}{\partial v_{k+\frac{1}{2}}}=\frac{\left(A\Delta x\rho\right)_{k+\frac{1}{2}}^{n+1}}{\Delta t}+\left(A\rho\right)_{k+1}^{n+1}\frac{\partial\left(vv\right)_{k+1}^{n+1}}{\partial v_{k+\frac{1}{2}}}-\left(A\rho\right)_{k}^{n+1}\frac{\partial\left(vv\right)_{k}^{n+1}}{\partial v_{k+\frac{1}{2}}}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Bloco à direita:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\frac{\partial R_{k}^{p}}{\partial v_{k+\frac{3}{2}}}=\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]\right.\\
+\left.+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}\right]
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\frac{\partial R_{k}^{p}}{\partial v_{k+\frac{3}{2}}}=\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}\right]+\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left(A\rho vv\right)_{k+1}^{n+1}-\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left(A\rho vv\right)_{k}^{n+1}\\
+\left.+\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}\right]-\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}\right]
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{p}}{\partial v_{k+\frac{3}{2}}}=\left(A\rho\right)_{k+1}^{n+1}\frac{\partial\left(vv\right)_{k+1}^{n+1}}{\partial v_{k+\frac{3}{2}}}-\left(A\rho\right)_{k}^{n+1}\frac{\partial\left(vv\right)_{k}^{n+1}}{\partial v_{k+\frac{3}{2}}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Interpolação Donor-Cell
 \end_layout
 
 \begin_layout Standard
-O método UDS (Donor-Cell) é recomendado para escoamentos com altos valores
- do número de Peclet, onde utiliza-se a interpolação pos diferenças centradas
+As derivadas dos termos 
+\begin_inset Formula $\left(vv\right)_{k}^{n+1}$
+\end_inset
+
+ não podem ser calculadas pois esses termos não são armazenados na geometria,
+ dessa forma será utilizado o método Donor-Cell (UDS) para realizar essa
+ interpolação.
+ O método Donor-Cell é recomendado para escoamentos com altos valores do
+ número de Peclet, onde utiliza-se a interpolação pos diferenças centradas
  para 
 \begin_inset Formula $\vec{v}$
 \end_inset
 
- e a interpolação pelo esquema Upwind de primeira ordem 
-\begin_inset Formula $UDS$
-\end_inset
-
- para a propriedade transportada, 
+ e a interpolação pelo esquema Upwind de primeira ordem (UDS) para a propriedade
+ transportada, 
 \begin_inset Formula $\phi$
 \end_inset
 
@@ -1676,7 +1793,141 @@ Já o termo
 \end_layout
 
 \begin_layout Subsection
-Equação da
+Derivadas da propriedade transportada 
+\begin_inset Formula $\phi$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+Como o sentido do escoamento é importante para o método Donor-Cell, as derivadas
+ serão feitas considerando velocidades positivas e negativas, respectivamente.
+ Assim, as derivadas parciais das velocidades são calculadas por:
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset Formula $v_{k+\frac{1}{2}}\geq0$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(vv\right)_{k}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial\left(vv\right)_{k}}{\partial v_{k}}\frac{\partial v_{k}}{\partial v_{k-\frac{1}{2}}}=2v_{k}\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[v_{k-\frac{1}{2}}\right]=2v_{k}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(vv\right)_{k}}{\partial v_{k+\frac{1}{2}}}=\frac{\partial\left(vv\right)_{k}}{\partial v_{k}}\frac{\partial v_{k}}{\partial v_{k+\frac{1}{2}}}=2v_{k}\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[v_{k-\frac{1}{2}}\right]=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+\frac{1}{2}}}=\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+1}}\frac{\partial v_{k+1}}{\partial v_{k+\frac{1}{2}}}=2v_{k+1}\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[v_{k+\frac{1}{2}}\right]=2v_{k+1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(vv\right)_{k}}{\partial v_{k+\frac{3}{2}}}=\frac{\partial\left(vv\right)_{k}}{\partial v_{k}}\frac{\partial v_{k}}{\partial v_{k+\frac{3}{2}}}=2v_{k}\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[v_{k-\frac{1}{2}}\right]=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+\frac{3}{2}}}=\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+1}}\frac{\partial v_{k+1}}{\partial v_{k+\frac{3}{2}}}=2v_{k+1}\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[v_{k+\frac{1}{2}}\right]=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset Formula $v_{k+\frac{1}{2}}<0$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(vv\right)_{k}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial\left(vv\right)_{k}}{\partial v_{k}}\frac{\partial v_{k}}{\partial v_{k-\frac{1}{2}}}=2v_{k}\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[v_{k+\frac{1}{2}}\right]=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(vv\right)_{k}}{\partial v_{k+\frac{1}{2}}}=\frac{\partial\left(vv\right)_{k}}{\partial v_{k}}\frac{\partial v_{k}}{\partial v_{k+\frac{1}{2}}}=2v_{k}\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[v_{k+\frac{1}{2}}\right]=2v_{k}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+\frac{1}{2}}}=\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+1}}\frac{\partial v_{k+1}}{\partial v_{k+\frac{1}{2}}}=2v_{k+1}\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[v_{k+\frac{3}{2}}\right]=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(vv\right)_{k}}{\partial v_{k+\frac{3}{2}}}=\frac{\partial\left(vv\right)_{k}}{\partial v_{k}}\frac{\partial v_{k}}{\partial v_{k+\frac{3}{2}}}=2v_{k}\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[v_{k-\frac{1}{2}}\right]=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+\frac{3}{2}}}=\frac{\partial\left(vv\right)_{k+1}}{\partial v_{k+1}}\frac{\partial v_{k+1}}{\partial v_{k+\frac{3}{2}}}=2v_{k+1}\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[v_{k+\frac{1}{2}}\right]=2v_{k+1}
+\end{equation}
+
+\end_inset
+
+
 \end_layout
 
 \end_body
