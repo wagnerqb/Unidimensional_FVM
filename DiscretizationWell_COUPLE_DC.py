@@ -24,7 +24,7 @@ class DiscretizationWell_COUPLE_DC():
         print '----+-----------+-----------+----------'
         while(it < it_max and erro >= erro_max):
             A = np.matrix(self.build_Jacobian_matrix(grid, dt))
-            b = np.matrix(self.build_Residual_Vector(grid, dt))
+            b = - np.matrix(self.build_Residual_Vector(grid, dt))
             x = (A.I*b.T).A1
 
             #Valores novos
@@ -208,7 +208,7 @@ class DiscretizationWell_COUPLE_DC():
             R_mass += (A_rh*rho_rh*v_rh) - (A_lh*rho_lh*v_lh) - A*msrc*dx
 
             # Momentum residual
-            R_mom = A_rh*dx_rh*(rho*v - rho_rh_old*v_rh_old)/dt
+            R_mom = A_rh*dx_rh*(rho_rh*v_rh - rho_rh_old*v_rh_old)/dt
             R_mom += A_r*rho_r*v_r*v_r - A*rho*v*v + A_rh*(p_r-p) - A*dx*fsrc
 
             R[2*i] = R_mom
@@ -235,7 +235,7 @@ class DiscretizationWell_COUPLE_DC():
 
     def dRm_dvc(self, A_rh, rho_rh):
         "Derivada do resíduo da massa em relação a velocidade central."
-        return -A_rh*rho_rh
+        return A_rh*rho_rh
 
     def dRm_dvr(self):
         "Derivada do resíduo da massa em relação a velocidade direita."
@@ -290,25 +290,25 @@ if __name__ == '__main__':
     ncells = 5
 
     # Numerical Parameters
-    dt = 0.1
+    dt = .1
 
     # Fluid properties
-    rho = 100                       # Fluid density
+    rho = 1                       # Fluid density
     msrc = 0.                       # Mass Source term per volume unity
     fsrc = 0.                       # Termo fonte da QM
 
     # Initial properties
-    v_ini = 1                       # Initial Condition for v
+    v_ini = 0.2                       # Initial Condition for v
     p_ini = 10                       # Initial Condition for p
 
     # Boundary Condition
     # Left Boundary Condtion (Velocidade na entrada: v_ini)
     lbc_t = 1                       # LBC Type (0 - Pressure / 1 - Velocity)
-    lbc = 1                         # LBC Value
+    lbc = 10                         # LBC Value
 
     # Right Boundary Condtion (Pressão na saida: p_ini)
     rbc_t = 0                       # RBC Type (0 - Pressure / 1 - Velocity)
-    rbc = 0                         # RBC Value
+    rbc = 10                         # RBC Value
 
     #Fluido
     fluid = FluidIncompressible(rho)
@@ -334,5 +334,9 @@ if __name__ == '__main__':
 
     print "RESIDUAL TEST"
     print r
+
+    model.iterate_x(grid, dt, 100, 1e-5)
     
-    model.iterate_x(grid, dt)
+    print 'NOVO P', grid.get_p()
+    print 'Novo v', grid.get_v_rh()
+    
