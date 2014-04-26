@@ -14,10 +14,11 @@ import numpy as np
 class DiscretizationWell_COUPLE_CDS():
     "Modelo de discretização COUPLE CDS."
 
-    def iterate_x(self, grid, it_max=1E2, erro_max=1E-8):
+    def iterate_x(self, grid, it_max=1E8, erro_max=1E-8):
         "Função que realiza iterações utilizando o modelo COUPLE."
         it = 0
         erro = erro_max
+        new_p = new_v_rh = 0
         print '='*40
         print ' It |  E(v_rh)  |   E(p)    |  E_tot  '
         print '----+-----------+-----------+----------'
@@ -33,7 +34,14 @@ class DiscretizationWell_COUPLE_CDS():
             #Calculando norma L2
             erro_p = (sum(new_p**2))**0.5
             erro_v_rh = (sum(new_v_rh**2))**0.5
-            erro = erro_p + erro_v_rh
+
+            #Verificando alteração de informações
+            if erro == erro_p + erro_v_rh:
+                print '\n!!! Erro mínimo obtido: %.3e !!!\n' % erro
+                raw_input('Digite enter para continuar...')
+                break
+            else:
+                erro = erro_p + erro_v_rh
 
             #Atualizando valores
             it += 1
@@ -42,11 +50,10 @@ class DiscretizationWell_COUPLE_CDS():
                 grid.set_v_rh(i, grid.v_rh(i)+new_v_rh[i])
 
             #Imprimindo resultados da iteração
-            print '{0:03d} | {1:.3E} | {2:.3E} | {3:.3E}'.format(it,\
+            print '{0:03d} | {1:.3E} | {2:.3E} | {3:.3E}'.format(it,
                 erro_v_rh, erro_p, erro_v_rh+erro_p)
         print '='*40
         return it, erro
-
 
     def build_Jacobian_matrix(self, grid):
         "Função que constrói o Jacobiano"
@@ -62,8 +69,6 @@ class DiscretizationWell_COUPLE_CDS():
             rho_r = grid.rho_r(i)
             rho_lh = grid.rho_lh(i)
             rho_rh = grid.rho_rh(i)
-            dx = grid.dx(i)
-            dx_r = grid.dx_r(i)
             v = grid.v(i)
             v_r = grid.v_r(i)
 
@@ -174,13 +179,10 @@ class DiscretizationWell_COUPLE_CDS():
             rho_lh = grid.rho_lh(i)
             rho_rh = grid.rho_rh(i)
             dx = grid.dx(i)
-            dx_r = grid.dx_r(i)
-            #dx_rh = self.center_scheme(grid.dx(i), grid.dx(i+1))
             v = grid.v(i)
             v_r = grid.v_r(i)
             v_lh = grid.v_lh(i)
             v_rh = grid.v_rh(i)
-            v_rrh = grid.v_rh(i+1)
             p = grid.p(i)
             p_r = grid.p_r(i)
             msrc = grid.msrc(i)

@@ -17,16 +17,26 @@ class GridWell(Grid):
         Grid.__init__(self)
 
     #========================== MASSA ESPECÍFICA =============================#
-    def rho(self, index):
+    def rho(self, index, p=None, T=None):
         "Densidade no centro da célula."
         if (index < 0):
-            rho = self[0].rho
+            # Condição de contorno esquerda
+            if self.lbc_t == self.PERIODIC_BC:
+                # Condição de contorno periódica
+                rho = self[-1].rho(p, T)
+            else:
+                rho = self[0].rho(p, T)
 
         elif (index > self.n-1):
-            rho = self[self.n-1].rho
+            # Condição de contorno direita
+            if self.rbc_t == self.PERIODIC_BC:
+                # Condição de contorno periódica
+                rho = self[0].rho(p, T)
+            else:
+                rho = self[-1].rho(p, T)
 
         else:
-            rho = self[index].rho
+            rho = self[index].rho(p, T)
 
         return rho
 
@@ -57,7 +67,7 @@ class GridWell(Grid):
 
             elif (self.lbc_t == self.PERIODIC_BC):
                 # Condição de contorno periódica
-                v_rh = self[-1].vrh
+                v_rh = self[-1].v_rh
 
             else:
                 # Para outras condições de contorno a velocidade é extrapolada

@@ -9,6 +9,7 @@ from __future__ import division
 import matplotlib.pyplot as plt
 from Cell import CellWell
 from GridWell import GridWell
+from Fluid import *
 from DiscretizationWell_COUPLE_CDS import *
 
 
@@ -39,6 +40,9 @@ rbc = 0                         # RBC Value
 grid = GridWell()
 grid.set_boundaries(lbc_t, lbc, rbc_t, rbc)
 
+#Fluido
+fluid = FluidIncompressible(rho)
+
 # Creating Model
 model = DiscretizationWell_COUPLE_CDS()
 
@@ -48,7 +52,7 @@ p_real = []
 for i in range(ncells):
     #Criando grid
     A = b_ - (b_-a_)*(.5+i)/ncells
-    cell = CellWell(A, dx, rho, v_ini, p_ini, msrc)
+    cell = CellWell(A, dx, fluid, v_ini, p_ini, msrc)
     grid.add_cell(cell)
 
     #Calculando as soluções analíticas

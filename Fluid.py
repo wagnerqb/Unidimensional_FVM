@@ -15,6 +15,13 @@ class Fluid():
 
     def rho(self, p, T):
         pass
-    
 
-        
+
+class FluidIncompressible():
+    "Classe Fluido."
+
+    def __init__(self, rho):
+        self.rho_ = rho
+
+    def rho(self, p, T):
+        return self.rho_
