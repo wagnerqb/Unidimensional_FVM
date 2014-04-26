@@ -55,7 +55,7 @@ class DiscretizationWell_COUPLE_CDS():
         print '='*40
         return it, erro
 
-    def build_Jacobian_matrix(self, grid):
+    def build_Jacobian_matrix(self, grid, dt):
         "Função que constrói o Jacobiano"
         n = grid.n
         J = np.zeros((2*n, 2*n))
@@ -69,18 +69,24 @@ class DiscretizationWell_COUPLE_CDS():
             rho_r = grid.rho_r(i)
             rho_lh = grid.rho_lh(i)
             rho_rh = grid.rho_rh(i)
+            dx = grid.dx(i)
             v = grid.v(i)
             v_r = grid.v_r(i)
+            v_lh = grid.v_lh(i)
+            v_rh = grid.v_rh(i)
+            p = grid.p(i)
+            p_l = grid.p_l(i)
+            p_r = grid.p_r(i)
 
             # Calculando as Derivadas dos Resíduos
             #Derivada do resíduo da massa em relação a pressão esquerda
-            dRm_dpl = self.dRm_dpl()
+            dRm_dpl = self.dRm_dpl(A_lh, v_lh, p_l, fluid)
 
             #Derivada do resíduo da massa em relação a pressão central
-            dRm_dpc = self.dRm_dpc()
+            dRm_dpc = self.dRm_dpc(dt, A, A_lh, A_rh, dx, v_lh, v_rh, p, fluid)
 
             #Derivada do resíduo da massa em relação a pressão direita
-            dRm_dpr = self.dRm_dpr()
+            dRm_dpr = self.dRm_dpr(A_rh, v_rh, p_r, fluid)
 
             #Derivada do resíduo do momentum em relação a pressão esquerda
             dRp_dpl = self.dRp_dpl()
@@ -92,10 +98,10 @@ class DiscretizationWell_COUPLE_CDS():
             dRp_dpr = self.dRp_dpr()
 
             #Derivada do resíduo da massa em relação a velocidade face k-1/2
-            dRm_dvl = self.dRm_dvl()
+            dRm_dvl = self.dRm_dvl(A_lh, rho_lh)
 
             #Derivada do resíduo da massa em relação a velocidade face k+1/2
-            dRm_dvc = self.dRm_dvc()
+            dRm_dvc = self.dRm_dvc(A_rh, rho_rh)
 
             #Derivada do resíduo da massa em relação a velocidade face k+3/2
             dRm_dvr = self.dRm_dvr()
@@ -155,7 +161,7 @@ class DiscretizationWell_COUPLE_CDS():
 
         return J
 
-    def build_Residual_Vector(self, grid):
+    def build_Residual_Vector(self, grid, dt):
         """Função que constrói o vetor de resíduos. Observa-se que o vetor de
         resíduos já possui sinal negativo."""
 
@@ -163,7 +169,7 @@ class DiscretizationWell_COUPLE_CDS():
         R = np.zeros(2*n)
 
         for i in range(n):
-            #Termos Fonte
+            #Variáveis no passo de tempo atual
             A = grid.A(i)
             A_r = grid.A_r(i)
             A_lh = grid.A_lh(i)
@@ -180,13 +186,20 @@ class DiscretizationWell_COUPLE_CDS():
             p = grid.p(i)
             p_r = grid.p_r(i)
             msrc = grid.msrc(i)
+            fsrc = 0
+
+            #Variáveis no passo de tempo anterior
+            v_rh_old = grid.v_rh_old(i)
+            rho_old = grid.rho_old(i)
+            rho_rh_old = grid.rho_rh_old(i)
 
             # Mass Residual
-            R_mass = (A_rh*rho_rh*v_rh) - (A_lh*rho_lh*v_lh) - A*msrc*dx
+            R_mass = A*dx*(rho - rho_old)/dt
+            R_mass += (A_rh*rho_rh*v_rh) - (A_lh*rho_lh*v_lh) - A*msrc*dx
 
             # Momentum residual
-            R_mom = (A_r*rho_r*v_r*v_r) - (A*rho*v*v)
-            R_mom += A_rh*(p_r-p)  # 2*(A_rh*dx_rh)*(p_r-p)/(dx_r + dx)
+            R_mom = A_rh*dx_rh*(rho*v - rho_rh_old*v_rh_old)/dt
+            R_mom += A_r*rho_r*v_r*v_r - A*rho*v*v + A_rh*(p_r-p) - A*dx*fsrc
 
             R[2*i] = R_mom
             R[2*i+1] = R_mass
@@ -194,7 +207,28 @@ class DiscretizationWell_COUPLE_CDS():
         return -R
 
     #======================= DERIVADAS DO RESÍDUO DA MASSA ===================#
-    def dRm_dpl(self):
+    def dRm_dpl(self, A_lh, v_lh, p_l, fluid):
+        "Derivada do resíduo da massa em relação a pressão esquerda."
+        return -0.5*A_lh*v_lh*fluid.drho_dp(p_l)
+
+    def dRm_dpc(self, dt, A, A_lh, A_rh, dx, v_lh, v_rh, p, fluid):
+        "Derivada do resíduo da massa em relação a pressão central."
+        return (A*dx/dt + 0.5*A_rh*v_rh - 0.5*A_lh*v_lh)*fluid.drho_dp(p)
+
+    def dRm_dpr(self, A_rh, v_rh, p_r, fluid):
+        "Derivada do resíduo da massa em relação a pressão direita."
+        return 0.5*A_rh*v_rh*fluid.drho_dp(p_r)
+
+    def dRm_dvl(self, A_lh, rho_lh):
+        "Derivada do resíduo da massa em relação a velocidade esquerda."
+        return -A_lh*rho_lh
+
+    def dRm_dvc(self, A_rh, rho_rh):
+        "Derivada do resíduo da massa em relação a velocidade central."
+        return -A_rh*rho_rh
+
+    def dRm_dvr(self):
+        "Derivada do resíduo da massa em relação a velocidade direita."
         return 0
 
     #============= DERIVADAS DO RESÍDUO DA QUANTIDADE DE MOVIMENTO ===========#
