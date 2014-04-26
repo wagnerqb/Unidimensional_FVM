@@ -154,6 +154,10 @@ Sem atrito com as paredes do tubo (Equação de Euler);
 \end_layout
 
 \begin_layout Enumerate
+Desconsidera-se efeitos de gravidade;
+\end_layout
+
+\begin_layout Enumerate
 Fluido Incompressível;
 \end_layout
 
@@ -168,7 +172,7 @@ A equação de Navier-Stokes unidimensional pode ser escrita como:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\nabla\cdot\left(\rho\vec{v}\right)=S_{m}\label{eq:CONS_MASSA}
+\frac{\partial}{\partial t}\left(\rho\right)+\nabla\cdot\left(\rho\vec{v}\right)=S_{m}\label{eq:CONS_MASSA}
 \end{equation}
 
 \end_inset
@@ -179,7 +183,7 @@ A equação de Navier-Stokes unidimensional pode ser escrita como:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\nabla\cdot\left(\rho\vec{v}\vec{v}\right)=-\nabla p+S_{u}\label{eq:CONS_QUANT_MOVIM}
+\frac{\partial}{\partial t}\left(\rho v\right)+\nabla\cdot\left(\rho\vec{v}\vec{v}\right)=-\nabla p+S_{u}\label{eq:CONS_QUANT_MOVIM}
 \end{equation}
 
 \end_inset
@@ -281,7 +285,7 @@ reference "fig:VC-1D"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -425,7 +429,7 @@ Equações de Navier-Stokes discretizadas
 
 \begin_layout Standard
 Será aplicado o método dos volumes finitos na equação da difusão como descrito
- no capítulo 4 de 
+ no capítulo 4 e 8 de 
 \begin_inset ERT
 status open
 
@@ -454,7 +458,22 @@ utilizando o método dos volumes finitos, a equação da conservação da massa
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\rho\vec{v}\right)dV=\underset{\textrm{V.C}.}{\iiint}S_{m}dV
+\intop_{t}\underset{\textrm{V.C}.}{\iiint}\frac{\partial}{\partial t}\left(\rho\right)dVdt+\intop_{t}\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\rho\vec{v}\right)dVdt=\intop_{t}\underset{\textrm{V.C}.}{\iiint}S_{m}dVdt
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Aplicando a regra de Leibiniz no primeiro termo:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\underset{\textrm{V.C}.}{\iiint}\intop_{t}\left[\frac{\partial}{\partial t}\left(\rho\right)\right]dtdV+\intop_{t}\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\rho\vec{v}\right)dVdt=\intop_{t}\underset{\textrm{V.C}.}{\iiint}S_{m}dVdt
 \end{equation}
 
 \end_inset
@@ -469,7 +488,7 @@ Aplicando o teorema de Gauss:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\right)\cdot\vec{n}dS=\underset{\textrm{V.C}.}{\iiint}S_{m}dV
+\underset{\textrm{V.C}.}{\iiint}\intop_{t}\left[\frac{\partial}{\partial t}\left(\rho\right)\right]dtdV+\intop_{t}\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\right)\cdot\vec{n}dSdt=\intop_{t}\underset{\textrm{V.C}.}{\iiint}S_{m}dVdt\label{eq:parcial_discretização_massa}
 \end{equation}
 
 \end_inset
@@ -478,13 +497,82 @@ Aplicando o teorema de Gauss:
 \end_layout
 
 \begin_layout Standard
-Utilizando o volume de controle unidimensional:
+Avaliando a integral no tempo do primeiro termo da equação:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\left(A\rho v\right)_{k+\frac{1}{2}}-\left(A\rho v\right)_{k-\frac{1}{2}}=\left(AS_{m}\Delta x\right)_{k}\label{eq:Discretizacao_Cons_Massa}
+\intop_{t}\left[\frac{\partial}{\partial t}\left(\rho\right)\right]dt=\rho^{n+1}-\rho^{n}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Para se avaliar as integrais no tempo das outras variáveis, será utilizado
+ um parametro 
+\begin_inset Formula $\theta$
+\end_inset
+
+ que pondera quanta informação deve ser utilizada do passo de tempo anterior,
+ assim:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\intop_{t}f\left(x,\, t\right)dt=\left[\theta f^{n+1}+\left(1-\theta\right)f^{n}\right]\Delta t
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Como será utilizado um esquema totalmente implícito, 
+\begin_inset Formula $\theta=1$
+\end_inset
+
+, assim:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\intop_{t}f\left(x,\, t\right)dt=f^{n+1}\Delta t
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Substituindo na Equação 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:parcial_discretização_massa"
+
+\end_inset
+
+ e utilizando o volume de controle unidimensional (Figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:VC-1D"
+
+\end_inset
+
+):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left(A\Delta x\right)_{k}\frac{\left(\rho^{n+1}-\rho^{n}\right)_{k}}{\Delta t}+\left(A\rho v\right)_{k+\frac{1}{2}}^{n+1}-\left(A\rho v\right)_{k-\frac{1}{2}}^{n+1}=\left(AS_{m}\Delta x\right)_{k}^{n+1}\label{eq:Discretizacao_Eq_Massa}
 \end{equation}
 
 \end_inset
@@ -503,7 +591,7 @@ A equação da quantidade de movimento pode ser escrita como:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\rho\vec{v}\vec{v}\right)dV=-\underset{\textrm{V.C}.}{\iiint}\nabla pdV+\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\mu\nabla\vec{v}\right)dV+\underset{\textrm{V.C}.}{\iiint}S_{u}dV
+\intop_{t}\underset{\textrm{V.C}.}{\iiint}\frac{\partial}{\partial t}\left(\rho v\right)dVdt+\intop_{t}\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\rho\vec{v}\vec{v}\right)dVdt=-\intop_{t}\underset{\textrm{V.C}.}{\iiint}\nabla pdVdt+\intop_{t}\underset{\textrm{V.C}.}{\iiint}S_{u}dVdt
 \end{equation}
 
 \end_inset
@@ -512,13 +600,13 @@ A equação da quantidade de movimento pode ser escrita como:
 \end_layout
 
 \begin_layout Standard
-Aplicando o teorema de Gauss:
+Aplicando o teorema de Gauss e a regra de Leibiniz: 
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\vec{v}\right)\cdot\vec{n}dS=-\underset{\textrm{V.C}.}{\iiint}\nabla pdV+\underset{\textrm{S.C}.}{\iiint}\left(\mu\nabla\vec{v}\right)\cdot\vec{n}dS+\underset{\textrm{V.C}.}{\iiint}S_{u}dV
+\underset{\textrm{V.C}.}{\iiint}\intop_{t}\left[\frac{\partial}{\partial t}\left(\rho v\right)\right]dtdV+\intop_{t}\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\vec{v}\right)\cdot\vec{n}dSdt=-\intop_{t}\underset{\textrm{V.C}.}{\iiint}\nabla pdVdt+\intop_{t}\underset{\textrm{V.C}.}{\iiint}S_{u}dVdt
 \end{equation}
 
 \end_inset
@@ -527,30 +615,15 @@ Aplicando o teorema de Gauss:
 \end_layout
 
 \begin_layout Standard
-Utilizando o volume de controle unidimensional:
+Discretizando implicitamente no temopo, e utilizando o volume de controle
+ unidimensional:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\left(A\rho vv\right)_{k+1}-\left(A\rho vv\right)_{k}=-\left(A\Delta x\frac{\partial p}{\partial x}\right)_{k+\frac{1}{2}}+\left(A\mu\frac{\partial v}{\partial x}\right)_{k+1}-\left(A\mu\frac{\partial v}{\partial x}\right)_{k}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}
+\underset{\textrm{V.C}.}{\iiint}\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]dV+\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\vec{v}\right)^{n+1}\cdot\vec{n}dS\Delta t=-\underset{\textrm{V.C}.}{\iiint}\nabla p^{n+1}dV\Delta t+\underset{\textrm{V.C}.}{\iiint}S_{u}^{n+1}dV\Delta t
 \end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Utilizando diferenças finitas para aproximar os termos das derivadas:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{multline}
-\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}=\\
--\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{\partial p}{\partial x}\right)_{k+\frac{1}{2}}+\left(A\mu\right)_{k+1}\left(\frac{\partial v}{\partial x}\right)_{k+1}-\left(A\mu\right)_{k}\left(\frac{\partial v}{\partial x}\right)_{k}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}
-\end{multline}
 
 \end_inset
 
@@ -560,8 +633,8 @@ Utilizando diferenças finitas para aproximar os termos das derivadas:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{multline}
-\left(A\rho\right)_{k+1}\left(vv\right)_{k+1}-\left(A\rho\right)_{k}\left(vv\right)_{k}=\\
--\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}+\left(A\mu\right)_{k+1}\frac{v_{k+\frac{3}{2}}-v_{k+\frac{1}{2}}}{\Delta x_{k+1}}-\left(A\mu\right)_{k}\frac{v_{k+\frac{1}{2}}-v_{k-\frac{1}{2}}}{\Delta x_{k}}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}\label{eq:Discretizacao_Quant_Movimento}
+\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]=\\
+-\left(A\Delta x\frac{\partial p}{\partial x}\right)_{k+\frac{1}{2}}^{n+1}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}
 \end{multline}
 
 \end_inset
@@ -570,10 +643,1040 @@ Utilizando diferenças finitas para aproximar os termos das derivadas:
 \end_layout
 
 \begin_layout Standard
-No lado esquerdo da equação existe um produto de velocidades no centro das
- células que deverá ser calculado utilizando um algorítimo de interpolação
- (CDS, UDS, etc).
+Utilizando diferenças finitas para aproximar a derivada da pressão:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]=\\
+-\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}\label{eq:Discretizacao_Eq_Movimento}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Será utilizado o esquema de interpolação Donor-Cell para se avaliar a velocidade
+ no centro das células.
  
+\end_layout
+
+\begin_layout Section
+Algorítimo COUPLE com formulação Full-Implicit
+\end_layout
+
+\begin_layout Subsection
+Método de Newton-Rapson
+\end_layout
+
+\begin_layout Standard
+A formulação implícita do problema será realizada utilizando-se o método
+ de Newton-Raphson, descrito por:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+R_{k}^{\nu}+\sum_{j}^{N\: Equations}\frac{\partial R_{k}^{\nu}}{\partial x_{j}}\left(x_{j}^{\left(\nu+1\right)}-x_{j}^{\left(\nu\right)}\right)=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+ou em notação matricial:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+J^{\nu}\delta x^{\nu+1}=-R^{\nu}\label{eq:Método_Newton_Rapson_notacao_simplificada}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+onde 
+\begin_inset Formula $J$
+\end_inset
+
+ é a matriz Jacobiano do problema, 
+\begin_inset Formula $R$
+\end_inset
+
+ é o vetor de resíduos e 
+\begin_inset Formula $\delta x$
+\end_inset
+
+ é a variação da solução do problema.
+ Observa-se que todas as propriedades serão avaliadas no tempo 
+\begin_inset Formula $n+1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Os resíduos para a equação da conservação da massa são dados por:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+R_{k}^{m}=\left(A\Delta x\right)_{k}\frac{\left(\rho^{n+1}-\rho^{n}\right)_{k}}{\Delta t}+\left(A\rho v\right)_{k+\frac{1}{2}}^{n+1}-\left(A\rho v\right)_{k-\frac{1}{2}}^{n+1}-\left(AS_{m}\Delta x\right)_{k}^{n+1}\label{eq:Residuo_Massa}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Os resíduos para a equação da quantidade de movimento desprezando termos
+ fonte, são dados por:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+R_{k}^{p}=\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]\\
++\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}\label{eq:Residuo_Momentum}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dessa forma a Equação 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Método_Newton_Rapson_notacao_simplificada"
+
+\end_inset
+
+ pode ser escrita como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left[\begin{array}{ccccccccc}
+\frac{\partial R_{1}^{p}}{\partial p_{1}} & \frac{\partial R_{1}^{p}}{\partial v_{1}} & \frac{\partial R_{1}^{p}}{\partial p_{2}} & \frac{\partial R_{1}^{p}}{\partial v_{2}} & \frac{\partial R_{1}^{p}}{\partial p_{3}} & \frac{\partial R_{1}^{p}}{\partial v_{3}} & \cdots & \frac{\partial R_{1}^{p}}{\partial p_{n}} & \frac{\partial R_{1}^{p}}{\partial v_{n}}\\
+\frac{\partial R_{1}^{m}}{\partial p_{1}} & \frac{\partial R_{1}^{m}}{\partial v_{1}} & \frac{\partial R_{1}^{m}}{\partial p_{2}} & \frac{\partial R_{1}^{m}}{\partial v_{2}} & \frac{\partial R_{1}^{m}}{\partial p_{3}} & \frac{\partial R_{1}^{m}}{\partial v_{3}} & \cdots & \frac{\partial R_{1}^{m}}{\partial p_{n}} & \frac{\partial R_{1}^{m}}{\partial v_{n}}\\
+\frac{\partial R_{2}^{p}}{\partial p_{1}} & \frac{\partial R_{2}^{p}}{\partial v_{1}} & \frac{\partial R_{2}^{p}}{\partial p_{2}} & \frac{\partial R_{2}^{p}}{\partial v_{2}} & \frac{\partial R_{2}^{p}}{\partial p_{3}} & \frac{\partial R_{2}^{p}}{\partial v_{3}} & \cdots & \frac{\partial R_{2}^{p}}{\partial p_{n}} & \frac{\partial R_{2}^{p}}{\partial v_{n}}\\
+\frac{\partial R_{2}^{m}}{\partial p_{1}} & \frac{\partial R_{2}^{m}}{\partial v_{1}} & \frac{\partial R_{2}^{m}}{\partial p_{2}} & \frac{\partial R_{2}^{m}}{\partial v_{2}} & \frac{\partial R_{2}^{m}}{\partial p_{3}} & \frac{\partial R_{2}^{m}}{\partial v_{3}} & \cdots & \frac{\partial R_{2}^{m}}{\partial p_{n}} & \frac{\partial R_{2}^{m}}{\partial v_{n}}\\
+\frac{\partial R_{3}^{p}}{\partial p_{1}} & \frac{\partial R_{3}^{p}}{\partial v_{1}} & \frac{\partial R_{3}^{p}}{\partial p_{2}} & \frac{\partial R_{3}^{p}}{\partial v_{2}} & \frac{\partial R_{3}^{p}}{\partial p_{3}} & \frac{\partial R_{3}^{p}}{\partial v_{3}} & \cdots & \frac{\partial R_{3}^{p}}{\partial p_{n}} & \frac{\partial R_{3}^{p}}{\partial v_{n}}\\
+\frac{\partial R_{3}^{m}}{\partial p_{1}} & \frac{\partial R_{3}^{m}}{\partial v_{1}} & \frac{\partial R_{3}^{m}}{\partial p_{2}} & \frac{\partial R_{3}^{m}}{\partial v_{2}} & \frac{\partial R_{3}^{m}}{\partial p_{3}} & \frac{\partial R_{3}^{m}}{\partial v_{3}} & \cdots & \frac{\partial R_{3}^{m}}{\partial p_{n}} & \frac{\partial R_{3}^{m}}{\partial v_{n}}\\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots\\
+\frac{\partial R_{n}^{p}}{\partial p_{1}} & \frac{\partial R_{n}^{p}}{\partial v_{1}} & \frac{\partial R_{n}^{p}}{\partial p_{2}} & \frac{\partial R_{n}^{p}}{\partial v_{2}} & \frac{\partial R_{n}^{p}}{\partial p_{3}} & \frac{\partial R_{n}^{p}}{\partial v_{3}} & \cdots & \frac{\partial R_{n}^{p}}{\partial p_{n}} & \frac{\partial R_{n}^{p}}{\partial v_{n}}\\
+\frac{\partial R_{n}^{m}}{\partial p_{1}} & \frac{\partial R_{n}^{m}}{\partial v_{1}} & \frac{\partial R_{n}^{m}}{\partial p_{2}} & \frac{\partial R_{n}^{m}}{\partial v_{2}} & \frac{\partial R_{n}^{m}}{\partial p_{3}} & \frac{\partial R_{n}^{m}}{\partial v_{3}} & \cdots & \frac{\partial R_{n}^{m}}{\partial p_{n}} & \frac{\partial R_{n}^{m}}{\partial v_{n}}
+\end{array}\right]\left[\begin{array}{c}
+\delta p_{1}\\
+\delta v_{1}\\
+\delta p_{2}\\
+\delta v_{2}\\
+\delta p_{3}\\
+\delta v_{3}\\
+\vdots\\
+\delta p_{n}\\
+\delta v_{n}
+\end{array}\right]=-\left[\begin{array}{c}
+R_{1}^{p}\\
+R_{1}^{m}\\
+R_{2}^{p}\\
+R_{2}^{m}\\
+R_{3}^{p}\\
+R_{3}^{m}\\
+\vdots\\
+R_{n}^{p}\\
+R_{n}^{m}
+\end{array}\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Observa-se que as funções de resíduo (Equações 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Residuo_Massa"
+
+\end_inset
+
+ e 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Residuo_Momentum"
+
+\end_inset
+
+) para a célula 
+\begin_inset Formula $k$
+\end_inset
+
+ só dependem dos vizinhos a esquerda e a direita.
+ Logo:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left[\begin{array}{ccccccccc}
+\frac{\partial R_{1}^{p}}{\partial p_{1}} & \frac{\partial R_{1}^{p}}{\partial v_{1}} & \frac{\partial R_{1}^{p}}{\partial p_{2}} & \frac{\partial R_{1}^{p}}{\partial v_{2}} & 0 & 0 & \cdots & 0 & 0\\
+\frac{\partial R_{1}^{m}}{\partial p_{1}} & \frac{\partial R_{1}^{m}}{\partial v_{1}} & \frac{\partial R_{1}^{m}}{\partial p_{2}} & \frac{\partial R_{1}^{m}}{\partial v_{2}} & 0 & 0 & \cdots & 0 & 0\\
+\frac{\partial R_{2}^{p}}{\partial p_{1}} & \frac{\partial R_{2}^{p}}{\partial v_{1}} & \frac{\partial R_{2}^{p}}{\partial p_{2}} & \frac{\partial R_{2}^{p}}{\partial v_{2}} & \frac{\partial R_{2}^{p}}{\partial p_{3}} & \frac{\partial R_{2}^{p}}{\partial v_{3}} & \cdots & 0 & 0\\
+\frac{\partial R_{2}^{m}}{\partial p_{1}} & \frac{\partial R_{2}^{m}}{\partial v_{1}} & \frac{\partial R_{2}^{m}}{\partial p_{2}} & \frac{\partial R_{2}^{m}}{\partial v_{2}} & \frac{\partial R_{2}^{m}}{\partial p_{3}} & \frac{\partial R_{2}^{m}}{\partial v_{3}} & \cdots & 0 & 0\\
+0 & 0 & \frac{\partial R_{3}^{p}}{\partial p_{2}} & \frac{\partial R_{3}^{p}}{\partial v_{2}} & \frac{\partial R_{3}^{p}}{\partial p_{3}} & \frac{\partial R_{3}^{p}}{\partial v_{3}} & \cdots & 0 & 0\\
+0 & 0 & \frac{\partial R_{3}^{m}}{\partial p_{2}} & \frac{\partial R_{3}^{m}}{\partial v_{2}} & \frac{\partial R_{3}^{m}}{\partial p_{3}} & \frac{\partial R_{3}^{m}}{\partial v_{3}} & \cdots & 0 & 0\\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots\\
+0 & 0 & 0 & 0 & 0 & 0 & \cdots & \frac{\partial R_{n}^{p}}{\partial p_{n}} & \frac{\partial R_{n}^{p}}{\partial v_{n}}\\
+0 & 0 & 0 & 0 & 0 & 0 & \cdots & \frac{\partial R_{n}^{m}}{\partial p_{n}} & \frac{\partial R_{n}^{m}}{\partial v_{n}}
+\end{array}\right]\left[\begin{array}{c}
+\delta p_{1}\\
+\delta v_{1}\\
+\delta p_{2}\\
+\delta v_{2}\\
+\delta p_{3}\\
+\delta v_{3}\\
+\vdots\\
+\delta p_{n}\\
+\delta v_{n}
+\end{array}\right]=-\left[\begin{array}{c}
+R_{1}^{p}\\
+R_{1}^{m}\\
+R_{2}^{p}\\
+R_{2}^{m}\\
+R_{3}^{p}\\
+R_{3}^{m}\\
+\vdots\\
+R_{n}^{p}\\
+R_{n}^{m}
+\end{array}\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Derivadas Parciais
+\end_layout
+
+\begin_layout Subsection
+Derivada do resíduo da massa em relação a pressão
+\end_layout
+
+\begin_layout Subsubsection
+Bloco à esquerda:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial p_{k-1}}=\frac{\partial}{\partial p_{k-1}}\left[\left(A\Delta x\right)_{k}\frac{\left(\rho^{n+1}-\rho^{n}\right)_{k}}{\Delta t}+\left(A\rho v\right)_{k+\frac{1}{2}}^{n+1}-\left(A\rho v\right)_{k-\frac{1}{2}}^{n+1}-\left(AS_{m}\Delta x\right)_{k}^{n+1}\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial p_{k-1}}=\frac{\partial}{\partial p_{k-1}}\left(\left(A\Delta x\right)_{k}\frac{\left(\rho^{n+1}-\rho^{n}\right)_{k}}{\Delta t}\right)+\frac{\partial}{\partial p_{k-1}}\left(A\rho v\right)_{k+\frac{1}{2}}^{n+1}-\frac{\partial}{\partial p_{k-1}}\left(A\rho v\right)_{k-\frac{1}{2}}^{n+1}-\frac{\partial}{\partial p_{k-1}}\left(AS_{m}\Delta x\right)_{k}^{n+1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial p_{k-1}}=-\left(Av\right)_{k-\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k-1}}\left(\rho\right)_{k-\frac{1}{2}}^{n+1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+como
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho_{k-\frac{1}{2}}^{n+1}=\frac{\rho_{k-1}^{n+1}+\rho_{k}^{n+1}}{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+então:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial p_{k-1}}=-\frac{\left(Av\right)_{k-\frac{1}{2}}^{n+1}}{2}\frac{\partial\left(\rho_{k-1}^{n+1}\right)}{\partial p_{k-1}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Bloco central:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial p_{k}}=\frac{\partial}{\partial p_{k}}\left[\left(A\Delta x\right)_{k}\frac{\left(\rho^{n+1}-\rho^{n}\right)_{k}}{\Delta t}+\left(A\rho v\right)_{k+\frac{1}{2}}^{n+1}-\left(A\rho v\right)_{k-\frac{1}{2}}^{n+1}-\left(AS_{m}\Delta x\right)_{k}^{n+1}\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial p_{k}}=\frac{\partial}{\partial p_{k}}\left(\left(A\Delta x\right)_{k}\frac{\left(\rho^{n+1}-\rho^{n}\right)_{k}}{\Delta t}\right)+\frac{\partial}{\partial p_{k}}\left(A\rho v\right)_{k+\frac{1}{2}}^{n+1}-\frac{\partial}{\partial p_{k}}\left(A\rho v\right)_{k-\frac{1}{2}}^{n+1}-\frac{\partial}{\partial p_{k}}\left(AS_{m}\Delta x\right)_{k}^{n+1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial p_{k}}=\frac{\left(A\Delta x\right)_{k}}{\Delta t}\frac{\partial\left(\rho_{k}^{n+1}\right)}{\partial p_{k}}+\left(Av\right)_{k+\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k}}\rho_{k+\frac{1}{2}}^{n+1}-\left(Av\right)_{k-\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k}}\rho_{k-\frac{1}{2}}^{n+1}-\left(A\Delta x\right)_{k}^{n+1}\frac{\partial}{\partial p_{k}}S_{m}_{k}^{n+1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+como
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho_{k-\frac{1}{2}}^{n+1}=\frac{\rho_{k-1}^{n+1}+\rho_{k}^{n+1}}{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho_{k+\frac{1}{2}}^{n+1}=\frac{\rho_{k}^{n+1}+\rho_{k+1}^{n+1}}{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+então:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial p_{k}}=\frac{\left(A\Delta x\right)_{k}}{\Delta t}\frac{\partial\left(\rho_{k}^{n+1}\right)}{\partial p_{k}}+\frac{\left(Av\right)_{k+\frac{1}{2}}^{n+1}}{2}\frac{\partial\left(\rho_{k}^{n+1}\right)}{\partial p_{k}}-\frac{\left(Av\right)_{k-\frac{1}{2}}^{n+1}}{2}\frac{\partial\left(\rho_{k}^{n+1}\right)}{\partial p_{k}}-\left(A\Delta x\right)_{k}^{n+1}\frac{\partial\left(S_{m}{}_{k}^{n+1}\right)}{\partial p_{k}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial p_{k}}=\left[\frac{\left(A\Delta x\right)_{k}}{\Delta t}+\frac{\left(Av\right)_{k+\frac{1}{2}}^{n+1}}{2}-\frac{\left(Av\right)_{k-\frac{1}{2}}^{n+1}}{2}\right]\frac{\partial\left(\rho_{k}^{n+1}\right)}{\partial p_{k}}-\left(A\Delta x\right)_{k}^{n+1}\frac{\partial\left(S_{m}{}_{k}^{n+1}\right)}{\partial p_{k}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Bloco à direita:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial p_{k+1}}=\frac{\partial}{\partial p_{k+1}}\left[\left(A\Delta x\right)_{k}\frac{\left(\rho^{n+1}-\rho^{n}\right)_{k}}{\Delta t}+\left(A\rho v\right)_{k+\frac{1}{2}}^{n+1}-\left(A\rho v\right)_{k-\frac{1}{2}}^{n+1}-\left(AS_{m}\Delta x\right)_{k}^{n+1}\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial p_{k+1}}=\frac{\partial}{\partial p_{k+1}}\left(\left(A\Delta x\right)_{k}\frac{\left(\rho^{n+1}-\rho^{n}\right)_{k}}{\Delta t}\right)+\frac{\partial}{\partial p_{k+1}}\left(A\rho v\right)_{k+\frac{1}{2}}^{n+1}-\frac{\partial}{\partial p_{k+1}}\left(A\rho v\right)_{k-\frac{1}{2}}^{n+1}-\frac{\partial}{\partial p_{k+1}}\left(AS_{m}\Delta x\right)_{k}^{n+1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial p_{k+1}}=\frac{\partial}{\partial p_{k+1}}\left(A\rho v\right)_{k+\frac{1}{2}}^{n+1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+como
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho_{k+\frac{1}{2}}^{n+1}=\frac{\rho_{k}^{n+1}+\rho_{k+1}^{n+1}}{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+então:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial p_{k+1}}=\frac{\left(Av\right)_{k+\frac{1}{2}}^{n+1}}{2}\frac{\partial\left(\rho_{k+1}^{n+1}\right)}{\partial p_{k+1}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Derivada do resíduo da massa em relação a velocidade
+\end_layout
+
+\begin_layout Subsubsection
+Bloco à esquerda:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\Delta x\right)_{k}\frac{\left(\rho^{n+1}-\rho^{n}\right)_{k}}{\Delta t}+\left(A\rho v\right)_{k+\frac{1}{2}}^{n+1}-\left(A\rho v\right)_{k-\frac{1}{2}}^{n+1}-\left(AS_{m}\Delta x\right)_{k}^{n+1}\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left(\left(A\Delta x\right)_{k}\frac{\left(\rho^{n+1}-\rho^{n}\right)_{k}}{\Delta t}\right)+\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left(A\rho v\right)_{k+\frac{1}{2}}^{n+1}-\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left(A\rho v\right)_{k-\frac{1}{2}}^{n+1}-\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left(AS_{m}\Delta x\right)_{k}^{n+1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial v_{k-\frac{1}{2}}}=-\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left(A\rho v\right)_{k-\frac{1}{2}}^{n+1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial v_{k-\frac{1}{2}}}=-\left(A\rho\right)_{k-\frac{1}{2}}^{n+1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Bloco central:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial v_{k+\frac{1}{2}}}=\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[\left(A\Delta x\right)_{k}\frac{\left(\rho^{n+1}-\rho^{n}\right)_{k}}{\Delta t}+\left(A\rho v\right)_{k+\frac{1}{2}}^{n+1}-\left(A\rho v\right)_{k-\frac{1}{2}}^{n+1}-\left(AS_{m}\Delta x\right)_{k}^{n+1}\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial v_{k+\frac{1}{2}}}=\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left(\left(A\Delta x\right)_{k}\frac{\left(\rho^{n+1}-\rho^{n}\right)_{k}}{\Delta t}\right)+\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left(A\rho v\right)_{k+\frac{1}{2}}^{n+1}-\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left(A\rho v\right)_{k-\frac{1}{2}}^{n+1}-\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left(AS_{m}\Delta x\right)_{k}^{n+1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial v_{k+\frac{1}{2}}}=\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left(A\rho v\right)_{k+\frac{1}{2}}^{n+1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial v_{k+\frac{1}{2}}}=\left(A\rho\right)_{k+\frac{1}{2}}^{n+1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Bloco à direita:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial v_{k+\frac{3}{2}}}=\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[\left(A\Delta x\right)_{k}\frac{\left(\rho^{n+1}-\rho^{n}\right)_{k}}{\Delta t}+\left(A\rho v\right)_{k+\frac{1}{2}}^{n+1}-\left(A\rho v\right)_{k-\frac{1}{2}}^{n+1}-\left(AS_{m}\Delta x\right)_{k}^{n+1}\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial v_{k+\frac{3}{2}}}=\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left(\left(A\Delta x\right)_{k}\frac{\left(\rho^{n+1}-\rho^{n}\right)_{k}}{\Delta t}\right)+\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left(A\rho v\right)_{k+\frac{1}{2}}^{n+1}-\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left(A\rho v\right)_{k-\frac{1}{2}}^{n+1}-\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left(AS_{m}\Delta x\right)_{k}^{n+1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{m}}{\partial v_{k+\frac{3}{2}}}=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Derivada do resíduo do momentum em relação a pressão
+\end_layout
+
+\begin_layout Subsubsection
+Bloco à esquerda:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\frac{\partial R_{k}^{p}}{\partial p_{k-1}}=\frac{\partial}{\partial p_{k-1}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]\right.\\
+\left.+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}\right]
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\frac{\partial R_{k}^{p}}{\partial p_{k-1}}=\frac{\partial}{\partial p_{k-1}}\left(\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}\right)+\frac{\partial}{\partial p_{k-1}}\left(A\rho vv\right)_{k+1}^{n+1}-\frac{\partial}{\partial p_{k-1}}\left(A\rho vv\right)_{k}^{n+1}\\
++\frac{\partial}{\partial p_{k-1}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}\right]-\frac{\partial}{\partial p_{k-1}}\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\frac{\partial R_{k}^{p}}{\partial p_{k-1}}=0
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Bloco central:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\frac{\partial R_{k}^{p}}{\partial p_{k}}=\frac{\partial}{\partial p_{k}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]\right.\\
+\left.+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}\right]
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\frac{\partial R_{k}^{p}}{\partial p_{k}}=\frac{\partial}{\partial p_{k}}\left(\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}\right)+\frac{\partial}{\partial p_{k}}\left(A\rho vv\right)_{k+1}^{n+1}-\frac{\partial}{\partial p_{k}}\left(A\rho vv\right)_{k}^{n+1}\\
++\frac{\partial}{\partial p_{k}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}\right]-\frac{\partial}{\partial p_{k}}\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\frac{\partial R_{k}^{p}}{\partial p_{k}}=\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{\Delta t}v_{k+\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k}}\left(\rho_{k+\frac{1}{2}}^{n+1}\right)-\left(Avv\right)_{k}^{n+1}\frac{\partial\left(\rho_{k}^{n+1}\right)}{\partial p_{k}}\\
+-A_{k+\frac{1}{2}}-\left(A\Delta x\right)_{k+\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k}}S_{u}_{k+\frac{1}{2}}^{n+1}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+como
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho_{k+\frac{1}{2}}^{n+1}=\frac{\rho_{k}^{n+1}+\rho_{k+1}^{n+1}}{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+S_{u}{}_{k+\frac{1}{2}}^{n+1}=\frac{S_{u}{}_{k}^{n+1}+S_{u}{}_{k+1}^{n+1}}{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+então:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{p}}{\partial p_{k}}=\left[\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{2\Delta t}v_{k+\frac{1}{2}}^{n+1}-\left(Avv\right)_{k}^{n+1}\right]\frac{\partial\left(\rho_{k}^{n+1}\right)}{\partial p_{k}}-A_{k+\frac{1}{2}}-\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}^{n+1}}{2}\frac{\partial}{\partial p_{k}}\left(S_{u}{}_{k}^{n+1}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Bloco à direita:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\frac{\partial R_{k}^{p}}{\partial p_{k+1}}=\frac{\partial}{\partial p_{k+1}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]\right.\\
+\left.+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}\right]
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+\frac{\partial R_{k}^{p}}{\partial p_{k+1}}=\frac{\partial}{\partial p_{k+1}}\left(\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}\right)+\frac{\partial}{\partial p_{k+1}}\left(A\rho vv\right)_{k+1}^{n+1}-\frac{\partial}{\partial p_{k+1}}\left(A\rho vv\right)_{k}^{n+1}\\
++\frac{\partial}{\partial p_{k+1}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}\right]-\frac{\partial}{\partial p_{k+1}}\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{p}}{\partial p_{k+1}}=\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{\Delta t}v_{k+\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k+1}}\left(\rho_{k+\frac{1}{2}}^{n+1}\right)+\left(Avv\right)_{k+1}^{n+1}\frac{\partial\left(\rho_{k+1}^{n+1}\right)}{\partial p_{k+1}}+A_{k+\frac{1}{2}}-\left(A\Delta x\right)_{k+\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k+1}}\left(S_{u}{}_{k+\frac{1}{2}}^{n+1}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+como
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho_{k+\frac{1}{2}}^{n+1}=\frac{\rho_{k}^{n+1}+\rho_{k+1}^{n+1}}{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+S_{u}{}_{k+\frac{1}{2}}^{n+1}=\frac{S_{u}{}_{k}^{n+1}+S_{u}{}_{k+1}^{n+1}}{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+então:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial R_{k}^{p}}{\partial p_{k+1}}=\left[\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{2\Delta t}v_{k+\frac{1}{2}}^{n+1}+\left(Avv\right)_{k+1}^{n+1}\right]\frac{\partial\left(\rho_{k+1}^{n+1}\right)}{\partial p_{k+1}}+A_{k+\frac{1}{2}}-\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}^{n+1}}{2}\frac{\partial\left(S_{u}{}_{k+1}^{n+1}\right)}{\partial p_{k+1}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Derivada do resíduo do momentum em relação a velocidade
+\end_layout
+
+\begin_layout Subsubsection
+Bloco à esquerda:
+\end_layout
+
+\begin_layout Section
+Interpolação Donor-Cell
+\end_layout
+
+\begin_layout Standard
+O método UDS (Donor-Cell) é recomendado para escoamentos com altos valores
+ do número de Peclet, onde utiliza-se a interpolação pos diferenças centradas
+ para 
+\begin_inset Formula $\vec{v}$
+\end_inset
+
+ e a interpolação pelo esquema Upwind de primeira ordem 
+\begin_inset Formula $UDS$
+\end_inset
+
+ para a propriedade transportada, 
+\begin_inset Formula $\phi$
+\end_inset
+
+.
+ O termo 
+\begin_inset Formula $\phi_{k+\frac{1}{2}}$
+\end_inset
+
+ pode ser expresso como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\phi_{k+\frac{1}{2}}=\phi_{k},\:\:\: v_{k}\geq0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\phi_{k+\frac{1}{2}}=\phi_{k+1},\:\:\: v_{k}<0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Já o termo 
+\begin_inset Formula $\phi_{k-\frac{1}{2}}$
+\end_inset
+
+ pode ser expresso como:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\phi_{k-\frac{1}{2}}=\phi_{k-1},\:\:\: v_{k}\geq0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\phi_{k-\frac{1}{2}}=\phi_{k},\:\:\: v_{k}<0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Equação da
 \end_layout
 
 \end_body

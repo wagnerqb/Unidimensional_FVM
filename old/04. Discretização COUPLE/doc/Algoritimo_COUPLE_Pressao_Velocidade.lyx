@@ -94,7 +94,7 @@
 \begin_body
 
 \begin_layout Chapter
-Algorítimo COUPLE - Equação de Navier-Stokes com formulação full-implicit
+Algorítimo COUPLE - Equação de Navier-Stokes
 \begin_inset CommandInset label
 LatexCommand label
 name "cha:Couple_NS"
