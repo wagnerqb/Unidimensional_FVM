@@ -262,12 +262,13 @@ class DiscretizationWell_COUPLE_DC():
         elif (v_rh < 0):
             return 0
 
-    def dRp_dvc(self, dt, A, A_r, A_rh, rho, rho_r, rho_rh, dx_rh, v, v_r, v_rh):
+    def dRp_dvc(self, dt, A, A_r, A_rh, rho, rho_r, rho_rh, dx_rh, v, v_r,
+                v_rh):
         "Derivada do resíduo do momentum em relação a velocidade face k+1/2"
         if (v_rh >= 0):
             return ((A_rh*dx_rh*rho_rh)/dt + (A_r*rho_r*2*v_r))
         elif (v_rh < 0):
-            return ((A_rh*dx_rh*rho_rh)/dt - (A*rho*d2*2*v))
+            return ((A_rh*dx_rh*rho_rh)/dt - (A*rho*2*v))
 
     def dRp_dvr(self, A_r, rho_r, v_r, v_rh):
         "Derivada do resíduo do momentum em relação a velocidade face k+3/2"
@@ -290,7 +291,7 @@ if __name__ == '__main__':
     ncells = 5
 
     # Numerical Parameters
-    dt = 0.1
+    dt = 0.000000001
 
     # Fluid properties
     rho = 100                       # Fluid density
@@ -298,8 +299,8 @@ if __name__ == '__main__':
     fsrc = 0.                       # Termo fonte da QM
 
     # Initial properties
-    v_ini = 1                       # Initial Condition for v
-    p_ini = 10                       # Initial Condition for p
+    v_ini = 1.000                       # Initial Condition for v
+    p_ini = 0                       # Initial Condition for p
 
     # Boundary Condition
     # Left Boundary Condtion (Velocidade na entrada: v_ini)
