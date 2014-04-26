@@ -5,15 +5,27 @@
 @email:  bismarckgomes@gmail.com e wagnerqb@gmail.com
 @brief:  Classe célula. Armazena as propriedades dos fluidos e do tubo.
 """
+from Fluid import *
 
 
-class CellWell():
+class Cell():
+    "Classe celula genérica."
+
+    def __init__(self, A, dx, msrc):
+        self.A = A                  # Área transversal
+        self.dx = dx                # Comprimento
+        self.msrc = msrc            # Fonte de massa
+
+
+class CellWell(Cell):
     "Classe celula que será utilizada nas simulações no poço."
 
-    def __init__(self, A, dx, rho, mu, v_rh, p):
-        self.A = A          # Área transversal
-        self.dx = dx        # Comprimento
-        self.rho = rho      # Densidade
-        self.mu = mu        # Viscosidade
-        self.v_rh = v_rh    # Velocidade na face direita
-        self.p = p          # Pressão no centro
+    def __init__(self, A, dx, fluid, v_rh, p, msrc):
+        Cell.__init__(self, A, dx, msrc)    # Inicializa área e comprimento
+        self.fluid = fluid                  # Fluido
+        self.v_rh = v_rh                    # Velocidade na face direita
+        self.p = p                          # Pressão no centro
+
+    def rho(self, p, T):
+        "Densidade do fluido à pressão p e temperatura T."
+        return self.fluid.rho(p, T)

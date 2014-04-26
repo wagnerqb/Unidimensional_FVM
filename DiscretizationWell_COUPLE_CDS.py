@@ -14,10 +14,11 @@ import numpy as np
 class DiscretizationWell_COUPLE_CDS():
     "Modelo de discretização COUPLE CDS."
 
-    def iterate_x(self, grid, it_max=1E2, erro_max=1E-8):
+    def iterate_x(self, grid, it_max=1E8, erro_max=1E-8):
         "Função que realiza iterações utilizando o modelo COUPLE."
         it = 0
         erro = erro_max
+        new_p = new_v_rh = 0
         print '='*40
         print ' It |  E(v_rh)  |   E(p)    |  E_tot  '
         print '----+-----------+-----------+----------'
@@ -33,7 +34,14 @@ class DiscretizationWell_COUPLE_CDS():
             #Calculando norma L2
             erro_p = (sum(new_p**2))**0.5
             erro_v_rh = (sum(new_v_rh**2))**0.5
-            erro = erro_p + erro_v_rh
+
+            #Verificando alteração de informações
+            if erro == erro_p + erro_v_rh:
+                print '\n!!! Erro mínimo obtido: %.3e !!!\n' % erro
+                raw_input('Digite enter para continuar...')
+                break
+            else:
+                erro = erro_p + erro_v_rh
 
             #Atualizando valores
             it += 1
@@ -42,11 +50,10 @@ class DiscretizationWell_COUPLE_CDS():
                 grid.set_v_rh(i, grid.v_rh(i)+new_v_rh[i])
 
             #Imprimindo resultados da iteração
-            print '{0:03d} | {1:.3E} | {2:.3E} | {3:.3E}'.format(it,\
+            print '{0:03d} | {1:.3E} | {2:.3E} | {3:.3E}'.format(it,
                 erro_v_rh, erro_p, erro_v_rh+erro_p)
         print '='*40
         return it, erro
-
 
     def build_Jacobian_matrix(self, grid):
         "Função que constrói o Jacobiano"
@@ -62,10 +69,6 @@ class DiscretizationWell_COUPLE_CDS():
             rho_r = grid.rho_r(i)
             rho_lh = grid.rho_lh(i)
             rho_rh = grid.rho_rh(i)
-            mu = grid.mu(i)
-            mu_r = grid.mu_r(i)
-            dx = grid.dx(i)
-            dx_r = grid.dx_r(i)
             v = grid.v(i)
             v_r = grid.v_r(i)
 
@@ -100,19 +103,17 @@ class DiscretizationWell_COUPLE_CDS():
             #Derivada do resíduo do momentum em relação a velocidade face k-1/2
             dvvr_dvlh = 0                # CDS Method
             dvv_dvlh = v                 # CDS Method
-            dRp_dvl = (A_rh*rho_rh)*dvvr_dvlh - (A*rho)*dvv_dvlh - (A*mu)/dx
+            dRp_dvl = (A_rh*rho_rh)*dvvr_dvlh - (A*rho)*dvv_dvlh
 
             #Derivada do resíduo do momentum em relação a velocidade face k+1/2
             dvvr_dvrh = v_r              # CDS Method
             dvv_dvrh = v                 # CDS Method
-            dRp_dvc = (A_r*rho_r)*dvvr_dvrh - (A*rho)*dvv_dvrh \
-                + (A_r*mu_r)/dx_r + (A*mu)/dx
+            dRp_dvc = (A_r*rho_r)*dvvr_dvrh - (A*rho)*dvv_dvrh
 
             #Derivada do resíduo do momentum em relação a velocidade face k+3/2
             dvvr_dvrrh = 0               # CDS Method
             dvv_dvrrh = v_r              # CDS Method
-            dRp_dvr = (A_r*rho_r)*dvvr_dvrrh - (A*rho)*dvv_dvrrh \
-                - (A_r*mu_r)/dx_r
+            dRp_dvr = (A_r*rho_r)*dvvr_dvrrh - (A*rho)*dvv_dvrrh
 
             #Filling Matrix
             if i == 0:
@@ -177,19 +178,14 @@ class DiscretizationWell_COUPLE_CDS():
             rho_r = grid.rho_r(i)
             rho_lh = grid.rho_lh(i)
             rho_rh = grid.rho_rh(i)
-            mu = grid.mu(i)
-            mu_r = grid.mu_r(i)
             dx = grid.dx(i)
-            dx_r = grid.dx_r(i)
-            #dx_rh = self.center_scheme(grid.dx(i), grid.dx(i+1))
             v = grid.v(i)
             v_r = grid.v_r(i)
             v_lh = grid.v_lh(i)
             v_rh = grid.v_rh(i)
-            v_rrh = grid.v_rh(i+1)
             p = grid.p(i)
             p_r = grid.p_r(i)
-            msrc = grid.msrc
+            msrc = grid.msrc(i)
 
             # Mass Residual
             R_mass = (A_rh*rho_rh*v_rh) - (A_lh*rho_lh*v_lh) - A*msrc*dx
@@ -197,8 +193,6 @@ class DiscretizationWell_COUPLE_CDS():
             # Momentum residual
             R_mom = (A_r*rho_r*v_r*v_r) - (A*rho*v*v)
             R_mom += A_rh*(p_r-p)  # 2*(A_rh*dx_rh)*(p_r-p)/(dx_r + dx)
-            R_mom += -(A_r*mu_r)*(v_rrh - v_rh)/dx_r
-            R_mom += (A*mu)*(v_rh - v_lh)/dx
 
             R[2*i] = R_mom
             R[2*i+1] = R_mass

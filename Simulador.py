@@ -7,8 +7,10 @@
 """
 from __future__ import division
 import matplotlib.pyplot as plt
-from Grid import GridWell
-from DiscretiztionWell_COUPLE_CDS import *
+from Cell import CellWell
+from GridWell import GridWell
+from Fluid import *
+from DiscretizationWell_COUPLE_CDS import *
 
 
 # Pipe properties
@@ -19,7 +21,6 @@ b_ = 2                          # Area de entrada
 
 # Fluid properties
 rho = 100                       # Fluid density
-mu = 0                          # Fluid viscosity
 msrc = 0.                       # Mass Source term per volume unity
 
 # Initial properties
@@ -36,10 +37,14 @@ rbc_t = 0                       # RBC Type (0 - Pressure / 1 - Velocity)
 rbc = 0                         # RBC Value
 
 # Creating Grid
-grid = GridWell(lbc_t, lbc, rbc_t, rbc, msrc)
+grid = GridWell()
+grid.set_boundaries(lbc_t, lbc, rbc_t, rbc)
+
+#Fluido
+fluid = FluidIncompressible(rho)
 
 # Creating Model
-model = DiscretiztionWell_COUPLE_CDS()
+model = DiscretizationWell_COUPLE_CDS()
 
 #Soluções reais
 v_real = []
@@ -47,7 +52,8 @@ p_real = []
 for i in range(ncells):
     #Criando grid
     A = b_ - (b_-a_)*(.5+i)/ncells
-    grid.add_cell(A, dx, rho, mu, v_ini, p_ini)
+    cell = CellWell(A, dx, fluid, v_ini, p_ini, msrc)
+    grid.add_cell(cell)
 
     #Calculando as soluções analíticas
     A_rh = b_ - (b_-a_)*(1+i)/ncells
