@@ -55,7 +55,7 @@ class DiscretizationWell_COUPLE_CDS():
         print '='*40
         return it, erro
 
-    def build_Jacobian_matrix(self, grid):
+    def build_Jacobian_matrix(self, grid, dt):
         "Função que constrói o Jacobiano"
         n = grid.n
         J = np.zeros((2*n, 2*n))
@@ -161,7 +161,7 @@ class DiscretizationWell_COUPLE_CDS():
 
         return J
 
-    def build_Residual_Vector(self, grid):
+    def build_Residual_Vector(self, grid, dt):
         """Função que constrói o vetor de resíduos. Observa-se que o vetor de
         resíduos já possui sinal negativo."""
 
@@ -169,7 +169,7 @@ class DiscretizationWell_COUPLE_CDS():
         R = np.zeros(2*n)
 
         for i in range(n):
-            #Termos Fonte
+            #Variáveis no passo de tempo atual
             A = grid.A(i)
             A_r = grid.A_r(i)
             A_lh = grid.A_lh(i)
@@ -188,12 +188,17 @@ class DiscretizationWell_COUPLE_CDS():
             msrc = grid.msrc(i)
             fsrc = 0
 
+            #Variáveis no passo de tempo anterior
+            v_rh_old = grid.v_rh_old(i)
+            rho_old = grid.rho_old(i)
+            rho_rh_old = grid.rho_rh_old(i)
+
             # Mass Residual
             R_mass = A*dx*(rho - rho_old)/dt
             R_mass += (A_rh*rho_rh*v_rh) - (A_lh*rho_lh*v_lh) - A*msrc*dx
 
             # Momentum residual
-            R_mom = A_rh*dx_rh*(rho*v - rho_old*v_old)/dt
+            R_mom = A_rh*dx_rh*(rho*v - rho_rh_old*v_rh_old)/dt
             R_mom += A_r*rho_r*v_r*v_r - A*rho*v*v + A_rh*(p_r-p) - A*dx*fsrc
 
             R[2*i] = R_mom

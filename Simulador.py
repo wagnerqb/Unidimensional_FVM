@@ -3,7 +3,14 @@
 @author: Bismarck Gomes Souza Jr e Wagner Queiroz Barros
 @date:   Fri Apr 11 13:24:24 2014
 @email:  bismarckgomes@gmail.com e wagnerqb@gmail.com
-@brief:  Exemplo do Bocal Convergente.
+@brief:  Caso 1 
+        - Escoamento monofásico
+        - Fluido monocomponente
+        - Sem trocas de calor com a parede
+        - Escoamento isotérmico
+        - Sem atrito com a parede
+        - Sem gravidade
+        - Fluido incomporessível
 """
 from __future__ import division
 import matplotlib.pyplot as plt
@@ -14,14 +21,14 @@ from DiscretizationWell_COUPLE_CDS import *
 
 
 # Pipe properties
+A = 0.1
 dx = 0.1
 ncells = 20
-a_ = 1                          # Area de saida
-b_ = 2                          # Area de entrada
 
 # Fluid properties
 rho = 100                       # Fluid density
 msrc = 0.                       # Mass Source term per volume unity
+fsrc = 0.                       # Termo fonte da QM
 
 # Initial properties
 v_ini = 1                       # Initial Condition for v
@@ -46,41 +53,29 @@ fluid = FluidIncompressible(rho)
 # Creating Model
 model = DiscretizationWell_COUPLE_CDS()
 
-#Soluções reais
-v_real = []
-p_real = []
 for i in range(ncells):
     #Criando grid
-    A = b_ - (b_-a_)*(.5+i)/ncells
     cell = CellWell(A, dx, fluid, v_ini, p_ini, msrc)
     grid.add_cell(cell)
 
-    #Calculando as soluções analíticas
-    A_rh = b_ - (b_-a_)*(1+i)/ncells
-    v_real.append(b_*lbc/A_rh)
-    p_real.append(rbc+0.5*rho*(lbc*b_)**2*(1/a_**2-1/A**2))
-
 
 #Iterações
-it, erro = model.iterate_x(grid)
+model.iterate_x(grid)
 new_p = grid.get_p()
 new_v = grid.get_v_rh()
 
-## Resultado
-#print '\n\nErro (L2):', erro
-#print 'Iterações:', it
 
 # Gráfico de Velocidade
 plt.subplot(211)
 plt.plot(new_v, 'ko', label='Numerico')
-plt.plot(v_real, 'b', label='Real')
+#plt.plot(v_real, 'b', label='Real')
 plt.title('Velocidade')
 plt.grid()
 
 # Gráfico de Pressao
 plt.subplot(212)
 plt.plot(new_p, 'ko', label='Numerico')
-plt.plot(p_real, 'b', label='Real')
+#plt.plot(p_real, 'b', label='Real')
 plt.title(u'Pressão')
 plt.grid()
 plt.show()
