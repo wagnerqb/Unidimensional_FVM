@@ -23,20 +23,20 @@ class GridWell(Grid):
             # Condição de contorno esquerda
             if self.lbc_t == self.PERIODIC_BC:
                 # Condição de contorno periódica
-                rho = self[-1].rho(p, T)
+                rho = self[-1].rho()
             else:
-                rho = self[0].rho(p, T)
+                rho = self[0].rho()
 
         elif (index > self.n-1):
             # Condição de contorno direita
             if self.rbc_t == self.PERIODIC_BC:
                 # Condição de contorno periódica
-                rho = self[0].rho(p, T)
+                rho = self[0].rho()
             else:
-                rho = self[-1].rho(p, T)
+                rho = self[-1].rho()
 
         else:
-            rho = self[index].rho(p, T)
+            rho = self[index].rho()
 
         return rho
 
@@ -55,6 +55,33 @@ class GridWell(Grid):
     def rho_lh(self, index):
         "Densidade na face esquerda da celula."
         return (self.rho_l(index) + self.rho(index))/2
+
+    def rho_old(self, index):
+        "Densidade no centro da celula no passo de tempo anterior"
+        if (index < 0):
+            # Condição de contorno esquerda
+            if self.lbc_t == self.PERIODIC_BC:
+                # Condição de contorno periódica
+                rho_old = self[-1].rho_old()
+            else:
+                rho_old = self[0].rho_old()
+
+        elif (index > self.n-1):
+            # Condição de contorno direita
+            if self.rbc_t == self.PERIODIC_BC:
+                # Condição de contorno periódica
+                rho_old = self[0].rho_old()
+            else:
+                rho_old = self[-1].rho_old()
+
+        else:
+            rho_old = self[index].rho_old()
+
+        return rho_old
+
+    def rho_r_old(self, index):
+        "Densidade no centro da celula direita no passo de tempo anterior"
+        return self.rho_old(index-1)
 
     #============================ VELOCIDADE =================================#
     def v_rh(self, index):

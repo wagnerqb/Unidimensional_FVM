@@ -23,5 +23,11 @@ class FluidIncompressible():
     def __init__(self, rho):
         self.rho_ = rho
 
-    def rho(self, p, T):
+    def rho(self, p=None, T=None):
+        "Densidade do fluido na pressão p, e temperatura T"
         return self.rho_
+
+    def drho_dp(self, p, T=None):
+        """Derivada da Densidade do fluido em relação a pressão,
+        na pressão p, e temperatura T"""
+        return 0

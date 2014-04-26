@@ -28,6 +28,11 @@ class CellWell(Cell):
         self.p_old = p              # TODO: Melhorar condição inicial
         self.v_rh_old = v_rh        # TODO: Melhorar condição inicial
 
-    def rho(self, p, T):
+    def rho(self):
         "Densidade do fluido à pressão p e temperatura T."
-        return self.fluid.rho(p, T)
+        return self.fluid.rho() # TODO: Implementar pressão temperatura na célula
+
+    def rho_old(self):
+        """Densidade do fluido na pressão e temperatura
+        do passo de tempo anterior"""
+        return self.fluid.rho() # TODO: Implementar pressão temperatura na célula

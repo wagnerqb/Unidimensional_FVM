@@ -183,7 +183,7 @@ A equação de Navier-Stokes unidimensional pode ser escrita como:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial}{\partial t}\left(\rho v\right)+\nabla\cdot\left(\rho\vec{v}\vec{v}\right)=-\nabla p+S_{u}\label{eq:CONS_QUANT_MOVIM}
+\frac{\partial}{\partial t}\left(\rho\vec{v}\right)+\nabla\cdot\left(\rho\vec{v}\vec{v}\right)=-\nabla p+S_{u}\label{eq:CONS_QUANT_MOVIM}
 \end{equation}
 
 \end_inset
@@ -458,7 +458,7 @@ Utilizando o método dos volumes finitos, a equação da conservação da massa
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\intop_{t}\underset{\textrm{V.C}.}{\iiint}\frac{\partial}{\partial t}\left(\rho\right)dVdt+\intop_{t}\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\rho\vec{v}\right)dVdt=\intop_{t}\underset{\textrm{V.C}.}{\iiint}S_{m}dVdt
+\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}\frac{\partial}{\partial t}\left(\rho\right)dVdt+\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\rho\vec{v}\right)dVdt=\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}S_{m}dVdt
 \end{equation}
 
 \end_inset
@@ -473,7 +473,7 @@ Aplicando a regra de Leibiniz no primeiro termo:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\underset{\textrm{V.C}.}{\iiint}\intop_{t}\left[\frac{\partial}{\partial t}\left(\rho\right)\right]dtdV+\intop_{t}\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\rho\vec{v}\right)dVdt=\intop_{t}\underset{\textrm{V.C}.}{\iiint}S_{m}dVdt
+\underset{\textrm{V.C}.}{\iiint}\intop_{t}^{t+\Delta t}\left[\frac{\partial}{\partial t}\left(\rho\right)\right]dtdV+\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\rho\vec{v}\right)dVdt=\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}S_{m}dVdt
 \end{equation}
 
 \end_inset
@@ -488,7 +488,7 @@ Aplicando o teorema de Gauss:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\underset{\textrm{V.C}.}{\iiint}\intop_{t}\left[\frac{\partial}{\partial t}\left(\rho\right)\right]dtdV+\intop_{t}\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\right)\cdot\vec{n}dSdt=\intop_{t}\underset{\textrm{V.C}.}{\iiint}S_{m}dVdt\label{eq:parcial_discretização_massa}
+\underset{\textrm{V.C}.}{\iiint}\intop_{t}^{t+\Delta t}\left[\frac{\partial}{\partial t}\left(\rho\right)\right]dtdV+\intop_{t}^{t+\Delta t}\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\right)\cdot\vec{n}dSdt=\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}S_{m}dVdt\label{eq:parcial_discretização_massa}
 \end{equation}
 
 \end_inset
@@ -503,7 +503,7 @@ Avaliando a integral no tempo do primeiro termo da equação:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\intop_{t}\left[\frac{\partial}{\partial t}\left(\rho\right)\right]dt=\rho^{n+1}-\rho^{n}
+\intop_{t}^{t+\Delta t}\left[\frac{\partial}{\partial t}\left(\rho\right)\right]dt=\rho^{n+1}-\rho^{n}
 \end{equation}
 
 \end_inset
@@ -524,7 +524,7 @@ Para se avaliar as integrais no tempo das outras variáveis, será utilizado
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\intop_{t}f\left(x,\, t\right)dt=\left[\theta f^{n+1}+\left(1-\theta\right)f^{n}\right]\Delta t
+\intop_{t}^{t+\Delta t}f\left(x,\, t\right)dt=\left[\theta f^{n+1}+\left(1-\theta\right)f^{n}\right]\Delta t
 \end{equation}
 
 \end_inset
@@ -543,7 +543,7 @@ Como será utilizado um esquema totalmente implícito,
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\intop_{t}f\left(x,\, t\right)dt=f^{n+1}\Delta t
+\intop_{t}^{t+\Delta t}f\left(x,\, t\right)dt=f^{n+1}\Delta t
 \end{equation}
 
 \end_inset
@@ -591,7 +591,7 @@ A equação da quantidade de movimento pode ser escrita como:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\intop_{t}\underset{\textrm{V.C}.}{\iiint}\frac{\partial}{\partial t}\left(\rho v\right)dVdt+\intop_{t}\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\rho\vec{v}\vec{v}\right)dVdt=-\intop_{t}\underset{\textrm{V.C}.}{\iiint}\nabla pdVdt+\intop_{t}\underset{\textrm{V.C}.}{\iiint}S_{u}dVdt
+\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}\frac{\partial}{\partial t}\left(\rho\vec{v}\right)dVdt+\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\rho\vec{v}\vec{v}\right)dVdt=-\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}\nabla pdVdt+\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}S_{u}dVdt
 \end{equation}
 
 \end_inset
@@ -606,7 +606,7 @@ Aplicando o teorema de Gauss e a regra de Leibiniz:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\underset{\textrm{V.C}.}{\iiint}\intop_{t}\left[\frac{\partial}{\partial t}\left(\rho v\right)\right]dtdV+\intop_{t}\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\vec{v}\right)\cdot\vec{n}dSdt=-\intop_{t}\underset{\textrm{V.C}.}{\iiint}\nabla pdVdt+\intop_{t}\underset{\textrm{V.C}.}{\iiint}S_{u}dVdt
+\underset{\textrm{V.C}.}{\iiint}\intop_{t}^{t+\Delta t}\left[\frac{\partial}{\partial t}\left(\rho\vec{v}\right)\right]dtdV+\intop_{t}^{t+\Delta t}\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\vec{v}\right)\cdot\vec{n}dSdt=-\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}\nabla pdVdt+\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}S_{u}dVdt
 \end{equation}
 
 \end_inset
@@ -622,7 +622,7 @@ Discretizando implicitamente no tempo, e utilizando o volume de controle
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\underset{\textrm{V.C}.}{\iiint}\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]dV+\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\vec{v}\right)^{n+1}\cdot\vec{n}dS\Delta t=-\underset{\textrm{V.C}.}{\iiint}\nabla p^{n+1}dV\Delta t+\underset{\textrm{V.C}.}{\iiint}S_{u}^{n+1}dV\Delta t
+\underset{\textrm{V.C}.}{\iiint}\left[\left(\rho\vec{v}\right)^{n+1}-\left(\rho\vec{v}\right)^{n}\right]dV+\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\vec{v}\right)^{n+1}\cdot\vec{n}dS\Delta t=-\underset{\textrm{V.C}.}{\iiint}\nabla p^{n+1}dV\Delta t+\underset{\textrm{V.C}.}{\iiint}S_{u}^{n+1}dV\Delta t
 \end{equation}
 
 \end_inset
