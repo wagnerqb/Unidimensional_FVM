@@ -12,9 +12,10 @@ import numpy as np
 class GridWell(Grid):
     "Classe Grid que armazenará as células do poço."
 
-    def __init__(self):
+    def __init__(self, fluid):
         "Inicializando variáveis."
         Grid.__init__(self)
+        self.fluid = fluid
 
     #========================== MASSA ESPECÍFICA =============================#
     def rho(self, index, p=None, T=None):
@@ -83,6 +84,11 @@ class GridWell(Grid):
         "Densidade no centro da celula direita no passo de tempo anterior"
         return self.rho_old(index-1)
 
+    def rho_rh_old(self, index):
+        "Densidade na face direita no passo de tempo anterior"
+        return self.fluid.rho(self.p_rh_old(index))
+        
+
     #============================ VELOCIDADE =================================#
     def v_rh(self, index):
         "Velocidade na face direita da célula."
@@ -144,7 +150,45 @@ class GridWell(Grid):
 
     def v_rh_old(self, index):
         "Velocidade no passo de tempo anterior na face direita da célula."
-        return self[index].v_rh_old
+        if (index < 0):
+            # Condição de contorno esquerda
+            if (self.lbc_t == self.VELOCITY_BC):
+                # Condição de contorno de velocidade
+                v_rh_old = self.lbc
+
+            elif (self.lbc_t == self.PERIODIC_BC):
+                # Condição de contorno periódica
+                v_rh_old = self[-1].v_rh_old
+
+            else:
+                # Para outras condições de contorno a velocidade é extrapolada
+                A_lh = self.extrapolation_lh(self[0].A, self[1].A)
+                v_rh_old = self[0].v_rh_old*self.A_rh(0)/A_lh
+
+        elif (index > self.n-1):
+            # Condição de contorno direita
+            if (self.rbc_t == self.VELOCITY_BC):
+                # Condição de contorno de velocidade
+                v_rh_old = self.rhc
+
+            elif (self.rbc_t == self.PERIODIC_BC):
+                # Condição de contorno periódica
+                v_rh_old = self[0].v_rh_old
+
+            else:
+                # Condição de contorno de pressão
+                A_rrh = self.extrapolation_rrh(self[-2].A, self[-1].A)
+
+                ##Area interpolada dentro e fora do tubo
+                #v_rh_old = self[-1].v_rh_old*self.A_rh(self.n-1)/A_rrh
+
+                ##Area interpolada dentro do tubo e considerada constante fora
+                v_rh_old = self[-1].v_rh_old*self.A_r(self.n-1)/A_rrh
+
+        else:
+            v_rh_old = self[index].v_rh_old
+
+        return v_rh_old
 
     def set_v_rh_old(self, index, v_rh_old):
         """Atribui a velocidade no passo de tempo anterior na face direita da
@@ -216,7 +260,42 @@ class GridWell(Grid):
 
     def p_old(self, index):
         "Pressâo no passo de tempo anterior no centro da célula."
-        return self[index].p_old
+        if (index < 0):
+            # Condição de contorno esquerda
+            if (self.lbc_t == self.PRESSURE_BC):
+                # Condição de contorno de pressão
+                p_old = self.lbc
+
+            elif (self.lbc_t == self.PERIODIC_BC):
+                # Condição de contorno periódica
+                p_old = self[-1].p_old
+
+            else:
+                # Com extrapolação
+                p_old = self.extrapolation_l(self[0].p_old, self[1].p_old)
+
+        elif index > self.n-1:
+            # Condição de contorno direita
+            if (self.rbc_t == self.PRESSURE_BC):
+                # Condição de contorno de pressão
+                p_old = self.rbc
+
+            elif (self.rbc_t == self.VELOCITY_BC):
+                # Condição de contorno periódica
+                p_old = self[0].p_old
+
+            else:
+                # Para outras condições de contorno a pressão é extrapolada
+                p_old = self.extrapolation_r(self[-2].p_old, self[-1].p_old)
+
+        else:
+            p_old = self[index].p_old
+
+        return p_old
+
+    def p_rh_old(self, index):
+        "Pressâo no passo de tempo anterior na face direira da célula."
+        return (self.p_old(index)+self.p_old(index+1))/2
 
     def set_p(self, index, p):
         "Atribui a pressão no centro da célula"

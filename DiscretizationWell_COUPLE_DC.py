@@ -3,19 +3,19 @@
 @author: Bismarck Gomes Souza Jr e Wagner Queiroz Barros
 @date:   Tue Apr 15 10:55:33 2014
 @email:  bismarckgomes@gmail.com e wagnerqb@gmail.com
-@brief:  Classe de discretização utilizando o modelo COUPLE CDS para interpolar
-        a derivada da velocidade.
+@brief:  Classe de discretização utilizando o modelo COUPLE Donor-Cell
+         para interpolar a derivada da velocidade.
 """
 
 from __future__ import division
 import numpy as np
 
 
-class DiscretizationWell_COUPLE_CDS():
-    "Modelo de discretização COUPLE CDS."
+class DiscretizationWell_COUPLE_DC():
+    "Modelo de discretização COUPLE Donor-Cell."
 
-    def iterate_x(self, grid, it_max=1E8, erro_max=1E-8):
-        "Função que realiza iterações utilizando o modelo COUPLE."
+    def iterate_x(self, grid, dt, it_max=1E8, erro_max=1E-8):
+        "Função que realiza iterações no espaço utilizando o modelo COUPLE."
         it = 0
         erro = erro_max
         new_p = new_v_rh = 0
@@ -23,8 +23,8 @@ class DiscretizationWell_COUPLE_CDS():
         print ' It |  E(v_rh)  |   E(p)    |  E_tot  '
         print '----+-----------+-----------+----------'
         while(it < it_max and erro >= erro_max):
-            A = np.matrix(self.build_Jacobian_matrix(grid))
-            b = np.matrix(self.build_Residual_Vector(grid))
+            A = np.matrix(self.build_Jacobian_matrix(grid, dt))
+            b = np.matrix(self.build_Residual_Vector(grid, dt))
             x = (A.I*b.T).A1
 
             #Valores novos
@@ -54,7 +54,14 @@ class DiscretizationWell_COUPLE_CDS():
                 erro_v_rh, erro_p, erro_v_rh+erro_p)
         print '='*40
         return it, erro
-
+        
+##########################################################################
+    def iterate_t(self, grid, dt, it_max=1E8, erro_max=1E-8):
+        "Função que realiza iterações no tempo."
+        
+        pass
+##########################################################################
+        
     def build_Jacobian_matrix(self, grid, dt):
         "Função que constrói o Jacobiano"
         n = grid.n
@@ -70,6 +77,7 @@ class DiscretizationWell_COUPLE_CDS():
             rho_lh = grid.rho_lh(i)
             rho_rh = grid.rho_rh(i)
             dx = grid.dx(i)
+            dx_rh = grid.dx_rh(i)
             v = grid.v(i)
             v_r = grid.v_r(i)
             v_lh = grid.v_lh(i)
@@ -92,10 +100,10 @@ class DiscretizationWell_COUPLE_CDS():
             dRp_dpl = self.dRp_dpl()
 
             #Derivada do resíduo do momentum em relação a pressão central
-            dRp_dpc = self.dRp_dpc()
+            dRp_dpc = self.dRp_dpc(dt, A, A_rh, dx_rh, v, v_rh, p, fluid)
 
             #Derivada do resíduo do momentum em relação a pressão direita
-            dRp_dpr = self.dRp_dpr()
+            dRp_dpr = self.dRp_dpr(dt, A_r, A_rh, dx_rh, v_r, v_rh, p_r, fluid)
 
             #Derivada do resíduo da massa em relação a velocidade face k-1/2
             dRm_dvl = self.dRm_dvl(A_lh, rho_lh)
@@ -107,13 +115,14 @@ class DiscretizationWell_COUPLE_CDS():
             dRm_dvr = self.dRm_dvr()
 
             #Derivada do resíduo do momentum em relação a velocidade face k-1/2
-            dRp_dvl = self.dRp_dvl()
+            dRp_dvl = self.dRp_dvl(A, rho, v, v_rh)
 
             #Derivada do resíduo do momentum em relação a velocidade face k+1/2
-            dRp_dvc = self.dRp_dvc()
+            dRp_dvc = self.dRp_dvc(dt, A, A_r, A_rh, rho, rho_r, rho_rh, dx_rh,
+                                   v, v_r, v_rh)
 
             #Derivada do resíduo do momentum em relação a velocidade face k+3/2
-            dRp_dvr = self.dRp_dvr()
+            dRp_dvr = self.dRp_dvr(A_r, rho_r, v_r, v_rh)
 
             #Filling Matrix
             if i == 0:
@@ -163,7 +172,7 @@ class DiscretizationWell_COUPLE_CDS():
 
     def build_Residual_Vector(self, grid, dt):
         """Função que constrói o vetor de resíduos. Observa-se que o vetor de
-        resíduos já possui sinal negativo."""
+        resíduos não possui sinal negativo."""
 
         n = grid.n
         R = np.zeros(2*n)
@@ -179,6 +188,7 @@ class DiscretizationWell_COUPLE_CDS():
             rho_lh = grid.rho_lh(i)
             rho_rh = grid.rho_rh(i)
             dx = grid.dx(i)
+            dx_rh = grid.dx_rh(i)
             v = grid.v(i)
             v_r = grid.v_r(i)
             v_lh = grid.v_lh(i)
@@ -204,7 +214,7 @@ class DiscretizationWell_COUPLE_CDS():
             R[2*i] = R_mom
             R[2*i+1] = R_mass
 
-        return -R
+        return R
 
     #======================= DERIVADAS DO RESÍDUO DA MASSA ===================#
     def dRm_dpl(self, A_lh, v_lh, p_l, fluid):
@@ -252,7 +262,7 @@ class DiscretizationWell_COUPLE_CDS():
         elif (v_rh < 0):
             return 0
 
-    def dRp_dvc(self, dt, A, A_r, A_rh, rho, rho_r, rho_rh, dx_rh, v, v_r):
+    def dRp_dvc(self, dt, A, A_r, A_rh, rho, rho_r, rho_rh, dx_rh, v, v_r, v_rh):
         "Derivada do resíduo do momentum em relação a velocidade face k+1/2"
         if (v_rh >= 0):
             return ((A_rh*dx_rh*rho_rh)/dt + (A_r*rho_r*2*v_r))
@@ -270,24 +280,59 @@ class DiscretizationWell_COUPLE_CDS():
 
 if __name__ == '__main__':
 
-    from GridFluid import *
+    from GridWell import *
+    from Fluid import *
+    from Cell import *
 
-    gridteste = GridFluid(1, 15, 0, 20, 0)
-    for i in range(4):
-        gridteste.add_cell(A=0.3, dx=0.1, rho=1, mu=1, v_r=1, p=10)
+    # Pipe properties
+    A = 0.1
+    dx = 0.1
+    ncells = 5
 
-    modelCD = Model_COUPLE_CDS()
+    # Numerical Parameters
+    dt = 0.1
 
-    A = modelCD.build_Jacobian_matrix(gridteste)
-    print A
-    print
+    # Fluid properties
+    rho = 100                       # Fluid density
+    msrc = 0.                       # Mass Source term per volume unity
+    fsrc = 0.                       # Termo fonte da QM
 
-    R = modelCD.build_Residual_Vector(gridteste)
-    print R
-    print
+    # Initial properties
+    v_ini = 1                       # Initial Condition for v
+    p_ini = 10                       # Initial Condition for p
+
+    # Boundary Condition
+    # Left Boundary Condtion (Velocidade na entrada: v_ini)
+    lbc_t = 1                       # LBC Type (0 - Pressure / 1 - Velocity)
+    lbc = 1                         # LBC Value
+
+    # Right Boundary Condtion (Pressão na saida: p_ini)
+    rbc_t = 0                       # RBC Type (0 - Pressure / 1 - Velocity)
+    rbc = 0                         # RBC Value
+
+    #Fluido
+    fluid = FluidIncompressible(rho)
+
+    # Creating Grid
+    grid = GridWell(fluid)
+    grid.set_boundaries(lbc_t, lbc, rbc_t, rbc)
+
+    for i in range(ncells):
+        #Criando grid
+        cell = CellWell(A, dx, fluid, v_ini, p_ini, msrc)
+        grid.add_cell(cell)
+
+    # Creating Model
+    model = DiscretizationWell_COUPLE_DC()
+    J = model.build_Jacobian_matrix(grid, dt)
+    J = np.matrix(J)
+    r = model.build_Residual_Vector(grid, dt)
+    r = np.matrix(r)
+
+    print "JACOBIAN TEST"
+    print J
+
+    print "RESIDUAL TEST"
+    print r
     
-    x = (np.matrix(A).I*np.matrix(R).T).A1
-    dp = x[::2]
-    dv = x[1::2]
-    print 'dv:', dv
-    print 'dp:', dp
+    model.iterate_x(grid, dt)

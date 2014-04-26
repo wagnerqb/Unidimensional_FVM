@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 from Cell import CellWell
 from GridWell import GridWell
 from Fluid import *
-from DiscretizationWell_COUPLE_CDS import *
+from DiscretizationWell_COUPLE_DC import *
 
 
 # Pipe properties
@@ -43,15 +43,15 @@ lbc = 1                         # LBC Value
 rbc_t = 0                       # RBC Type (0 - Pressure / 1 - Velocity)
 rbc = 0                         # RBC Value
 
-# Creating Grid
-grid = GridWell()
-grid.set_boundaries(lbc_t, lbc, rbc_t, rbc)
-
 #Fluido
 fluid = FluidIncompressible(rho)
 
+# Creating Grid
+grid = GridWell(fluid)
+grid.set_boundaries(lbc_t, lbc, rbc_t, rbc)
+
 # Creating Model
-model = DiscretizationWell_COUPLE_CDS()
+model = DiscretizationWell_COUPLE_DC()
 
 for i in range(ncells):
     #Criando grid
