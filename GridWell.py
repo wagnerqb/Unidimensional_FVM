@@ -115,6 +115,15 @@ class GridWell(Grid):
         "Velocidade no centro da célula esquerda (CDS Method)."
         return self.v(index - 1)
 
+    def v_rh_old(self, index):
+        "Velocidade no passo de tempo anterior na face direita da célula."
+        return self[index].v_rh_old
+
+    def set_v_rh_old(self, index, v_rh_old):
+        """Atribui a velocidade no passo de tempo anterior na face direita da
+        célula."""
+        self[index].v_rh_old = v_rh_old
+
     def set_v_rh(self, index, v_rh):
         "Atribui a velocidade na face direita da célula."
         self[index].v_rh = v_rh
@@ -178,9 +187,17 @@ class GridWell(Grid):
         "Pressâo na face esquerda da célula."
         return (self.p(index) + self.p_l(index))/2
 
+    def p_old(self, index):
+        "Pressâo no passo de tempo anterior no centro da célula."
+        return self[index].p_old
+
     def set_p(self, index, p):
         "Atribui a pressão no centro da célula"
         self[index].p = p
+
+    def set_p_old(self, index, p_old):
+        "Atribui a pressâo no passo de tempo anterior no centro da célula."
+        self[index].p_old = p_old
 
     def get_p(self):
         """Retorna um vetor com a pressão de todas as celulas."""

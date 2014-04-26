@@ -451,7 +451,7 @@ Conservação da Massa
 \end_layout
 
 \begin_layout Standard
-utilizando o método dos volumes finitos, a equação da conservação da massa
+Utilizando o método dos volumes finitos, a equação da conservação da massa
  pode ser escrita como:
 \end_layout
 
@@ -615,7 +615,7 @@ Aplicando o teorema de Gauss e a regra de Leibiniz:
 \end_layout
 
 \begin_layout Standard
-Discretizando implicitamente no temopo, e utilizando o volume de controle
+Discretizando implicitamente no tempo, e utilizando o volume de controle
  unidimensional:
 \end_layout
 
@@ -1024,7 +1024,7 @@ Bloco central:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial R_{k}^{m}}{\partial p_{k}}=\frac{\left(A\Delta x\right)_{k}}{\Delta t}\frac{\partial\left(\rho_{k}^{n+1}\right)}{\partial p_{k}}+\left(Av\right)_{k+\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k}}\rho_{k+\frac{1}{2}}^{n+1}-\left(Av\right)_{k-\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k}}\rho_{k-\frac{1}{2}}^{n+1}-\left(A\Delta x\right)_{k}^{n+1}\frac{\partial}{\partial p_{k}}S_{m}_{k}^{n+1}
+\frac{\partial R_{k}^{m}}{\partial p_{k}}=\frac{\left(A\Delta x\right)_{k}}{\Delta t}\frac{\partial\left(\rho_{k}^{n+1}\right)}{\partial p_{k}}+\left(Av\right)_{k+\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k}}\rho_{k+\frac{1}{2}}^{n+1}-\left(Av\right)_{k-\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k}}\rho_{k-\frac{1}{2}}^{n+1}-\left(A\Delta x\right)_{k}^{n+1}\frac{\partial}{\partial p_{k}}S_{m}{}_{k}^{n+1}
 \end{equation}
 
 \end_inset
@@ -1370,9 +1370,9 @@ Bloco à esquerda:
 
 \begin_layout Standard
 \begin_inset Formula 
-\begin{multline}
+\begin{equation}
 \frac{\partial R_{k}^{p}}{\partial p_{k-1}}=0
-\end{multline}
+\end{equation}
 
 \end_inset
 
@@ -1411,7 +1411,7 @@ Bloco central:
 \begin_inset Formula 
 \begin{multline}
 \frac{\partial R_{k}^{p}}{\partial p_{k}}=\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{\Delta t}v_{k+\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k}}\left(\rho_{k+\frac{1}{2}}^{n+1}\right)-\left(Avv\right)_{k}^{n+1}\frac{\partial\left(\rho_{k}^{n+1}\right)}{\partial p_{k}}\\
--A_{k+\frac{1}{2}}-\left(A\Delta x\right)_{k+\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k}}S_{u}_{k+\frac{1}{2}}^{n+1}
+-A_{k+\frac{1}{2}}-\left(A\Delta x\right)_{k+\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k}}S_{u}{}_{k+\frac{1}{2}}^{n+1}
 \end{multline}
 
 \end_inset

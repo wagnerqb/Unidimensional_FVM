@@ -74,46 +74,40 @@ class DiscretizationWell_COUPLE_CDS():
 
             # Calculando as Derivadas dos Resíduos
             #Derivada do resíduo da massa em relação a pressão esquerda
-            dRm_dpl = 0
+            dRm_dpl = self.dRm_dpl()
 
             #Derivada do resíduo da massa em relação a pressão central
-            dRm_dpc = 0
+            dRm_dpc = self.dRm_dpc()
 
             #Derivada do resíduo da massa em relação a pressão direita
-            dRm_dpr = 0
+            dRm_dpr = self.dRm_dpr()
 
             #Derivada do resíduo do momentum em relação a pressão esquerda
-            dRp_dpl = 0
+            dRp_dpl = self.dRp_dpl()
 
             #Derivada do resíduo do momentum em relação a pressão central
-            dRp_dpc = -A_rh  # - (2*A_rh*dx_rh)/(dx_r + dx)
+            dRp_dpc = self.dRp_dpc()
 
             #Derivada do resíduo do momentum em relação a pressão direita
-            dRp_dpr = A_rh   # (2*A_rh*dx_rh)/(dx_r + dx)
+            dRp_dpr = self.dRp_dpr()
 
             #Derivada do resíduo da massa em relação a velocidade face k-1/2
-            dRm_dvl = -A_lh*rho_lh
+            dRm_dvl = self.dRm_dvl()
 
             #Derivada do resíduo da massa em relação a velocidade face k+1/2
-            dRm_dvc = A_rh*rho_rh
+            dRm_dvc = self.dRm_dvc()
 
             #Derivada do resíduo da massa em relação a velocidade face k+3/2
-            dRm_dvr = 0
+            dRm_dvr = self.dRm_dvr()
 
             #Derivada do resíduo do momentum em relação a velocidade face k-1/2
-            dvvr_dvlh = 0                # CDS Method
-            dvv_dvlh = v                 # CDS Method
-            dRp_dvl = (A_rh*rho_rh)*dvvr_dvlh - (A*rho)*dvv_dvlh
+            dRp_dvl = self.dRp_dvl()
 
             #Derivada do resíduo do momentum em relação a velocidade face k+1/2
-            dvvr_dvrh = v_r              # CDS Method
-            dvv_dvrh = v                 # CDS Method
-            dRp_dvc = (A_r*rho_r)*dvvr_dvrh - (A*rho)*dvv_dvrh
+            dRp_dvc = self.dRp_dvc()
 
             #Derivada do resíduo do momentum em relação a velocidade face k+3/2
-            dvvr_dvrrh = 0               # CDS Method
-            dvv_dvrrh = v_r              # CDS Method
-            dRp_dvr = (A_r*rho_r)*dvvr_dvrrh - (A*rho)*dvv_dvrrh
+            dRp_dvr = self.dRp_dvr()
 
             #Filling Matrix
             if i == 0:
@@ -199,6 +193,15 @@ class DiscretizationWell_COUPLE_CDS():
 
         return -R
 
+    #======================= DERIVADAS DO RESÍDUO DA MASSA ===================#
+    def dRm_dpl(self):
+        return 0
+
+    #============= DERIVADAS DO RESÍDUO DA QUANTIDADE DE MOVIMENTO ===========#
+    def dRp_dpl(self):
+        return 0
+    
+    #=========================================================================#
 
 if __name__ == '__main__':
 

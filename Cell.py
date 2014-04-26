@@ -25,6 +25,8 @@ class CellWell(Cell):
         self.fluid = fluid                  # Fluido
         self.v_rh = v_rh                    # Velocidade na face direita
         self.p = p                          # Pressão no centro
+        self.p_old = p              # TODO: Melhorar condição inicial
+        self.v_rh_old = v_rh        # TODO: Melhorar condição inicial
 
     def rho(self, p, T):
         "Densidade do fluido à pressão p e temperatura T."
