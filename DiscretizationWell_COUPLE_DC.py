@@ -24,6 +24,7 @@ class DiscretizationWell_COUPLE_DC():
         print '----+-----------+-----------+----------'
         while(it < it_max and erro >= erro_max):
             A = np.matrix(self.build_Jacobian_matrix(grid, dt))
+            b = - np.matrix(self.build_Residual_Vector(grid, dt))
             x = (A.I*b.T).A1
 
             #Valores novos
@@ -277,7 +278,113 @@ class DiscretizationWell_COUPLE_DC():
             return (A_r*rho_r*2*v_r)
 
     #=========================================================================#
+    #####################   FUNÇÕES DE TESTE
+    #========================= RESÍDUO DA MASSA ==============================#
+    def mass_residual(self, index, v_lh, v_rh, dt):
+        n = grid.n
+        R = np.zeros(2*n)
 
+        #Variáveis no passo de tempo atual
+        A = grid.A(index)
+        A_lh = grid.A_lh(index)
+        A_rh = grid.A_rh(index)
+        rho = grid.rho(index)
+        rho_lh = grid.rho_lh(index)
+        rho_rh = grid.rho_rh(index)
+        dx_rh = grid.dx_rh(index)
+#        v_lh = grid.v_lh(index)
+#        v_rh = grid.v_rh(index)
+        msrc = grid.msrc(index)
+
+        #Variáveis no passo de tempo anterior
+        rho_old = grid.rho_old(index)
+
+        # Mass Residual
+        R_mass = A*dx*(rho - rho_old)/dt
+        R_mass += (A_rh*rho_rh*v_rh) - (A_lh*rho_lh*v_lh) - A*msrc*dx
+        
+        return R_mass
+
+    def dmr_dv_rh(self, index, dt, eps):
+        
+        v_lh = grid.v_lh(index)
+        v_rh = grid.v_rh(index)
+        
+        fpos = self.mass_residual(index, v_lh, (v_rh + eps), dt)
+        fat = self.mass_residual(index, v_lh, (v_rh), dt)
+        
+        return (fpos - fat)/eps
+
+    def dmr_dv_lh(self, index, dt, eps):
+        
+        v_lh = grid.v_lh(index)
+        v_rh = grid.v_rh(index)
+        
+        fpos = self.mass_residual(index, (v_lh + eps), v_rh, dt)
+        fat = self.mass_residual(index, (v_lh), v_rh, dt)
+        
+        return (fpos - fat)/eps
+
+    def momentum_residual(self, index, v_rh, v_lh, p, p_r, dt):
+#            #Variáveis no passo de tempo atual
+            A = grid.A(index)
+            A_r = grid.A_r(index)
+            A_rh = grid.A_rh(index)
+            rho = grid.rho(index)
+            rho_r = grid.rho_r(index)
+            rho_rh = grid.rho_rh(index)
+            dx = grid.dx(index)
+            dx_rh = grid.dx_rh(index)
+            v = v_lh
+            v_r = v_rh
+            fsrc = 0
+#
+#            #Variáveis no passo de tempo anterior
+            v_rh_old = grid.v_rh_old(index)
+            rho_rh_old = grid.rho_rh_old(index)
+    
+            # Momentum residual
+            R_mom = A_rh*dx_rh*(rho_rh*v_rh - rho_rh_old*v_rh_old)/dt
+            R_mom += A_r*rho_r*v_r*v_r - A*rho*v*v + A_rh*(p_r-p) - A*dx*fsrc
+
+            return R_mom
+        
+    def dmp_dp(self, index, dt, eps):
+            
+            v_rh = grid.v_rh(index)
+            v_lh = grid.v_lh(index)
+            p = grid.p(index)
+            p_r = grid.p_r(index)
+            
+            fpos = self.momentum_residual(index, v_rh, v_lh, (p + eps), p_r, dt)
+            fat = self.momentum_residual(index, v_rh, v_lh, (p), p_r, dt)
+ 
+            return (fpos - fat)/eps
+    
+    def dmp_dv_rh(self, index, dt, eps):
+            
+            v_rh = grid.v_rh(index)
+            v_lh = grid.v_lh(index)
+            p = grid.p(index)
+            p_r = grid.p_r(index)
+            
+            fpos = self.momentum_residual(index, (v_rh + eps), v_lh, p, p_r, dt)
+            fat = self.momentum_residual(index, (v_rh), v_lh, p, p_r, dt)
+ 
+            return (fpos - fat)/eps
+            
+    def dmp_dv_lh(self, index, dt, eps):
+            
+            v_rh = grid.v_rh(index)
+            v_lh = grid.v_lh(index)
+            p = grid.p(index)
+            p_r = grid.p_r(index)
+            
+            fpos = self.momentum_residual(index, v_rh, (v_lh + eps), p, p_r, dt)
+            fat = self.momentum_residual(index, v_rh, v_lh, p, p_r, dt)
+ 
+            return (fpos - fat)/eps
+        
 if __name__ == '__main__':
 
     from GridWell import *
@@ -286,11 +393,11 @@ if __name__ == '__main__':
 
     # Pipe properties
     A = 0.1
-    dx = 0.1
+    dx = 100
     ncells = 5
 
     # Numerical Parameters
-    dt = .1
+    dt = 1
 
     # Fluid properties
     rho = 1                       # Fluid density
@@ -298,12 +405,13 @@ if __name__ == '__main__':
     fsrc = 0.                       # Termo fonte da QM
 
     # Initial properties
-    v_ini = 0.2                       # Initial Condition for v
-    p_ini = 10                       # Initial Condition for p
+    v_ini = 0                       # Initial Condition for v
+    p_ini = 5                       # Initial Condition for p
 
     # Boundary Condition
     # Left Boundary Condtion (Velocidade na entrada: v_ini)
     lbc_t = 1                       # LBC Type (0 - Pressure / 1 - Velocity)
+    lbc = 5                         # LBC Value
 
     # Right Boundary Condtion (Pressão na saida: p_ini)
     rbc_t = 0                       # RBC Type (0 - Pressure / 1 - Velocity)
@@ -323,19 +431,64 @@ if __name__ == '__main__':
 
     # Creating Model
     model = DiscretizationWell_COUPLE_DC()
-    J = model.build_Jacobian_matrix(grid, dt)
-    J = np.matrix(J)
-    r = model.build_Residual_Vector(grid, dt)
-    r = np.matrix(r)
-
-    print "JACOBIAN TEST"
-    print J
-
-    print "RESIDUAL TEST"
-    print r
-
-    model.iterate_x(grid, dt, 100, 1e-5)
     
-    print 'NOVO P', grid.get_p()
-    print 'Novo v', grid.get_v_rh()
+    for tst in range(2):
+        print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+        J = model.build_Jacobian_matrix(grid, dt)
+        J = np.matrix(J)
+        r = - model.build_Residual_Vector(grid, dt)
+        r = np.matrix(r)
+        
+        x = (J.I*r.T).A1
+    
+        print "JACOBIAN TEST"
+        print J
+        
+        print "JACOBIAN Inverse"
+        print J.I
+    
+        print "RESIDUAL TEST"
+        print r.T
+        
+    #    print "RESULTS"
+    #    print x
+        
+         #Valores novos
+        new_p = x[::2]
+        new_v_rh = x[1::2]
+    
+    #    model.iterate_x(grid, dt, 100, 1e-5)
+    #    
+        print 'Delta P', new_p
+        print 'Delat v', new_v_rh
+        
+        #Atualizando valores
+        for i in range(grid.n):
+            grid.set_p(i, grid.p(i)+new_p[i])
+            grid.set_v_rh(i, grid.v_rh(i)+new_v_rh[i])
+         
+         
+        print 'NOVO P', grid.get_p()
+        print 'Novo v', grid.get_v_rh()
+
+    
+#    index = 1
+#    eps = 0.01
+#    v_lh = grid.v_lh(index)
+#    v_rh = grid.v_rh(index)
+#    p = grid.p(index)
+#    p_r = grid.p_r(index)
+#    
+##    print v_lh, v_rh
+##    mass_residual(index, v_lh, v_rh, dt): 
+#    print "MASS"
+#    print "mass residual", model.mass_residual(index, v_lh, v_rh, dt)
+#    print "dMr_dv_rh", model.dmr_dv_rh(index, dt, eps)
+#    print "dMr_dv_lh", model.dmr_dv_lh(index, dt, eps)
+#    
+#    print "MOMENTUM"
+#    print "Momentum Residual", model.momentum_residual(index, v_rh, v_lh, p, p_r, dt)
+#    print "dMp_dp", model.dmp_dp(index, dt, eps)
+#    print "dMp_dv_rh", model.dmp_dv_rh(index, dt, eps)
+#    print "dMp_dv_lh", model.dmp_dv_lh(index, dt, eps)
     
