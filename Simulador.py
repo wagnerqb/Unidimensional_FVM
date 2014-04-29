@@ -23,17 +23,17 @@ import PlotFunctions as plot
     
 # Pipe properties
 A = 0.1
-dx = 10
-ncells = 5
+dx = 5
+ncells = 50
 theta = 0
 
 # Numerical Parameters
 t0 = 0
-dt = 0.1
-nt = 500
+dt = 0.7
+nt = 1000000
 
 # Fluid properties
-T = 10                          # Temperatura
+T = 300                         # Temperatura
 MM = 14                         # Massa molar
 msrc = 0.                       # Mass Source term per volume unity
 fsrc = 0.                       # Termo fonte da QM
@@ -49,7 +49,7 @@ lbc = 2                         # LBC Value
 
 # Right Boundary Condtion (Pressão na saida: p_ini)
 rbc_t = 0                       # RBC Type (0 - Pressure / 1 - Velocity)
-rbc = 10                         # RBC Value
+rbc = 10                        # RBC Value
 
 #Fluido
 fluid = FluidIdeal(MM)
@@ -67,7 +67,7 @@ for i in range(ncells):
 model = DiscretizationWell_DC()
 
 # Iniciando o plot iterativo
-plt_v, plt_p = plot.create_figure_iterative(grid, 0, 10, 0, 10)
+plt_v, plt_p = plot.create_figure_iterative(grid, 0, 5, 0, 15)
 
 print '==================='
 print '  N  | Tempo  | IT '
@@ -84,6 +84,7 @@ for i in range(nt):
     x = range(ncells)
 
     # Atualizando o plot iterativo
+    #if i % 10 == 0:
     plt_v, plt_p = plot.update_iterative_plot(plt_v, plt_p, x, v_rh, p)
 
 print '==============\n'
