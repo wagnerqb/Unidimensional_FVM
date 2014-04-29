@@ -22,16 +22,18 @@ from DiscretizationWell_DC import *
 
 # Pipe properties
 A = 0.1
-dx = 100
+dx = 10
 ncells = 5
+theta = 0
 
 # Numerical Parameters
 t0 = 0
-dt = .1
-nt = 2
+dt = 1
+nt = 40
 
 # Fluid properties
-rho = 1                       # Fluid density
+T = 10                          # Temperatura
+MM = 14                         # Massa molar
 msrc = 0.                       # Mass Source term per volume unity
 fsrc = 0.                       # Termo fonte da QM
 
@@ -49,7 +51,7 @@ rbc_t = 0                       # RBC Type (0 - Pressure / 1 - Velocity)
 rbc = 10                         # RBC Value
 
 #Fluido
-fluid = FluidIncompressible(rho)
+fluid = FluidIdeal(MM)
 
 # Creating Grid
 grid = GridWell(fluid)
@@ -57,7 +59,7 @@ grid.set_boundaries(lbc_t, lbc, rbc_t, rbc)
 
 for i in range(ncells):
     #Criando grid
-    cell = CellWell(A, dx, fluid, v_ini, p_ini, msrc)
+    cell = CellWell(A, dx, fluid, v_ini, p_ini, T, theta, msrc)
     grid.add_cell(cell)
 
 # Creating Model
