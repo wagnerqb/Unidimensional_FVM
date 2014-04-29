@@ -50,3 +50,7 @@ class FluidIdeal():
         """Derivada da densidade do fluido em relação a pressão,
         na pressão p, e temperatura T."""
         return 1./(T*self.R_M)
+
+if __name__ == '__main__':
+
+    print "TESTE"

@@ -324,7 +324,7 @@ class GridWell(Grid):
                 # Condição de contorno de pressão
                 p_old = self.rbc
 
-            elif (self.rbc_t == self.VELOCITY_BC):
+            elif (self.rbc_t == self.PERIODIC_BC):
                 # Condição de contorno periódica
                 p_old = self[0].p_old
 
@@ -365,13 +365,43 @@ class GridWell(Grid):
         return np.array(p_old)
 
 #================================= TEMPERATUA ================================#
-    def T(self, index):
+    def T(self, index):  # TODO: Implementar toda a estrutura de T Boundary C.
         "Temperatura no centro da célula."
         return self[index].T
-        
-        
-#=============================================================================#
 
+#================================= INCLINAÇÃO ================================#
+    def theta(self, index):  # TODO: Implementar toda a estrutura de theta B.C.
+        "Inclinação no centro da célula."
+        if (index < 0):
+            # Condição de contorno esquerda
+            if (self.lbc_t == self.PERIODIC_BC):
+                # Condição de contorno periódica
+                theta = self[-1].theta
+
+            else:
+                # Com extrapolação
+                theta = self.extrapolation_l(self[0].theta, self[1].theta)
+
+        elif index > self.n - 1:
+            # Condição de contorno direita
+            if (self.rbc_t == self.PERIODIC_BC):
+                # Condição de contorno periódica
+                theta = self[0].theta
+
+            else:
+                # Para outras condições de contorno a pressão é extrapolada
+                theta = self.extrapolation_r(self[-2].theta, self[-1].theta)
+
+        else:
+            theta = self[index].theta
+
+        return theta
+
+    def theta_rh(self, index):
+        "Inclinação na face direita da célula."
+        return (self.theta(index + 1) + self.theta(index))/2
+
+#=============================================================================#
 if __name__ == '__main__':
 
     print "TESTE"

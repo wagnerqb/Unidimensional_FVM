@@ -38,3 +38,7 @@ class CellWell(Cell):
         """Densidade do fluido na pressão e temperatura
         do passo de tempo anterior"""
         return self.fluid.rho(self.p_old, self.T)  # TODO: temperatura OLD
+
+if __name__ == '__main__':
+
+    print "TESTE"

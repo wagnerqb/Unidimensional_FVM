@@ -29,7 +29,7 @@ theta = 0
 # Numerical Parameters
 t0 = 0
 dt = 1
-nt = 40
+nt = 500
 
 # Fluid properties
 T = 10                          # Temperatura
@@ -38,8 +38,8 @@ msrc = 0.                       # Mass Source term per volume unity
 fsrc = 0.                       # Termo fonte da QM
 
 # Initial properties
-v_ini = 8                       # Initial Condition for v
-p_ini = 8                       # Initial Condition for p
+v_ini = 0                       # Initial Condition for v
+p_ini = 10                       # Initial Condition for p
 
 # Boundary Condition
 # Left Boundary Condtion (Velocidade na entrada: v_ini)
