@@ -364,6 +364,12 @@ class GridWell(Grid):
             p_old.append(self[i].p_old)
         return np.array(p_old)
 
+#================================= TEMPERATUA ================================#
+    def T(self, index):
+        "Temperatura no centro da célula."
+        return self[index].T
+        
+        
 #=============================================================================#
 
 if __name__ == '__main__':

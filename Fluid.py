@@ -6,6 +6,7 @@
 @brief:  Classe do fluido que escoa na tubulação.
 """
 
+from __future__ import division
 
 class Fluid():
     "Classe Fluido."
@@ -31,3 +32,21 @@ class FluidIncompressible():
         """Derivada da Densidade do fluido em relação a pressão,
         na pressão p, e temperatura T"""
         return 0
+
+
+class FluidIdeal():
+    "Classe Fluido ideal."
+
+    R = 8.31144621  # Consante universal dos gases
+
+    def __init__(self, MM):
+        self.R_M = self.R/MM
+
+    def rho(self, p, T):
+        "Densidade do fluido na pressão p, e temperatura T."
+        return p/(T*self.R_M)
+
+    def drho_dp(self, p, T):
+        """Derivada da densidade do fluido em relação a pressão,
+        na pressão p, e temperatura T."""
+        return 1./(T*self.R_M)

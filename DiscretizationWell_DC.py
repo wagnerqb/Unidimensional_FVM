@@ -90,25 +90,26 @@ class DiscretizationWell_DC():
             p_l = grid.p_l(i)
             p_r = grid.p_r(i)
             fluid = grid.fluid
+            T = grid.T(i)
 
             # Calculando as Derivadas dos Resíduos
             #Derivada do resíduo da massa em relação a pressão esquerda
-            dRm_dpl = self.dRm_dpl(A_lh, v_lh, p_l, fluid)
+            dRm_dpl = self.dRm_dpl(A_lh, v_lh, p_l, T, fluid)
 
             #Derivada do resíduo da massa em relação a pressão central
-            dRm_dpc = self.dRm_dpc(dt, A, A_lh, A_rh, dx, v_lh, v_rh, p, fluid)
+            dRm_dpc = self.dRm_dpc(dt, A, A_lh, A_rh, dx, v_lh, v_rh, p, T, fluid)
 
             #Derivada do resíduo da massa em relação a pressão direita
-            dRm_dpr = self.dRm_dpr(A_rh, v_rh, p_r, fluid)
+            dRm_dpr = self.dRm_dpr(A_rh, v_rh, p_r, T, fluid)
 
             #Derivada do resíduo do momentum em relação a pressão esquerda
             dRp_dpl = self.dRp_dpl()
 
             #Derivada do resíduo do momentum em relação a pressão central
-            dRp_dpc = self.dRp_dpc(dt, A, A_rh, dx_rh, v, v_rh, p, fluid)
+            dRp_dpc = self.dRp_dpc(dt, A, A_rh, dx_rh, v, v_rh, p, T, fluid)
 
             #Derivada do resíduo do momentum em relação a pressão direita
-            dRp_dpr = self.dRp_dpr(dt, A_r, A_rh, dx_rh, v_r, v_rh, p_r, fluid)
+            dRp_dpr = self.dRp_dpr(dt, A_r, A_rh, dx_rh, v_r, v_rh, p_r, T, fluid)
 
             #Derivada do resíduo da massa em relação a velocidade face k-1/2
             dRm_dvl = self.dRm_dvl(A_lh, rho_lh)
@@ -222,17 +223,17 @@ class DiscretizationWell_DC():
         return R
 
     #======================= DERIVADAS DO RESÍDUO DA MASSA ===================#
-    def dRm_dpl(self, A_lh, v_lh, p_l, fluid):
+    def dRm_dpl(self, A_lh, v_lh, p_l, T, fluid):
         "Derivada do resíduo da massa em relação a pressão esquerda."
-        return -0.5*A_lh*v_lh*fluid.drho_dp(p_l)
+        return -0.5*A_lh*v_lh*fluid.drho_dp(p_l, T)
 
-    def dRm_dpc(self, dt, A, A_lh, A_rh, dx, v_lh, v_rh, p, fluid):
+    def dRm_dpc(self, dt, A, A_lh, A_rh, dx, v_lh, v_rh, p, T, fluid):
         "Derivada do resíduo da massa em relação a pressão central."
-        return (A*dx/dt + 0.5*A_rh*v_rh - 0.5*A_lh*v_lh)*fluid.drho_dp(p)
+        return (A*dx/dt + 0.5*A_rh*v_rh - 0.5*A_lh*v_lh)*fluid.drho_dp(p, T)
 
-    def dRm_dpr(self, A_rh, v_rh, p_r, fluid):
+    def dRm_dpr(self, A_rh, v_rh, p_r, T, fluid):
         "Derivada do resíduo da massa em relação a pressão direita."
-        return 0.5*A_rh*v_rh*fluid.drho_dp(p_r)
+        return 0.5*A_rh*v_rh*fluid.drho_dp(p_r, T)
 
     def dRm_dvl(self, A_lh, rho_lh):
         "Derivada do resíduo da massa em relação a velocidade esquerda."
@@ -251,13 +252,13 @@ class DiscretizationWell_DC():
         "Derivada do resíduo do momentum em relação a pressão esquerda"
         return 0
 
-    def dRp_dpc(self, dt, A, A_rh, dx_rh, v, v_rh, p, fluid):
+    def dRp_dpc(self, dt, A, A_rh, dx_rh, v, v_rh, p, T, fluid):
         "Derivada do resíduo do momentum em relação a pressão central"
-        return (A_rh*dx_rh*v_rh/(2*dt) - (A*v*v))*fluid.drho_dp(p) - A_rh
+        return (A_rh*dx_rh*v_rh/(2*dt) - (A*v*v))*fluid.drho_dp(p, T) - A_rh
 
-    def dRp_dpr(self, dt, A_r, A_rh, dx_rh, v_r, v_rh, p_r, fluid):
+    def dRp_dpr(self, dt, A_r, A_rh, dx_rh, v_r, v_rh, p_r, T, fluid):
         "Derivada do resíduo do momentum em relação a pressão direita"
-        return (A_rh*dx_rh*v_rh/(2*dt) + (A_r*v_r*v_r))*fluid.drho_dp(p_r)\
+        return (A_rh*dx_rh*v_rh/(2*dt) + (A_r*v_r*v_r))*fluid.drho_dp(p_r, T)\
             + A_rh
 
     def dRp_dvl(self, A, rho, v, v_rh):
