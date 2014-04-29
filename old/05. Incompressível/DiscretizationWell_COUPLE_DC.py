@@ -55,7 +55,6 @@ class DiscretizationWell_COUPLE_DC():
 #        print '='*40
         return it
 
-##########################################################################
     def iterate_t(self, grid, dt):
         "Função que realiza uma iteração no tempo."
 
@@ -67,7 +66,6 @@ class DiscretizationWell_COUPLE_DC():
 
         return it
 
-##########################################################################
     def build_Jacobian_matrix(self, grid, dt):
         "Função que constrói o Jacobiano"
         n = grid.n
@@ -331,10 +329,9 @@ if __name__ == '__main__':
 
     # Creating Model
     model = DiscretizationWell_COUPLE_DC()
-    
+
     for tst in range(2):
         print '\nIterações:', model.iterate_t(grid, dt)
-        
+
         print 'Novo P:', grid.get_p()
         print 'Novo v:', grid.get_v_rh()
-

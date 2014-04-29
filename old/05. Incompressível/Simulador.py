@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 from Cell import CellWell
 from GridWell import GridWell
 from Fluid import *
-from DiscretizationWell_DC import *
+from DiscretizationWell_COUPLE_DC import *
 
 
 # Pipe properties
@@ -61,7 +61,7 @@ for i in range(ncells):
     grid.add_cell(cell)
 
 # Creating Model
-model = DiscretizationWell_DC()
+model = DiscretizationWell_COUPLE_DC()
 
 
 # Gráfico de Velocidade
