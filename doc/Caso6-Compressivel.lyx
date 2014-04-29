@@ -1904,5 +1904,60 @@ Como o sentido do escoamento é importante para o método Donor-Cell, as derivad
 Modelo de Fluido
 \end_layout
 
+\begin_layout Standard
+O fluido utilizado será um gás ideal tal que a sua massa específica será
+ dada por:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\rho=\frac{pM}{RT}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+onde 
+\begin_inset Formula $M$
+\end_inset
+
+ representa a massa molar do gás e 
+\begin_inset Formula $R$
+\end_inset
+
+ a constante universal dos gases.
+\end_layout
+
+\begin_layout Standard
+Assim, a derivada da massa específica com a pressão será dada por:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\rho}{\partial p}=\frac{M}{RT}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
 \end_body
 \end_document
