@@ -10,10 +10,11 @@
 from __future__ import division
 import numpy as np
 
+g = 9.81  # TODO: Verificar onde a gravidade será armazenada. # Gravidade
+
 
 class DiscretizationWell_DC():
     "Modelo de discretização COUPLE Full Implicit com interpolação Donor-Cell."
-    g = 9.81  # TODO: Verificar onde a gravidade será armazenada. # Gravidade
 
     def iterate_x(self, grid, dt, it_max=1E8, erro_max=1E-8):
         "Função que realiza iterações no espaço utilizando o modelo COUPLE."
@@ -73,63 +74,43 @@ class DiscretizationWell_DC():
         J = np.zeros((2*n, 2*n))
 
         for i in range(n):
-            A = grid.A(i)
-            A_r = grid.A_r(i)
-            A_lh = grid.A_lh(i)
-            A_rh = grid.A_rh(i)
-            rho = grid.rho(i)
-            rho_r = grid.rho_r(i)
-            rho_lh = grid.rho_lh(i)
-            rho_rh = grid.rho_rh(i)
-            dx = grid.dx(i)
-            dx_rh = grid.dx_rh(i)
-            v = grid.v(i)
-            v_r = grid.v_r(i)
-            v_lh = grid.v_lh(i)
-            v_rh = grid.v_rh(i)
-            p = grid.p(i)
-            p_l = grid.p_l(i)
-            p_r = grid.p_r(i)
-            fluid = grid.fluid
-            T = grid.T(i)
-            theta_rh = grid.theta_rh(i)
 
             # Calculando as Derivadas dos Resíduos
             #Derivada do resíduo da massa em relação a pressão esquerda
-            dRm_dpl = self.dRm_dpl(dt, i)
+            dRm_dpl = self.dRm_dpl(grid, dt, i)
 
             #Derivada do resíduo da massa em relação a pressão central
-            dRm_dpc = self.dRm_dpc(dt, i)
+            dRm_dpc = self.dRm_dpc(grid, dt, i)
 
             #Derivada do resíduo da massa em relação a pressão direita
-            dRm_dpr = self.dRm_dpr(dt, i)
+            dRm_dpr = self.dRm_dpr(grid, dt, i)
 
             #Derivada do resíduo do momentum em relação a pressão esquerda
-            dRp_dpl = self.dRp_dpl(dt, i)
+            dRp_dpl = self.dRp_dpl(grid, dt, i)
 
             #Derivada do resíduo do momentum em relação a pressão central
-            dRp_dpc = self.dRp_dpc(dt, i)
+            dRp_dpc = self.dRp_dpc(grid, dt, i)
 
             #Derivada do resíduo do momentum em relação a pressão direita
-            dRp_dpr = self.dRp_dpr(dt, i)
+            dRp_dpr = self.dRp_dpr(grid, dt, i)
 
             #Derivada do resíduo da massa em relação a velocidade face k-1/2
-            dRm_dvl = self.dRm_dvl(dt, i)
+            dRm_dvl = self.dRm_dvl(grid, dt, i)
 
             #Derivada do resíduo da massa em relação a velocidade face k+1/2
-            dRm_dvc = self.dRm_dvc(dt, i)
+            dRm_dvc = self.dRm_dvc(grid, dt, i)
 
             #Derivada do resíduo da massa em relação a velocidade face k+3/2
-            dRm_dvr = self.dRm_dvr(dt, i)
+            dRm_dvr = self.dRm_dvr(grid, dt, i)
 
             #Derivada do resíduo do momentum em relação a velocidade face k-1/2
-            dRp_dvl = self.dRp_dvl(dt, i)
+            dRp_dvl = self.dRp_dvl(grid, dt, i)
 
             #Derivada do resíduo do momentum em relação a velocidade face k+1/2
-            dRp_dvc = self.dRp_dvc(dt, i)
+            dRp_dvc = self.dRp_dvc(grid, dt, i)
 
             #Derivada do resíduo do momentum em relação a velocidade face k+3/2
-            dRp_dvr = self.dRp_dvr(dt, i)
+            dRp_dvr = self.dRp_dvr(grid, dt, i)
 
             #Filling Matrix
             if i == 0:
@@ -202,8 +183,8 @@ class DiscretizationWell_DC():
             v_rh = grid.v_rh(i)
             p = grid.p(i)
             p_r = grid.p_r(i)
+            theta = grid.theta(i)
             msrc = grid.msrc(i)
-            fsrc = 0
 
             #Variáveis no passo de tempo anterior
             v_rh_old = grid.v_rh_old(i)
@@ -216,15 +197,16 @@ class DiscretizationWell_DC():
 
             # Momentum residual
             R_mom = A_rh*dx_rh*(rho_rh*v_rh - rho_rh_old*v_rh_old)/dt
-            R_mom += A_r*rho_r*v_r*v_r - A*rho*v*v + A_rh*(p_r-p) - A*dx*fsrc
+            R_mom += A_r*rho_r*v_r*v_r - A*rho*v*v + A_rh*(p_r-p)
+            R_mom += - A_rh*dx_rh*rho_rh*g*np.sin(theta)
 
             R[2*i] = R_mom
             R[2*i+1] = R_mass
 
         return R
 
-    #======================= DERIVADAS DO RESÍDUO DA MASSA ===================#
-    def dRm_dpl(self, dt, index):
+#========================= DERIVADAS DO RESÍDUO DA MASSA =====================#
+    def dRm_dpl(self, grid, dt, index):
         "Derivada do resíduo da massa em relação a pressão esquerda."
         A_lh = grid.A_lh(index)
         v_lh = grid.v_lh(index)
@@ -234,7 +216,7 @@ class DiscretizationWell_DC():
 
         return -0.5*A_lh*v_lh*fluid.drho_dp(p_l, T)
 
-    def dRm_dpc(self, dt, index):
+    def dRm_dpc(self, grid, dt, index):
         "Derivada do resíduo da massa em relação a pressão central."
         A = grid.A(index)
         A_lh = grid.A_lh(index)
@@ -248,7 +230,7 @@ class DiscretizationWell_DC():
 
         return (A*dx/dt + 0.5*A_rh*v_rh - 0.5*A_lh*v_lh)*fluid.drho_dp(p, T)
 
-    def dRm_dpr(self, dt, index):
+    def dRm_dpr(self, grid, dt, index):
         "Derivada do resíduo da massa em relação a pressão direita."
         A_rh = grid.A_rh(index)
         v_rh = grid.v_rh(index)
@@ -258,169 +240,100 @@ class DiscretizationWell_DC():
 
         return 0.5*A_rh*v_rh*fluid.drho_dp(p_r, T)
 
-    def dRm_dvl(self, dt, index):
+    def dRm_dvl(self, grid, dt, index):
         "Derivada do resíduo da massa em relação a velocidade esquerda."
         A_lh = grid.A_lh(index)
         rho_lh = grid.rho_lh(index)
 
         return -A_lh*rho_lh
 
-    def dRm_dvc(self, dt, index):
+    def dRm_dvc(self, grid, dt, index):
         "Derivada do resíduo da massa em relação a velocidade central."
         A_rh = grid.A_rh(index)
         rho_rh = grid.rho_rh(index)
 
         return A_rh*rho_rh
 
-    def dRm_dvr(self, dt, index):
+    def dRm_dvr(self, grid, dt, index):
         "Derivada do resíduo da massa em relação a velocidade direita."
 
         return 0
 
-    #============= DERIVADAS DO RESÍDUO DA QUANTIDADE DE MOVIMENTO ===========#
-    def dRp_dpl(self, dt, index):
+#=============== DERIVADAS DO RESÍDUO DA QUANTIDADE DE MOVIMENTO =============#
+    def dRp_dpl(self, grid, dt, index):
         "Derivada do resíduo do momentum em relação a pressão esquerda"
         return 0
 
-    def dRp_dpc(self, dt, index):
+    def dRp_dpc(self, grid, dt, index):
         "Derivada do resíduo do momentum em relação a pressão central"
-
-
-#        A = grid.A(index)
-#        A_r = grid.A_r(index)
-#        A_lh = grid.A_lh(index)
+        A = grid.A(index)
         A_rh = grid.A_rh(index)
-#        rho = grid.rho(index)
-#        rho_r = grid.rho_r(index)
-#        rho_lh = grid.rho_lh(index)
-#        rho_rh = grid.rho_rh(index)
-#        dx = grid.dx(index)
         dx_rh = grid.dx_rh(index)
         v = grid.v(index)
-#        v_r = grid.v_r(index)
-#        v_lh = grid.v_lh(index)
         v_rh = grid.v_rh(index)
         p = grid.p(index)
-#        p_l = grid.p_l(index)
-#        p_r = grid.p_r(index)
         fluid = grid.fluid
         T = grid.T(index)
-#        theta_rh = grid.theta_rh(index)        
-        
-        return (A_rh*dx_rh*v_rh/(2*dt) - (A*v*v))*fluid.drho_dp(p, T) - A_rh
+        theta_rh = grid.theta_rh(index)
 
-    def dRp_dpr(self, dt, index):
+        aux1 = 0.5*A_rh*dx_rh*v_rh/dt - (A*v*v)
+        aux1 = aux1 - 0.5*g*(np.sin(theta_rh))*A_rh*dx_rh
+
+        return aux1*fluid.drho_dp(p, T) - A_rh
+
+    def dRp_dpr(self, grid, dt, index):
         "Derivada do resíduo do momentum em relação a pressão direita"
-        
-
-        A = grid.A(index)
         A_r = grid.A_r(index)
-        A_lh = grid.A_lh(index)
         A_rh = grid.A_rh(index)
-        rho = grid.rho(index)
-        rho_r = grid.rho_r(index)
-        rho_lh = grid.rho_lh(index)
-        rho_rh = grid.rho_rh(index)
-        dx = grid.dx(index)
         dx_rh = grid.dx_rh(index)
-        v = grid.v(index)
         v_r = grid.v_r(index)
-        v_lh = grid.v_lh(index)
         v_rh = grid.v_rh(index)
-        p = grid.p(index)
-        p_l = grid.p_l(index)
         p_r = grid.p_r(index)
         fluid = grid.fluid
         T = grid.T(index)
         theta_rh = grid.theta_rh(index)
 
-        return (A_rh*dx_rh*v_rh/(2*dt) + (A_r*v_r*v_r))*fluid.drho_dp(p_r, T)\
-            + A_rh
+        aux1 = 0.5*A_rh*dx_rh*v_rh/dt + (A_r*v_r*v_r)
+        aux1 = aux1 - 0.5*g*(np.sin(theta_rh))*A_rh*dx_rh
 
-    def dRp_dvl(self, dt, index):
+        return aux1*fluid.drho_dp(p_r, T) + A_rh
+
+    def dRp_dvl(self, grid, dt, index):
         "Derivada do resíduo do momentum em relação a velocidade face k-1/2"
-
-
         A = grid.A(index)
-        A_r = grid.A_r(index)
-        A_lh = grid.A_lh(index)
-        A_rh = grid.A_rh(index)
         rho = grid.rho(index)
-        rho_r = grid.rho_r(index)
-        rho_lh = grid.rho_lh(index)
-        rho_rh = grid.rho_rh(index)
-        dx = grid.dx(index)
-        dx_rh = grid.dx_rh(index)
         v = grid.v(index)
-        v_r = grid.v_r(index)
-        v_lh = grid.v_lh(index)
         v_rh = grid.v_rh(index)
-        p = grid.p(index)
-        p_l = grid.p_l(index)
-        p_r = grid.p_r(index)
-        fluid = grid.fluid
-        T = grid.T(index)
-        theta_rh = grid.theta_rh(index)        
-        
+
         if (v_rh >= 0):
             return -(A*rho)*2*v
         elif (v_rh < 0):
             return 0
 
-    def dRp_dvc(self, dt, index):
+    def dRp_dvc(self, grid, dt, index):
         "Derivada do resíduo do momentum em relação a velocidade face k+1/2"
-        
-
         A = grid.A(index)
         A_r = grid.A_r(index)
-        A_lh = grid.A_lh(index)
         A_rh = grid.A_rh(index)
         rho = grid.rho(index)
         rho_r = grid.rho_r(index)
-        rho_lh = grid.rho_lh(index)
         rho_rh = grid.rho_rh(index)
-        dx = grid.dx(index)
         dx_rh = grid.dx_rh(index)
         v = grid.v(index)
         v_r = grid.v_r(index)
-        v_lh = grid.v_lh(index)
         v_rh = grid.v_rh(index)
-        p = grid.p(index)
-        p_l = grid.p_l(index)
-        p_r = grid.p_r(index)
-        fluid = grid.fluid
-        T = grid.T(index)
-        theta_rh = grid.theta_rh(index)
 
         if (v_rh >= 0):
             return (A_rh*dx_rh*rho_rh)/dt + (A_r*rho_r*2*v_r)
         elif (v_rh < 0):
             return (A_rh*dx_rh*rho_rh)/dt - (A*rho*2*v)
 
-    def dRp_dvr(self, dt, index):
+    def dRp_dvr(self, grid, dt, index):
         "Derivada do resíduo do momentum em relação a velocidade face k+3/2"
-
-
-        A = grid.A(index)
         A_r = grid.A_r(index)
-        A_lh = grid.A_lh(index)
-        A_rh = grid.A_rh(index)
-        rho = grid.rho(index)
         rho_r = grid.rho_r(index)
-        rho_lh = grid.rho_lh(index)
-        rho_rh = grid.rho_rh(index)
-        dx = grid.dx(index)
-        dx_rh = grid.dx_rh(index)
-        v = grid.v(index)
         v_r = grid.v_r(index)
-        v_lh = grid.v_lh(index)
         v_rh = grid.v_rh(index)
-        p = grid.p(index)
-        p_l = grid.p_l(index)
-        p_r = grid.p_r(index)
-        fluid = grid.fluid
-        T = grid.T(index)
-        theta_rh = grid.theta_rh(index)
 
         if (v_rh >= 0):
             return 0
@@ -434,44 +347,43 @@ if __name__ == '__main__':
     from Fluid import *
     from Cell import *
 
-
     # Pipe properties
     A = 0.1
     dx = 10
     ncells = 5
     theta = 0
-    
+
     # Numerical Parameters
     t0 = 0
     dt = 1
     nt = 500
-    
+
     # Fluid properties
     T = 10                          # Temperatura
     MM = 14                         # Massa molar
     msrc = 0.                       # Mass Source term per volume unity
     fsrc = 0.                       # Termo fonte da QM
-    
+
     # Initial properties
     v_ini = 0                       # Initial Condition for v
     p_ini = 10                       # Initial Condition for p
-    
+
     # Boundary Condition
     # Left Boundary Condtion (Velocidade na entrada: v_ini)
     lbc_t = 1                       # LBC Type (0 - Pressure / 1 - Velocity)
     lbc = 5                         # LBC Value
-    
+
     # Right Boundary Condtion (Pressão na saida: p_ini)
     rbc_t = 0                       # RBC Type (0 - Pressure / 1 - Velocity)
     rbc = 10                         # RBC Value
-    
+
     #Fluido
     fluid = FluidIdeal(MM)
-    
+
     # Creating Grid
     grid = GridWell(fluid)
     grid.set_boundaries(lbc_t, lbc, rbc_t, rbc)
-    
+
     for i in range(ncells):
         #Criando grid
         cell = CellWell(A, dx, fluid, v_ini, p_ini, T, theta, msrc)

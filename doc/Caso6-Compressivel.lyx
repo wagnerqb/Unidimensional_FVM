@@ -642,7 +642,7 @@ Utilizando diferenças finitas para aproximar a derivada da pressão:
 \begin_inset Formula 
 \begin{multline}
 \left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]=\\
--\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}+\left(A\Delta x\rho gsen\left(\theta\right)\right)_{k+\frac{1}{2}}^{n+1}\label{eq:Discretizacao_Eq_Movimento}
+-A_{k+\frac{1}{2}}\left(p_{k+1}-p_{k}\right)^{n+1}+\left(A\Delta x\rho gsen\left(\theta\right)\right)_{k+\frac{1}{2}}^{n+1}\label{eq:Discretizacao_Eq_Movimento}
 \end{multline}
 
 \end_inset
@@ -764,7 +764,7 @@ Os resíduos para a equação da quantidade de movimento desprezando termos
 \begin_inset Formula 
 \begin{multline}
 R_{k}^{p}=\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]\\
-+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta x\rho gsen\left(\theta\right)\right)_{k+\frac{1}{2}}^{n+1}\label{eq:Residuo_Momentum}
++A_{k+\frac{1}{2}}\left(p_{k+1}-p_{k}\right)^{n+1}-\left(A\Delta x\rho gsen\left(\theta\right)\right)_{k+\frac{1}{2}}^{n+1}\label{eq:Residuo_Momentum}
 \end{multline}
 
 \end_inset

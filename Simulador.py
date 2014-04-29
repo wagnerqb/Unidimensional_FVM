@@ -29,7 +29,7 @@ theta = 0
 # Numerical Parameters
 t0 = 0
 dt = 1
-nt = 500
+nt = 5
 
 # Fluid properties
 T = 10                          # Temperatura
