@@ -17,7 +17,7 @@ class GridWell(Grid):
         Grid.__init__(self)
         self.fluid = fluid
 
-    #========================== MASSA ESPECÍFICA =============================#
+#============================== MASSA ESPECÍFICA =============================#
     def rho(self, index, p=None, T=None):
         "Densidade no centro da célula."
         if (index < 0):
@@ -57,6 +57,7 @@ class GridWell(Grid):
         "Densidade na face esquerda da celula."
         return (self.rho_l(index) + self.rho(index))/2
 
+#================= MASSA ESPECÍFICA NO PASSO DE TEMPO ANTERIOR ===============#
     def rho_old(self, index):
         "Densidade no centro da celula no passo de tempo anterior"
         if (index < 0):
@@ -82,14 +83,33 @@ class GridWell(Grid):
 
     def rho_r_old(self, index):
         "Densidade no centro da celula direita no passo de tempo anterior"
-        return self.rho_old(index-1)
+        return self.rho_old(index + 1)
+
+    def rho_l_old(self, index):
+        "Densidade no centro da celula esquerda no passo de tempo anterior"
+        return self.rho_old(index - 1)
 
     def rho_rh_old(self, index):
         "Densidade na face direita no passo de tempo anterior"
-        return self.fluid.rho(self.p_rh_old(index))
-        
+        return (self.rho_r_old(index) + self.rho_old(index))/2
 
-    #============================ VELOCIDADE =================================#
+    def rho_lh_old(self, index):
+        "Densidade na face esquerda no passo de tempo anterior"
+        return (self.rho_l_old(index) + self.rho_old(index))/2
+
+#================================ VELOCIDADE =================================#
+    def v(self, index):
+        "Velocidade no centro da célula (CDS Interpolation Method)."
+        return (self.v_lh(index) + self.v_rh(index))/2
+
+    def v_r(self, index):
+        "Velocidade no centro da célula direita (CDS Method)."
+        return self.v(index + 1)
+
+    def v_l(self, index):
+        "Velocidade no centro da célula esquerda (CDS Method)."
+        return self.v(index - 1)
+
     def v_rh(self, index):
         "Velocidade na face direita da célula."
         if (index < 0):
@@ -136,17 +156,29 @@ class GridWell(Grid):
         "Velocidade na face esquerda da célula."
         return self.v_rh(index-1)
 
-    def v(self, index):
-        "Velocidade no centro da célula (CDS Interpolation Method)."
-        return (self.v_lh(index) + self.v_rh(index))/2
+    def set_v_rh(self, index, v_rh):
+        "Atribui a velocidade na face direita da célula."
+        self[index].v_rh = v_rh
 
-    def v_r(self, index):
-        "Velocidade no centro da célula direita (CDS Method)."
-        return self.v(index + 1)
+    def get_v_rh(self):
+        "Retorna um vetor com a velocidade de todas as celulas."
+        v_rh = []
+        for i in range(self.n):
+            v_rh.append(self[i].v_rh)
+        return np.array(v_rh)
 
-    def v_l(self, index):
-        "Velocidade no centro da célula esquerda (CDS Method)."
-        return self.v(index - 1)
+#====================== VELOCIDADE NO PASSO DE TEMPO ANTERIOR ================#
+    def v_old(self, index):
+        "Velocidade no centro da célula no passo anterior (CDS Interpolation)."
+        return (self.v_lh_old(index) + self.v_rh_old(index))/2
+
+    def v_r_old(self, index):
+        "Velocidade no centro da célula direita passo anterior(CDS Method)."
+        return self.v_old(index + 1)
+
+    def v_l_old(self, index):
+        "Velocidade no centro da célula esquerda passo anterior(CDS Method)."
+        return self.v_old(index - 1)
 
     def v_rh_old(self, index):
         "Velocidade no passo de tempo anterior na face direita da célula."
@@ -190,23 +222,23 @@ class GridWell(Grid):
 
         return v_rh_old
 
+    def v_lh_old(self, index):
+        "Velocidade na face esquerda da célula no passo anterior de tempo."
+        return self.v_rh_old(index-1)
+
     def set_v_rh_old(self, index, v_rh_old):
         """Atribui a velocidade no passo de tempo anterior na face direita da
         célula."""
         self[index].v_rh_old = v_rh_old
 
-    def set_v_rh(self, index, v_rh):
-        "Atribui a velocidade na face direita da célula."
-        self[index].v_rh = v_rh
-
-    def get_v_rh(self):
+    def get_v_rh_old(self):
         "Retorna um vetor com a velocidade de todas as celulas."
-        v_rh = []
+        v_rh_old = []
         for i in range(self.n):
-            v_rh.append(self[i].v_rh)
-        return np.array(v_rh)
+            v_rh_old.append(self[i].v_rh_old)
+        return np.array(v_rh_old)
 
-    #============================== PRESSÃO ==================================#
+#================================== PRESSÃO ==================================#
     def p(self, index):
         "Pessão no centro da célula."
         if (index < 0):
@@ -258,6 +290,18 @@ class GridWell(Grid):
         "Pressâo na face esquerda da célula."
         return (self.p(index) + self.p_l(index))/2
 
+    def set_p(self, index, p):
+        "Atribui a pressão no centro da célula"
+        self[index].p = p
+
+    def get_p(self):
+        """Retorna um vetor com a pressão de todas as celulas."""
+        p = []
+        for i in range(self.n):
+            p.append(self[i].p)
+        return np.array(p)
+
+#===================== PRESSÃO NO PASSO DE TEMPO ANTERIOR ====================#
     def p_old(self, index):
         "Pressâo no passo de tempo anterior no centro da célula."
         if (index < 0):
@@ -293,21 +337,35 @@ class GridWell(Grid):
 
         return p_old
 
+    def p_r_old(self, index):
+        "Pressão no centro da célula direita no passo de tempo anterior."
+        return self.p_old(index + 1)
+
+    def p_l_old(self, index):
+        "Pressão no centro da célula esquerda no passo de tempo anterior."
+        return self.p_old(index - 1)
+
     def p_rh_old(self, index):
         "Pressâo no passo de tempo anterior na face direira da célula."
-        return (self.p_old(index)+self.p_old(index+1))/2
+        return (self.p_r_old(index)+self.p_old(index))/2
 
-    def set_p(self, index, p):
-        "Atribui a pressão no centro da célula"
-        self[index].p = p
+    def p_rl_old(self, index):
+        "Pressâo na face esquerda da célula no passo de tempo anterior."
+        return (self.p_old(index) + self.p_l_old(index))/2
 
     def set_p_old(self, index, p_old):
         "Atribui a pressâo no passo de tempo anterior no centro da célula."
         self[index].p_old = p_old
 
-    def get_p(self):
+    def get_p_old(self):
         """Retorna um vetor com a pressão de todas as celulas."""
-        p = []
+        p_old = []
         for i in range(self.n):
-            p.append(self[i].p)
-        return np.array(p)
+            p_old.append(self[i].p_old)
+        return np.array(p_old)
+
+#=============================================================================#
+
+if __name__ == '__main__':
+
+    print "TESTE"
