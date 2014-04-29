@@ -248,17 +248,17 @@ class DiscretizationWell_COUPLE_DC():
 
     def dRp_dpc(self, dt, A, A_rh, dx_rh, v, v_rh, p, fluid):
         "Derivada do resíduo do momentum em relação a pressão central"
-        return ((A_rh*dx_rh*v_rh/(2*dt) - (A*v*v))*fluid.drho_dp(p) - A_rh)
+        return (A_rh*dx_rh*v_rh/(2*dt) - (A*v*v))*fluid.drho_dp(p) - A_rh
 
     def dRp_dpr(self, dt, A_r, A_rh, dx_rh, v_r, v_rh, p_r, fluid):
         "Derivada do resíduo do momentum em relação a pressão direita"
-        return ((A_rh*dx_rh*v_rh/(2*dt) + (A_r*v_r*v_r))*fluid.drho_dp(p_r)
-                + A_rh)
+        return (A_rh*dx_rh*v_rh/(2*dt) + (A_r*v_r*v_r))*fluid.drho_dp(p_r)\
+            + A_rh
 
     def dRp_dvl(self, A, rho, v, v_rh):
         "Derivada do resíduo do momentum em relação a velocidade face k-1/2"
         if (v_rh >= 0):
-            return (-(A*rho)*2*v)
+            return -(A*rho)*2*v
         elif (v_rh < 0):
             return 0
 
@@ -266,16 +266,16 @@ class DiscretizationWell_COUPLE_DC():
                 v_rh):
         "Derivada do resíduo do momentum em relação a velocidade face k+1/2"
         if (v_rh >= 0):
-            return ((A_rh*dx_rh*rho_rh)/dt + (A_r*rho_r*2*v_r))
+            return (A_rh*dx_rh*rho_rh)/dt + (A_r*rho_r*2*v_r)
         elif (v_rh < 0):
-            return ((A_rh*dx_rh*rho_rh)/dt - (A*rho*2*v))
+            return (A_rh*dx_rh*rho_rh)/dt - (A*rho*2*v)
 
     def dRp_dvr(self, A_r, rho_r, v_r, v_rh):
         "Derivada do resíduo do momentum em relação a velocidade face k+3/2"
         if (v_rh >= 0):
             return 0
         elif (v_rh < 0):
-            return (A_r*rho_r*2*v_r)
+            return A_r*rho_r*2*v_r
 
     #=========================================================================#
     #####################   FUNÇÕES DE TESTE
