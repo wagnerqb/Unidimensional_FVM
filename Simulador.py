@@ -10,16 +10,17 @@
         - Escoamento isotérmico
         - Sem atrito com a parede
         - Sem gravidade
-        - Fluido incomporessível
 """
 from __future__ import division
-import matplotlib.pyplot as plt
+
 from Cell import CellWell
 from GridWell import GridWell
 from Fluid import *
 from DiscretizationWell_DC import *
+import PlotFunctions as plot
 
 
+    
 # Pipe properties
 A = 0.1
 dx = 10
@@ -28,8 +29,8 @@ theta = 0
 
 # Numerical Parameters
 t0 = 0
-dt = 1
-nt = 5
+dt = 0.1
+nt = 500
 
 # Fluid properties
 T = 10                          # Temperatura
@@ -44,7 +45,7 @@ p_ini = 10                       # Initial Condition for p
 # Boundary Condition
 # Left Boundary Condtion (Velocidade na entrada: v_ini)
 lbc_t = 1                       # LBC Type (0 - Pressure / 1 - Velocity)
-lbc = 5                         # LBC Value
+lbc = 2                         # LBC Value
 
 # Right Boundary Condtion (Pressão na saida: p_ini)
 rbc_t = 0                       # RBC Type (0 - Pressure / 1 - Velocity)
@@ -65,49 +66,29 @@ for i in range(ncells):
 # Creating Model
 model = DiscretizationWell_DC()
 
+# Iniciando o plot iterativo
+plt_v, plt_p = plot.create_figure_iterative(grid, 0, 10, 0, 10)
 
-# Gráfico de Velocidade
-plt.subplot(211)
-plt.title('Velocidade')
-plt.grid()
-
-# Gráfico de Pressao
-plt.subplot(212)
-plt.title(u'Pressão')
-plt.grid()
-
-print '=============='
-print ' Tempo  | IT '
-print '--------+----'
+print '==================='
+print '  N  | Tempo  | IT '
+print '-----+--------+----'
 for i in range(nt):
-    t = t0 + i*dt
+    t = t0 + (i+1)*dt
 
     it = model.iterate_t(grid, dt)
 
-    print '{0:07g} | {1:02d}'.format(t, it)
+    print '{0:04} | {1:07.3f} | {2:02d}'.format(i+1, t, it)
 
     p = grid.get_p()
     v_rh = grid.get_v_rh()
+    x = range(ncells)
 
-#    # Gráfico de Velocidade
-#    plt.subplot(211)
-#    plt.plot(v_rh, label='Numerico')
-#
-#    # Gráfico de Pressao
-#    plt.subplot(212)
-#    plt.plot(p, label='Numerico')
+    # Atualizando o plot iterativo
+    plt_v, plt_p = plot.update_iterative_plot(plt_v, plt_p, x, v_rh, p)
 
 print '==============\n'
 
 print 'p:', p
 print 'v:', v_rh
 
-# Gráfico de Velocidade
-plt.subplot(211)
-plt.plot(v_rh, label='Numerico')
-
-# Gráfico de Pressao
-plt.subplot(212)
-plt.plot(p, label='Numerico')
-
-plt.show()
+raw_input()
