@@ -175,7 +175,7 @@ A equação de Navier-Stokes unidimensional pode ser escrita como:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial}{\partial t}\left(\rho\vec{v}\right)+\nabla\cdot\left(\rho\vec{v}\vec{v}\right)=-\nabla p+S_{u}\label{eq:CONS_QUANT_MOVIM}
+\frac{\partial}{\partial t}\left(\rho\vec{v}\right)+\nabla\cdot\left(\rho\vec{v}\vec{v}\right)=-\nabla p+\rho g\label{eq:CONS_QUANT_MOVIM}
 \end{equation}
 
 \end_inset
@@ -583,7 +583,7 @@ A equação da quantidade de movimento pode ser escrita como:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}\frac{\partial}{\partial t}\left(\rho\vec{v}\right)dVdt+\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\rho\vec{v}\vec{v}\right)dVdt=-\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}\nabla pdVdt+\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}S_{u}dVdt
+\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}\frac{\partial}{\partial t}\left(\rho\vec{v}\right)dVdt+\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}\nabla\cdot\left(\rho\vec{v}\vec{v}\right)dVdt=-\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}\nabla pdVdt+\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}\rho gdVdt
 \end{equation}
 
 \end_inset
@@ -598,7 +598,7 @@ Aplicando o teorema de Gauss e a regra de Leibiniz:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\underset{\textrm{V.C}.}{\iiint}\intop_{t}^{t+\Delta t}\left[\frac{\partial}{\partial t}\left(\rho\vec{v}\right)\right]dtdV+\intop_{t}^{t+\Delta t}\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\vec{v}\right)\cdot\vec{n}dSdt=-\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}\nabla pdVdt+\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}S_{u}dVdt
+\underset{\textrm{V.C}.}{\iiint}\intop_{t}^{t+\Delta t}\left[\frac{\partial}{\partial t}\left(\rho\vec{v}\right)\right]dtdV+\intop_{t}^{t+\Delta t}\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\vec{v}\right)\cdot\vec{n}dSdt=-\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}\nabla pdVdt+\intop_{t}^{t+\Delta t}\underset{\textrm{V.C}.}{\iiint}\rho gdVdt
 \end{equation}
 
 \end_inset
@@ -614,7 +614,7 @@ Discretizando implicitamente no tempo, e utilizando o volume de controle
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\underset{\textrm{V.C}.}{\iiint}\left[\left(\rho\vec{v}\right)^{n+1}-\left(\rho\vec{v}\right)^{n}\right]dV+\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\vec{v}\right)^{n+1}\cdot\vec{n}dS\Delta t=-\underset{\textrm{V.C}.}{\iiint}\nabla p^{n+1}dV\Delta t+\underset{\textrm{V.C}.}{\iiint}S_{u}^{n+1}dV\Delta t
+\underset{\textrm{V.C}.}{\iiint}\left[\left(\rho\vec{v}\right)^{n+1}-\left(\rho\vec{v}\right)^{n}\right]dV+\underset{\textrm{S.C}.}{\iiint}\left(\rho\vec{v}\vec{v}\right)^{n+1}\cdot\vec{n}dS\Delta t=-\underset{\textrm{V.C}.}{\iiint}\nabla p^{n+1}dV\Delta t+\underset{\textrm{V.C}.}{\iiint}\rho^{n+1}gdV\Delta t
 \end{equation}
 
 \end_inset
@@ -626,7 +626,7 @@ Discretizando implicitamente no tempo, e utilizando o volume de controle
 \begin_inset Formula 
 \begin{multline}
 \left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]=\\
--\left(A\Delta x\frac{\partial p}{\partial x}\right)_{k+\frac{1}{2}}^{n+1}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}
+-\left(A\Delta x\frac{\partial p}{\partial x}\right)_{k+\frac{1}{2}}^{n+1}+\left(A\Delta x\rho g\right)_{k+\frac{1}{2}}^{n+1}
 \end{multline}
 
 \end_inset
@@ -642,7 +642,7 @@ Utilizando diferenças finitas para aproximar a derivada da pressão:
 \begin_inset Formula 
 \begin{multline}
 \left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]=\\
--\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}+\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}\label{eq:Discretizacao_Eq_Movimento}
+-\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}+\left(A\Delta x\rho g\right)_{k+\frac{1}{2}}^{n+1}\label{eq:Discretizacao_Eq_Movimento}
 \end{multline}
 
 \end_inset
@@ -1340,7 +1340,7 @@ Bloco à esquerda:
 \begin_inset Formula 
 \begin{multline}
 \frac{\partial R_{k}^{p}}{\partial p_{k-1}}=\frac{\partial}{\partial p_{k-1}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]\right.\\
-\left.+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}\right]
+\left.+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta x\rho g\right)_{k+\frac{1}{2}}^{n+1}\right]
 \end{multline}
 
 \end_inset
@@ -1352,7 +1352,7 @@ Bloco à esquerda:
 \begin_inset Formula 
 \begin{multline}
 \frac{\partial R_{k}^{p}}{\partial p_{k-1}}=\frac{\partial}{\partial p_{k-1}}\left(\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}\right)+\frac{\partial}{\partial p_{k-1}}\left(A\rho vv\right)_{k+1}^{n+1}-\frac{\partial}{\partial p_{k-1}}\left(A\rho vv\right)_{k}^{n+1}\\
-+\frac{\partial}{\partial p_{k-1}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}\right]-\frac{\partial}{\partial p_{k-1}}\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}
++\frac{\partial}{\partial p_{k-1}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}\right]-\frac{\partial}{\partial p_{k-1}}\left(A\Delta x\rho g\right)_{k+\frac{1}{2}}^{n+1}
 \end{multline}
 
 \end_inset
@@ -1379,7 +1379,7 @@ Bloco central:
 \begin_inset Formula 
 \begin{multline}
 \frac{\partial R_{k}^{p}}{\partial p_{k}}=\frac{\partial}{\partial p_{k}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]\right.\\
-\left.+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}\right]
+\left.+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta x\rho g\right)_{k+\frac{1}{2}}^{n+1}\right]
 \end{multline}
 
 \end_inset
@@ -1391,7 +1391,7 @@ Bloco central:
 \begin_inset Formula 
 \begin{multline}
 \frac{\partial R_{k}^{p}}{\partial p_{k}}=\frac{\partial}{\partial p_{k}}\left(\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}\right)+\frac{\partial}{\partial p_{k}}\left(A\rho vv\right)_{k+1}^{n+1}-\frac{\partial}{\partial p_{k}}\left(A\rho vv\right)_{k}^{n+1}\\
-+\frac{\partial}{\partial p_{k}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}\right]-\frac{\partial}{\partial p_{k}}\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}
++\frac{\partial}{\partial p_{k}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}\right]-\frac{\partial}{\partial p_{k}}\left(A\Delta x\rho g\right)_{k+\frac{1}{2}}^{n+1}
 \end{multline}
 
 \end_inset
@@ -1403,7 +1403,7 @@ Bloco central:
 \begin_inset Formula 
 \begin{multline}
 \frac{\partial R_{k}^{p}}{\partial p_{k}}=\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{\Delta t}v_{k+\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k}}\left(\rho_{k+\frac{1}{2}}^{n+1}\right)-\left(Avv\right)_{k}^{n+1}\frac{\partial\left(\rho_{k}^{n+1}\right)}{\partial p_{k}}\\
--A_{k+\frac{1}{2}}-\left(A\Delta x\right)_{k+\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k}}S_{u}{}_{k+\frac{1}{2}}^{n+1}
+-A_{k+\frac{1}{2}}-\left(gA\Delta x\right)_{k+\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k}}\left(\rho{}_{k+\frac{1}{2}}^{n+1}\right)
 \end{multline}
 
 \end_inset
@@ -1439,17 +1439,6 @@ como
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\[
-S_{u}{}_{k+\frac{1}{2}}^{n+1}=\frac{S_{u}{}_{k}^{n+1}+S_{u}{}_{k+1}^{n+1}}{2}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 \begin_inset ERT
 status open
 
@@ -1468,7 +1457,7 @@ então:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial R_{k}^{p}}{\partial p_{k}}=\left[\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{2\Delta t}v_{k+\frac{1}{2}}^{n+1}-\left(Avv\right)_{k}^{n+1}\right]\frac{\partial\left(\rho_{k}^{n+1}\right)}{\partial p_{k}}-A_{k+\frac{1}{2}}-\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}^{n+1}}{2}\frac{\partial}{\partial p_{k}}\left(S_{u}{}_{k}^{n+1}\right)
+\frac{\partial R_{k}^{p}}{\partial p_{k}}=\left[\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{2\Delta t}v_{k+\frac{1}{2}}^{n+1}-\left(Avv\right)_{k}^{n+1}-\frac{\left(gA\Delta x\right)_{k+\frac{1}{2}}^{n+1}}{2}\right]\frac{\partial\left(\rho_{k}^{n+1}\right)}{\partial p_{k}}-A_{k+\frac{1}{2}}
 \end{equation}
 
 \end_inset
@@ -1484,7 +1473,7 @@ Bloco à direita:
 \begin_inset Formula 
 \begin{multline}
 \frac{\partial R_{k}^{p}}{\partial p_{k+1}}=\frac{\partial}{\partial p_{k+1}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]\right.\\
-\left.+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}\right]
+\left.+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta x\rho g\right)_{k+\frac{1}{2}}^{n+1}\right]
 \end{multline}
 
 \end_inset
@@ -1496,7 +1485,7 @@ Bloco à direita:
 \begin_inset Formula 
 \begin{multline}
 \frac{\partial R_{k}^{p}}{\partial p_{k+1}}=\frac{\partial}{\partial p_{k+1}}\left(\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}\right)+\frac{\partial}{\partial p_{k+1}}\left(A\rho vv\right)_{k+1}^{n+1}-\frac{\partial}{\partial p_{k+1}}\left(A\rho vv\right)_{k}^{n+1}\\
-+\frac{\partial}{\partial p_{k+1}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}\right]-\frac{\partial}{\partial p_{k+1}}\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}
++\frac{\partial}{\partial p_{k+1}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}\right]-\frac{\partial}{\partial p_{k+1}}\left(A\Delta x\rho g\right)_{k+\frac{1}{2}}^{n+1}
 \end{multline}
 
 \end_inset
@@ -1507,7 +1496,7 @@ Bloco à direita:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial R_{k}^{p}}{\partial p_{k+1}}=\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{\Delta t}v_{k+\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k+1}}\left(\rho_{k+\frac{1}{2}}^{n+1}\right)+\left(Avv\right)_{k+1}^{n+1}\frac{\partial\left(\rho_{k+1}^{n+1}\right)}{\partial p_{k+1}}+A_{k+\frac{1}{2}}-\left(A\Delta x\right)_{k+\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k+1}}\left(S_{u}{}_{k+\frac{1}{2}}^{n+1}\right)
+\frac{\partial R_{k}^{p}}{\partial p_{k+1}}=\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{\Delta t}v_{k+\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k+1}}\left(\rho_{k+\frac{1}{2}}^{n+1}\right)+\left(Avv\right)_{k+1}^{n+1}\frac{\partial\left(\rho_{k+1}^{n+1}\right)}{\partial p_{k+1}}+A_{k+\frac{1}{2}}-\left(gA\Delta x\right)_{k+\frac{1}{2}}^{n+1}\frac{\partial}{\partial p_{k+1}}\left(\rho{}_{k+\frac{1}{2}}^{n+1}\right)
 \end{equation}
 
 \end_inset
@@ -1543,17 +1532,6 @@ como
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\[
-S_{u}{}_{k+\frac{1}{2}}^{n+1}=\frac{S_{u}{}_{k}^{n+1}+S_{u}{}_{k+1}^{n+1}}{2}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 \begin_inset ERT
 status open
 
@@ -1572,7 +1550,7 @@ então:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial R_{k}^{p}}{\partial p_{k+1}}=\left[\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{2\Delta t}v_{k+\frac{1}{2}}^{n+1}+\left(Avv\right)_{k+1}^{n+1}\right]\frac{\partial\left(\rho_{k+1}^{n+1}\right)}{\partial p_{k+1}}+A_{k+\frac{1}{2}}-\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}^{n+1}}{2}\frac{\partial\left(S_{u}{}_{k+1}^{n+1}\right)}{\partial p_{k+1}}
+\frac{\partial R_{k}^{p}}{\partial p_{k+1}}=\left[\frac{\left(A\Delta x\right)_{k+\frac{1}{2}}}{2\Delta t}v_{k+\frac{1}{2}}^{n+1}+\left(Avv\right)_{k+1}^{n+1}-\frac{\left(gA\Delta x\right)_{k+\frac{1}{2}}^{n+1}}{2}\right]\frac{\partial\left(\rho_{k+1}^{n+1}\right)}{\partial p_{k+1}}+A_{k+\frac{1}{2}}
 \end{equation}
 
 \end_inset
@@ -1592,7 +1570,7 @@ Bloco à esquerda:
 \begin_inset Formula 
 \begin{multline}
 \frac{\partial R_{k}^{p}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]\right.\\
-\left.+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}\right]
+\left.+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta x\rho g\right)_{k+\frac{1}{2}}^{n+1}\right]
 \end{multline}
 
 \end_inset
@@ -1604,7 +1582,7 @@ Bloco à esquerda:
 \begin_inset Formula 
 \begin{multline}
 \frac{\partial R_{k}^{p}}{\partial v_{k-\frac{1}{2}}}=\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}\right]+\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left(A\rho vv\right)_{k+1}^{n+1}-\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left(A\rho vv\right)_{k}^{n+1}\\
-+\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}\right]-\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}
++\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}\right]-\frac{\partial}{\partial v_{k-\frac{1}{2}}}\left(A\Delta x\rho g\right)_{k+\frac{1}{2}}^{n+1}
 \end{multline}
 
 \end_inset
@@ -1631,7 +1609,7 @@ Bloco central:
 \begin_inset Formula 
 \begin{multline}
 \frac{\partial R_{k}^{p}}{\partial v_{k+\frac{1}{2}}}=\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]\right.\\
-\left.+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}\right]
+\left.+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta x\rho g\right)_{k+\frac{1}{2}}^{n+1}\right]
 \end{multline}
 
 \end_inset
@@ -1643,7 +1621,7 @@ Bloco central:
 \begin_inset Formula 
 \begin{multline}
 \frac{\partial R_{k}^{p}}{\partial v_{k+\frac{1}{2}}}=\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}\right]+\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left(A\rho vv\right)_{k+1}^{n+1}-\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left(A\rho vv\right)_{k}^{n+1}\\
-+\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}\right]-\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}
++\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}\right]-\frac{\partial}{\partial v_{k+\frac{1}{2}}}\left(A\Delta x\rho g\right)_{k+\frac{1}{2}}^{n+1}
 \end{multline}
 
 \end_inset
@@ -1670,7 +1648,7 @@ Bloco à direita:
 \begin_inset Formula 
 \begin{multline}
 \frac{\partial R_{k}^{p}}{\partial v_{k+\frac{3}{2}}}=\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}+\left[\left(A\rho vv\right)_{k+1}^{n+1}-\left(A\rho vv\right)_{k}^{n+1}\right]\right.\\
-\left.+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}\right]
+\left.+\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}-\left(A\Delta x\rho g\right)_{k+\frac{1}{2}}^{n+1}\right]
 \end{multline}
 
 \end_inset
@@ -1682,7 +1660,7 @@ Bloco à direita:
 \begin_inset Formula 
 \begin{multline}
 \frac{\partial R_{k}^{p}}{\partial v_{k+\frac{3}{2}}}=\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\frac{\left[\left(\rho v\right)^{n+1}-\left(\rho v\right)^{n}\right]_{k+\frac{1}{2}}}{\Delta t}\right]+\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left(A\rho vv\right)_{k+1}^{n+1}-\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left(A\rho vv\right)_{k}^{n+1}\\
-\left.+\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}\right]-\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left(A\Delta xS_{u}\right)_{k+\frac{1}{2}}^{n+1}\right]
+\left.+\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left[\left(A\Delta x\right)_{k+\frac{1}{2}}\left(\frac{p_{k+1}-p_{k}}{\frac{1}{2}\left(\Delta x_{k+1}+\Delta x_{k}\right)}\right)^{n+1}\right]-\frac{\partial}{\partial v_{k+\frac{3}{2}}}\left(A\Delta x\rho g\right)_{k+\frac{1}{2}}^{n+1}\right]
 \end{multline}
 
 \end_inset
