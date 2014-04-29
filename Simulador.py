@@ -29,7 +29,7 @@ theta = 0
 # Numerical Parameters
 t0 = 0
 dt = 1
-nt = 40
+nt = 30
 
 # Fluid properties
 T = 10                          # Temperatura
@@ -67,14 +67,24 @@ model = DiscretizationWell_DC()
 
 
 # Gráfico de Velocidade
-plt.subplot(211)
+
+
+
+ax_v = plt.subplot(211)
+plt_v = ax_v.plot(grid.get_v_rh())[0]
 plt.title('Velocidade')
+plt.ylim(0, lbc*2)
 plt.grid()
 
 # Gráfico de Pressao
-plt.subplot(212)
+ax_p = plt.subplot(212)
+plt_p = ax_p.plot(grid.get_p())[0]
 plt.title(u'Pressão')
 plt.grid()
+plt.ylim(0, rbc*2)
+
+plt.ion()
+plt.show()
 
 print '=============='
 print ' Tempo  | IT '
@@ -88,26 +98,27 @@ for i in range(nt):
 
     p = grid.get_p()
     v_rh = grid.get_v_rh()
+    x = range(ncells)
 
-#    # Gráfico de Velocidade
-#    plt.subplot(211)
-#    plt.plot(v_rh, label='Numerico')
-#
-#    # Gráfico de Pressao
-#    plt.subplot(212)
-#    plt.plot(p, label='Numerico')
+    # Gráfico de Velocidade
+    plt.subplot(211)
+    plt_v.set_data([], [])
+    plt_v = plt.plot(x, v_rh, 'b', lw = 2)[0]
+
+    # Gráfico de Pressao
+    plt.subplot(212)
+    plt_p.set_data([], [])
+    plt_p = plt.plot(x, p, 'r',lw = 2)[0]
+
+    plt.pause(0.001)
+
+    plt.draw()
 
 print '==============\n'
 
 print 'p:', p
 print 'v:', v_rh
 
-# Gráfico de Velocidade
-plt.subplot(211)
-plt.plot(v_rh, label='Numerico')
+raw_input()
 
-# Gráfico de Pressao
-plt.subplot(212)
-plt.plot(p, label='Numerico')
 
-plt.show()
