@@ -22,26 +22,31 @@ from DiscretizationWell_COUPLE_DC import *
 
 # Pipe properties
 A = 0.1
-dx = 0.1
-ncells = 20
+dx = 100
+ncells = 5
+
+# Numerical Parameters
+t0 = 0
+dt = .1
+nt = 2
 
 # Fluid properties
-rho = 100                       # Fluid density
+rho = 1                       # Fluid density
 msrc = 0.                       # Mass Source term per volume unity
 fsrc = 0.                       # Termo fonte da QM
 
 # Initial properties
-v_ini = 1                       # Initial Condition for v
-p_ini = 0                       # Initial Condition for p
+v_ini = 8                       # Initial Condition for v
+p_ini = 8                       # Initial Condition for p
 
 # Boundary Condition
 # Left Boundary Condtion (Velocidade na entrada: v_ini)
 lbc_t = 1                       # LBC Type (0 - Pressure / 1 - Velocity)
-lbc = 1                         # LBC Value
+lbc = 5                         # LBC Value
 
 # Right Boundary Condtion (Pressão na saida: p_ini)
 rbc_t = 0                       # RBC Type (0 - Pressure / 1 - Velocity)
-rbc = 0                         # RBC Value
+rbc = 10                         # RBC Value
 
 #Fluido
 fluid = FluidIncompressible(rho)
@@ -50,32 +55,57 @@ fluid = FluidIncompressible(rho)
 grid = GridWell(fluid)
 grid.set_boundaries(lbc_t, lbc, rbc_t, rbc)
 
-# Creating Model
-model = DiscretizationWell_COUPLE_DC()
-
 for i in range(ncells):
     #Criando grid
     cell = CellWell(A, dx, fluid, v_ini, p_ini, msrc)
     grid.add_cell(cell)
 
-
-#Iterações
-model.iterate_x(grid)
-new_p = grid.get_p()
-new_v = grid.get_v_rh()
+# Creating Model
+model = DiscretizationWell_COUPLE_DC()
 
 
 # Gráfico de Velocidade
 plt.subplot(211)
-plt.plot(new_v, 'ko', label='Numerico')
-#plt.plot(v_real, 'b', label='Real')
 plt.title('Velocidade')
 plt.grid()
 
 # Gráfico de Pressao
 plt.subplot(212)
-plt.plot(new_p, 'ko', label='Numerico')
-#plt.plot(p_real, 'b', label='Real')
 plt.title(u'Pressão')
 plt.grid()
+
+print '=============='
+print ' Tempo  | IT '
+print '--------+----'
+for i in range(nt):
+    t = t0 + i*dt
+
+    it = model.iterate_t(grid, dt)
+
+    print '{0:07g} | {1:02d}'.format(t, it)
+
+    p = grid.get_p()
+    v_rh = grid.get_v_rh()
+    
+#    # Gráfico de Velocidade
+#    plt.subplot(211)
+#    plt.plot(v_rh, label='Numerico')
+#    
+#    # Gráfico de Pressao
+#    plt.subplot(212)
+#    plt.plot(p, label='Numerico')
+
+print '==============\n'
+
+print 'p:', p 
+print 'v:', v_rh
+
+# Gráfico de Velocidade
+plt.subplot(211)
+plt.plot(v_rh, label='Numerico')
+
+# Gráfico de Pressao
+plt.subplot(212)
+plt.plot(p, label='Numerico')
+
 plt.show()
