@@ -153,14 +153,6 @@ Escoamento isotérmico;
 Sem atrito com as paredes do tubo (Equação de Euler);
 \end_layout
 
-\begin_layout Enumerate
-Desconsidera-se efeitos de gravidade;
-\end_layout
-
-\begin_layout Enumerate
-Fluido Incompressível;
-\end_layout
-
 \begin_layout Section
 Equações Governantes
 \end_layout
@@ -1928,6 +1920,10 @@ Como o sentido do escoamento é importante para o método Donor-Cell, as derivad
 \end_inset
 
 
+\end_layout
+
+\begin_layout Section
+Modelo de Fluido
 \end_layout
 
 \end_body

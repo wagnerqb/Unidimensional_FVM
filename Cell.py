@@ -11,20 +11,22 @@ from Fluid import *
 class Cell():
     "Classe celula genérica."
 
-    def __init__(self, A, dx, msrc):
+    def __init__(self, A, dx, theta, msrc):
         self.A = A                  # Área transversal
         self.dx = dx                # Comprimento
         self.msrc = msrc            # Fonte de massa
+        self.theta = theta                  # Inclinação no centro
 
 
 class CellWell(Cell):
     "Classe celula que será utilizada nas simulações no poço."
 
-    def __init__(self, A, dx, fluid, v_rh, p, msrc):
-        Cell.__init__(self, A, dx, msrc)    # Inicializa área e comprimento
+    def __init__(self, A, dx, fluid, v_rh, p, T, theta, msrc):
+        Cell.__init__(self, A, dx, theta, msrc)
         self.fluid = fluid                  # Fluido
         self.v_rh = v_rh                    # Velocidade na face direita
         self.p = p                          # Pressão no centro
+        self.T = T                          # Temperatura no centro
         self.p_old = p              # TODO: Melhorar condição inicial
         self.v_rh_old = v_rh        # TODO: Melhorar condição inicial
 
