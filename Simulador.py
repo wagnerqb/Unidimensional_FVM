@@ -25,12 +25,13 @@ import PlotFunctions as plot
 A = 0.1
 dx = 5
 ncells = 50
-theta = 0
+theta = - 90
+theta = theta*np.pi/180
 
 # Numerical Parameters
 t0 = 0
 dt = 0.7
-nt = 1000000
+nt = 2000000
 
 # Fluid properties
 T = 300                         # Temperatura
@@ -52,7 +53,8 @@ rbc_t = 0                       # RBC Type (0 - Pressure / 1 - Velocity)
 rbc = 10                        # RBC Value
 
 #Fluido
-fluid = FluidIdeal(MM)
+#fluid = FluidIdeal(MM)
+fluid = FluidIncompressible(MM)
 
 # Creating Grid
 grid = GridWell(fluid)
